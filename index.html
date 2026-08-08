@@ -5,20 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>昇廷 & 瑋伶 婚禮邀請函 | Wedding Invitation</title>
     
-    <!-- Image Performance Optimization & Preloads -->
+    <!-- Critical Network Preconnects & High-Priority Preloads -->
     <link rel="preconnect" href="https://i.postimg.cc" crossorigin>
     <link rel="dns-prefetch" href="https://i.postimg.cc">
-    <link rel="preload" as="image" href="https://i.postimg.cc/hhFqrq7Y/JUN00091.jpg" fetchpriority="high">
-
-    <!-- Google Fonts: Cormorant Garamond & Noto Serif TC -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+TC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+    <!-- High-Priority Preload for Hero Banner -->
+    <link rel="preload" as="image" href="https://i.postimg.cc/hhFqrq7Y/JUN00091.jpg" fetchpriority="high">
+
+    <!-- Optimized Google Fonts with font-display: swap -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
     
     <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -55,6 +59,8 @@
             font-family: 'Noto Serif TC', serif;
             color: #3d3835;
             background-color: #fcfaf7;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
         }
 
         .font-en {
@@ -62,13 +68,13 @@
         }
 
         .glass-nav {
-            background: rgba(252, 250, 247, 0.85);
+            background: rgba(252, 250, 247, 0.88);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 12px 32px -5px rgba(212, 163, 115, 0.12), 0 4px 12px rgba(0, 0, 0, 0.03);
@@ -77,7 +83,7 @@
         .accordion-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .accordion-content.active {
@@ -86,8 +92,9 @@
 
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(24px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
         }
 
         .reveal.visible {
@@ -107,7 +114,7 @@
             animation: spinSlow 8s linear infinite;
         }
 
-        /* Prevent iOS drag & drop while enabling native long-press Save Image menu */
+        /* Prevent iOS drag & drop while preserving native image save popup */
         #previewImage {
             -webkit-touch-callout: default !important;
             -webkit-user-select: auto !important;
@@ -121,11 +128,11 @@
     <!-- Off-screen YouTube Player -->
     <div id="youtube-player" class="fixed -top-full -left-full w-1 h-1 opacity-0 pointer-events-none -z-50"></div>
 
-    <!-- Floating Music Button -->
+    <!-- Floating Music Toggle Button -->
     <button id="musicToggleBtn" 
             onclick="toggleMusic()" 
             aria-label="Toggle Background Music"
-            class="fixed bottom-6 right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-morandi-gold text-white shadow-glow flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 focus:outline-none">
+            class="fixed bottom-6 right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-morandi-gold text-white shadow-glow flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none">
         <i id="musicIcon" class="fa-solid fa-music text-base sm:text-lg"></i>
     </button>
 
@@ -158,7 +165,7 @@
 
     <!-- Hero Section -->
     <section class="relative h-screen w-full flex items-end justify-center text-center overflow-hidden pb-12 sm:pb-20">
-        <div class="absolute inset-0 bg-cover bg-no-repeat bg-morandi-sand transform scale-105 transition-transform duration-10000 ease-out"
+        <div class="absolute inset-0 bg-cover bg-no-repeat bg-morandi-sand transform scale-105 transition-transform duration-7000 ease-out"
              style="background-image: url('https://i.postimg.cc/hhFqrq7Y/JUN00091.jpg'); background-position: center 30%;">
             <div class="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-morandi-dark/85"></div>
         </div>
@@ -179,7 +186,7 @@
             </p>
 
             <div class="pt-3 sm:pt-5">
-                <a href="#rsvp" class="inline-block px-7 py-3 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white font-light tracking-widest text-xs sm:text-sm hover:bg-white hover:text-morandi-dark transition duration-500 shadow-lg">
+                <a href="#rsvp" class="inline-block px-7 py-3 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white font-light tracking-widest text-xs sm:text-sm hover:bg-white hover:text-morandi-dark transition duration-300 shadow-lg">
                     填寫出席回函
                 </a>
             </div>
@@ -377,9 +384,9 @@
                       onsubmit="captureFormData(); submitted=true;" 
                       class="space-y-6">
 
-                    <!-- Field 1: Name -->
-                    <div>
-                        <label for="entry_name" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                    <!-- Field 1: Name (Click Anywhere in Box to Focus) -->
+                    <div class="cursor-pointer group" onclick="focusField('entry_name', event)">
+                        <label for="entry_name" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                             姓名 <span class="font-en font-normal text-morandi-muted">/ NAME</span> <span class="text-rose-400">*</span>
                         </label>
                         <input type="text" 
@@ -387,12 +394,12 @@
                                name="entry.1160678701" 
                                required 
                                placeholder="請輸入您的姓名" 
-                               class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30">
+                               class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark cursor-text">
                     </div>
 
                     <!-- Field 2: Phone -->
-                    <div>
-                        <label for="entry_phone" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                    <div class="cursor-pointer group" onclick="focusField('entry_phone', event)">
+                        <label for="entry_phone" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                             電話 <span class="font-en font-normal text-morandi-muted">/ PHONE</span> <span class="text-rose-400">*</span>
                         </label>
                         <input type="tel" 
@@ -400,103 +407,130 @@
                                name="entry.1121277011" 
                                required 
                                placeholder="請輸入您的聯絡電話" 
-                               class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30">
+                               class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark cursor-text">
                     </div>
 
-                    <!-- Field 3: Relationship -->
-                    <div>
-                        <label for="entry_relationship" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                    <!-- Field 3: Relationship (Full Clickable Box Dropdown) -->
+                    <div class="cursor-pointer group" onclick="focusField('entry_relationship', event)">
+                        <label for="entry_relationship" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                             親友關係 <span class="font-en font-normal text-morandi-muted">/ RELATIONSHIP</span> <span class="text-rose-400">*</span>
                         </label>
-                        <select id="entry_relationship" 
-                                name="entry.669993689" 
-                                required 
-                                class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark">
-                            <option value="" disabled selected>請選擇您與新人的關係</option>
-                            <option value="男方親友">男方親友</option>
-                            <option value="女方親友">女方親友</option>
-                        </select>
+                        <div class="relative">
+                            <select id="entry_relationship" 
+                                    name="entry.669993689" 
+                                    required 
+                                    class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
+                                <option value="" disabled selected>請選擇您與新人的關係</option>
+                                <option value="男方親友">男方親友</option>
+                                <option value="女方親友">女方親友</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-morandi-muted">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Field 4: Attendance -->
-                    <div>
-                        <label for="entry_attendance" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                    <div class="cursor-pointer group" onclick="focusField('entry_attendance', event)">
+                        <label for="entry_attendance" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                             出席意願 <span class="font-en font-normal text-morandi-muted">/ ATTENDANCE</span> <span class="text-rose-400">*</span>
                         </label>
-                        <select id="entry_attendance" 
-                                name="entry.1541676002" 
-                                required 
-                                onchange="handleAttendanceChange()"
-                                class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark">
-                            <option value="" disabled selected>請選擇您的出席狀態</option>
-                            <option value="出席！怎麼能少了我！">出席！怎麼能少了我！</option>
-                            <option value="可惜無法出席，送上滿滿祝福～">可惜無法出席，送上滿滿祝福～</option>
-                        </select>
+                        <div class="relative">
+                            <select id="entry_attendance" 
+                                    name="entry.1541676002" 
+                                    required 
+                                    onchange="handleAttendanceChange()"
+                                    class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
+                                <option value="" disabled selected>請選擇您的出席狀態</option>
+                                <option value="出席！怎麼能少了我！">出席！怎麼能少了我！</option>
+                                <option value="可惜無法出席，送上滿滿祝福～">可惜無法出席，送上滿滿祝福～</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-morandi-muted">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Field 5: Guests Count -->
-                    <div id="guestCountGroup" class="hidden transition-all duration-300">
-                        <label for="entry_guests" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                    <div id="guestCountGroup" class="hidden transition-all duration-300 cursor-pointer group" onclick="focusField('entry_guests', event)">
+                        <label for="entry_guests" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                             參加午宴人數（含本人） <span class="font-en font-normal text-morandi-muted">/ GUESTS</span> <span class="text-rose-400">*</span>
                         </label>
-                        <select id="entry_guests" 
-                                name="entry.159916419" 
-                                class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark">
-                            <option value="1" selected>1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </div>
-
-                    <!-- Dynamic Fields Section -->
-                    <div id="dynamicFields" class="space-y-6 hidden border-t border-b border-morandi-border/60 py-6 my-2 transition-all duration-300">
-                        <div>
-                            <label for="entry_special" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
-                                若需準備素食需要幾份？ <span class="font-en font-normal text-morandi-muted">/ VEGETARIAN MEALS</span>
-                            </label>
-                            <select id="entry_special"
-                                    name="entry.756788500"
-                                    class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark">
-                                <option value="0" selected>0（不需要）</option>
-                                <option value="1">1</option>
+                        <div class="relative">
+                            <select id="entry_guests" 
+                                    name="entry.159916419" 
+                                    class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
+                                <option value="1" selected>1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                                 <option value="4">4</option>
                                 <option value="5">5</option>
                             </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-morandi-muted">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Fields Section -->
+                    <div id="dynamicFields" class="space-y-6 hidden border-t border-b border-morandi-border/60 py-6 my-2 transition-all duration-300">
+                        <!-- Field 6: Vegetarian Meals -->
+                        <div class="cursor-pointer group" onclick="focusField('entry_special', event)">
+                            <label for="entry_special" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
+                                若需準備素食需要幾份？ <span class="font-en font-normal text-morandi-muted">/ VEGETARIAN MEALS</span>
+                            </label>
+                            <div class="relative">
+                                <select id="entry_special"
+                                        name="entry.756788500"
+                                        class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
+                                    <option value="0" selected>0（不需要）</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-morandi-muted">
+                                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                                </div>
+                            </div>
                         </div>
 
-                        <div>
-                            <label for="entry_invitation" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                        <!-- Field 7: Invitation Preferences (Ordered: 1. Electronic, 2. Paper, 3. None) -->
+                        <div class="cursor-pointer group" onclick="focusField('entry_invitation', event)">
+                            <label for="entry_invitation" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                                 喜帖索取 <span class="font-en font-normal text-morandi-muted">/ INVITATION</span>
                             </label>
-                            <select id="entry_invitation"
-                                    name="entry.1164108255"
-                                    onchange="handleInvitationChange()"
-                                    class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark">
-                                <option value="我要紙本喜帖！" selected>我要紙本喜帖！</option>
-                                <option value="我要電子喜帖！">我要電子喜帖！</option>
-                                <option value="我不用喜帖～">我不用喜帖～</option>
-                            </select>
+                            <div class="relative">
+                                <select id="entry_invitation"
+                                        name="entry.1164108255"
+                                        onchange="handleInvitationChange()"
+                                        class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
+                                    <option value="我要電子喜帖！" selected>我要電子喜帖！</option>
+                                    <option value="我要紙本喜帖！">我要紙本喜帖！</option>
+                                    <option value="我不用喜帖～">我不用喜帖～</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-morandi-muted">
+                                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- Paper Address -->
-                        <div id="addressGroup" class="hidden transition-all duration-300">
-                            <label for="entry_address" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
-                                紙本喜帖寄件地址 <span class="font-en font-normal text-morandi-muted">/ MAILING ADDRESS</span> <span class="text-rose-400">*</span>
+                        <!-- Field 8: Paper Address -->
+                        <div id="addressGroup" class="hidden transition-all duration-300 cursor-pointer group" onclick="focusField('entry_address', event)">
+                            <label for="entry_address" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
+                                紙本喜帖寄件地址（記得加上郵遞區號喔） <span class="font-en font-normal text-morandi-muted">/ MAILING ADDRESS</span> <span class="text-rose-400">*</span>
                             </label>
                             <input type="text"
                                    id="entry_address"
                                    name="entry.707135055"
                                    placeholder="請輸入喜帖寄送地址"
-                                   class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30">
+                                   class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark cursor-text">
                         </div>
 
-                        <!-- Electronic Email with STRICT Email Pattern Validation -->
-                        <div id="emailGroup" class="hidden transition-all duration-300">
-                            <label for="entry_email" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                        <!-- Field 9: Electronic Email -->
+                        <div id="emailGroup" class="hidden transition-all duration-300 cursor-pointer group" onclick="focusField('entry_email', event)">
+                            <label for="entry_email" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                                 電子喜帖寄件信箱 <span class="font-en font-normal text-morandi-muted">/ EMAIL ADDRESS</span> <span class="text-rose-400">*</span>
                             </label>
                             <input type="email"
@@ -505,27 +539,27 @@
                                    placeholder="請輸入您的 Email 信箱（例：name@example.com）"
                                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                                    title="請填寫格式正確的 Email 信箱"
-                                   class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30">
+                                   class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark cursor-text">
                         </div>
                     </div>
 
-                    <!-- Field 6: Blessings -->
-                    <div>
-                        <label for="entry_blessings" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                    <!-- Field 10: Blessings -->
+                    <div class="cursor-pointer group" onclick="focusField('entry_blessings', event)">
+                        <label for="entry_blessings" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                             對新人的祝福 <span class="font-en font-normal text-morandi-muted">/ BLESSINGS</span>
                         </label>
                         <textarea id="entry_blessings" 
                                   name="entry.193833875" 
                                   rows="3" 
                                   placeholder="請留下給昇廷與瑋伶的祝福的話..." 
-                                  class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 resize-none"></textarea>
+                                  class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark resize-none cursor-text"></textarea>
                     </div>
 
                     <!-- Submit Button -->
                     <div class="pt-4">
                         <button type="submit" 
                                 id="submitBtn" 
-                                class="w-full py-4 rounded-full bg-morandi-gold text-white font-medium text-sm tracking-widest hover:bg-[#c29263] transition duration-300 shadow-md focus:outline-none flex items-center justify-center space-x-2">
+                                class="w-full py-4 rounded-full bg-morandi-gold text-white font-medium text-sm tracking-widest hover:bg-[#c29263] transition duration-300 shadow-md focus:outline-none flex items-center justify-center space-x-2 cursor-pointer">
                             <span>送出回函 SUBMIT</span>
                             <i class="fa-solid fa-paper-plane text-xs"></i>
                         </button>
@@ -551,10 +585,10 @@
 
             <div class="pt-2 space-y-2 border-t border-morandi-border/60">
                 <p class="text-xs text-morandi-muted pb-1">是否將您的回函內容儲存為圖片留存？</p>
-                <button onclick="downloadJPG()" class="w-full py-3 rounded-full bg-morandi-gold text-white text-xs font-medium tracking-widest hover:bg-[#c29263] transition shadow-md flex items-center justify-center gap-2">
+                <button onclick="downloadJPG()" class="w-full py-3 rounded-full bg-morandi-gold text-white text-xs font-medium tracking-widest hover:bg-[#c29263] transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
                     <i class="fa-solid fa-file-image"></i> 📸 儲存為 JPG 圖片
                 </button>
-                <button onclick="closeModal()" class="w-full py-2.5 rounded-full border border-morandi-border text-morandi-muted text-xs font-medium tracking-widest hover:bg-morandi-sand/30 transition">
+                <button onclick="closeModal()" class="w-full py-2.5 rounded-full border border-morandi-border text-morandi-muted text-xs font-medium tracking-widest hover:bg-morandi-sand/30 transition cursor-pointer">
                     關閉視窗 CLOSE
                 </button>
             </div>
@@ -583,10 +617,10 @@
             </div>
 
             <div class="pt-2 flex flex-col sm:flex-row gap-2">
-                <button onclick="openImageInNewTabCurrent()" class="flex-1 py-3 rounded-full bg-morandi-gold text-white text-xs font-medium tracking-widest hover:bg-[#c29263] transition shadow-md flex items-center justify-center gap-1.5">
+                <button onclick="openImageInNewTabCurrent()" class="flex-1 py-3 rounded-full bg-morandi-gold text-white text-xs font-medium tracking-widest hover:bg-[#c29263] transition shadow-md flex items-center justify-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-arrow-up-right-from-square"></i> 在新分頁開啟圖片
                 </button>
-                <button onclick="closePreviewModal()" class="px-5 py-3 rounded-full border border-morandi-border text-morandi-muted text-xs font-medium tracking-widest hover:bg-morandi-sand/30 transition">
+                <button onclick="closePreviewModal()" class="px-5 py-3 rounded-full border border-morandi-border text-morandi-muted text-xs font-medium tracking-widest hover:bg-morandi-sand/30 transition cursor-pointer">
                     關閉
                 </button>
             </div>
@@ -605,12 +639,39 @@
         var lastSubmittedData = null;
         var currentJpgDataUrl = null;
 
-        // Card Photo Pre-loader
-        const cardPhoto = new Image();
-        cardPhoto.crossOrigin = 'anonymous';
-        cardPhoto.src = 'https://i.postimg.cc/fLMt8cZG/JUN00138.jpg';
+        // Lazy-loaded Card Photo Preloader
+        let cardPhoto = null;
+        function getCardPhoto() {
+            if (!cardPhoto) {
+                cardPhoto = new Image();
+                cardPhoto.crossOrigin = 'anonymous';
+                cardPhoto.src = 'https://i.postimg.cc/fLMt8cZG/JUN00138.jpg';
+            }
+            return cardPhoto;
+        }
 
-        // 1. Countdown Logic: Target 2027-01-31 12:00 PM
+        // Global Helper: Expands click target to focus/open field when clicking anywhere inside field box
+        function focusField(id, event) {
+            if (event && event.target && (event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT' || event.target.tagName === 'TEXTAREA')) {
+                return; // Let direct clicks behave natively
+            }
+            const el = document.getElementById(id);
+            if (!el || el.disabled) return;
+            el.focus();
+            if (el.tagName === 'SELECT') {
+                try {
+                    if (typeof el.showPicker === 'function') {
+                        el.showPicker();
+                    } else {
+                        el.click();
+                    }
+                } catch(e) {
+                    el.click();
+                }
+            }
+        }
+
+        // 1. Countdown Timer (Target: 2027-01-31 12:00 PM)
         const targetDate = new Date('2027-01-31T12:00:00').getTime();
 
         function updateCountdown() {
@@ -635,6 +696,10 @@
             }
         }
 
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // 2. Open generated card in standalone tab
         function openImageInNewTab(jpgDataUrl) {
             const dataToOpen = jpgDataUrl || currentJpgDataUrl;
             if (!dataToOpen) return;
@@ -702,164 +767,193 @@
             }
         }
 
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-
-        // 2. Form Data Capture
+        // 3. Form Data Capture
         function captureFormData() {
-            lastSubmittedData = {
-                name: document.getElementById('entry_name').value || '',
-                phone: document.getElementById('entry_phone').value || '',
-                relationship: document.getElementById('entry_relationship').value || '',
-                attendance: document.getElementById('entry_attendance').value || '',
-                guests: document.getElementById('entry_guests').value || '1',
-                special: document.getElementById('entry_special').value || '0',
-                invitation: document.getElementById('entry_invitation').value || '',
-                address: document.getElementById('entry_address').value || '',
-                email: document.getElementById('entry_email').value || '',
-                blessings: document.getElementById('entry_blessings').value || ''
-            };
+            try {
+                lastSubmittedData = {
+                    name: document.getElementById('entry_name').value || '',
+                    phone: document.getElementById('entry_phone').value || '',
+                    relationship: document.getElementById('entry_relationship').value || '',
+                    attendance: document.getElementById('entry_attendance').value || '',
+                    guests: document.getElementById('entry_guests').value || '1',
+                    special: document.getElementById('entry_special').value || '0',
+                    invitation: document.getElementById('entry_invitation').value || '',
+                    address: document.getElementById('entry_address').value || '',
+                    email: document.getElementById('entry_email').value || '',
+                    blessings: document.getElementById('entry_blessings').value || ''
+                };
+            } catch (e) {
+                console.log('Capture form data error:', e);
+            }
         }
 
-        // 3. Form Interactivity & Field Disabling Logic
+        // 4. Form Interactivity & Dynamic Field Logic
         function handleInvitationChange() {
-            const invSelect = document.getElementById('entry_invitation');
-            const addressGroup = document.getElementById('addressGroup');
-            const addressInput = document.getElementById('entry_address');
-            const emailGroup = document.getElementById('emailGroup');
-            const emailInput = document.getElementById('entry_email');
-            const attendanceSelect = document.getElementById('entry_attendance');
+            try {
+                const invSelect = document.getElementById('entry_invitation');
+                const addressGroup = document.getElementById('addressGroup');
+                const addressInput = document.getElementById('entry_address');
+                const emailGroup = document.getElementById('emailGroup');
+                const emailInput = document.getElementById('entry_email');
+                const attendanceSelect = document.getElementById('entry_attendance');
 
-            const isAttending = attendanceSelect && attendanceSelect.value.includes('出席！');
+                const isAttending = attendanceSelect && attendanceSelect.value.includes('出席！');
 
-            if (!isAttending) {
-                addressGroup.classList.add('hidden');
-                addressInput.disabled = true;
-                addressInput.required = false;
+                if (!isAttending) {
+                    addressGroup.classList.add('hidden');
+                    addressInput.disabled = true;
+                    addressInput.required = false;
 
-                emailGroup.classList.add('hidden');
-                emailInput.disabled = true;
-                emailInput.required = false;
-                return;
-            }
+                    emailGroup.classList.add('hidden');
+                    emailInput.disabled = true;
+                    emailInput.required = false;
+                    return;
+                }
 
-            const val = invSelect ? invSelect.value : '';
+                const val = invSelect ? invSelect.value : '';
 
-            if (val === '我要紙本喜帖！') {
-                addressGroup.classList.remove('hidden');
-                addressInput.disabled = false;
-                addressInput.required = true;
+                if (val === '我要紙本喜帖！') {
+                    addressGroup.classList.remove('hidden');
+                    addressInput.disabled = false;
+                    addressInput.required = true;
 
-                emailGroup.classList.add('hidden');
-                emailInput.disabled = true;
-                emailInput.required = false;
-            } else if (val === '我要電子喜帖！') {
-                emailGroup.classList.remove('hidden');
-                emailInput.disabled = false;
-                emailInput.required = true;
+                    emailGroup.classList.add('hidden');
+                    emailInput.disabled = true;
+                    emailInput.required = false;
+                } else if (val === '我要電子喜帖！') {
+                    emailGroup.classList.remove('hidden');
+                    emailInput.disabled = false;
+                    emailInput.required = true;
 
-                addressGroup.classList.add('hidden');
-                addressInput.disabled = true;
-                addressInput.required = false;
-            } else {
-                addressGroup.classList.add('hidden');
-                addressInput.disabled = true;
-                addressInput.required = false;
+                    addressGroup.classList.add('hidden');
+                    addressInput.disabled = true;
+                    addressInput.required = false;
+                } else {
+                    addressGroup.classList.add('hidden');
+                    addressInput.disabled = true;
+                    addressInput.required = false;
 
-                emailGroup.classList.add('hidden');
-                emailInput.disabled = true;
-                emailInput.required = false;
+                    emailGroup.classList.add('hidden');
+                    emailInput.disabled = true;
+                    emailInput.required = false;
+                }
+            } catch (e) {
+                console.log('Handle invitation change error:', e);
             }
         }
 
         function handleAttendanceChange() {
-            const attendanceSelect = document.getElementById('entry_attendance');
-            const guestCountGroup = document.getElementById('guestCountGroup');
-            const guestSelect = document.getElementById('entry_guests');
-            const vegSelect = document.getElementById('entry_special');
-            const invSelect = document.getElementById('entry_invitation');
-            const dynamicFields = document.getElementById('dynamicFields');
-            
-            if (attendanceSelect.value.includes('出席！')) {
-                guestCountGroup.classList.remove('hidden');
-                guestSelect.disabled = false;
-                guestSelect.required = true;
+            try {
+                const attendanceSelect = document.getElementById('entry_attendance');
+                const guestCountGroup = document.getElementById('guestCountGroup');
+                const guestSelect = document.getElementById('entry_guests');
+                const vegSelect = document.getElementById('entry_special');
+                const invSelect = document.getElementById('entry_invitation');
+                const dynamicFields = document.getElementById('dynamicFields');
+                
+                if (attendanceSelect && attendanceSelect.value.includes('出席！')) {
+                    guestCountGroup.classList.remove('hidden');
+                    guestSelect.disabled = false;
+                    guestSelect.required = true;
 
-                dynamicFields.classList.remove('hidden');
-                if (vegSelect) vegSelect.disabled = false;
-                if (invSelect) {
-                    invSelect.disabled = false;
-                    if (!invSelect.value || invSelect.value === '我不用喜帖～') {
-                        invSelect.value = '我要紙本喜帖！';
+                    dynamicFields.classList.remove('hidden');
+                    if (vegSelect) vegSelect.disabled = false;
+                    if (invSelect) {
+                        invSelect.disabled = false;
+                        if (!invSelect.value || invSelect.value === '我不用喜帖～') {
+                            invSelect.value = '我要電子喜帖！';
+                        }
                     }
-                }
-                handleInvitationChange();
-            } else {
-                guestCountGroup.classList.add('hidden');
-                guestSelect.disabled = true;
-                guestSelect.required = false;
+                    handleInvitationChange();
+                } else {
+                    if (guestCountGroup) guestCountGroup.classList.add('hidden');
+                    if (guestSelect) {
+                        guestSelect.disabled = true;
+                        guestSelect.required = false;
+                    }
 
-                dynamicFields.classList.add('hidden');
-                if (vegSelect) vegSelect.disabled = true;
-                if (invSelect) {
-                    invSelect.value = '我不用喜帖～';
-                    invSelect.disabled = false;
+                    if (dynamicFields) dynamicFields.classList.add('hidden');
+                    if (vegSelect) vegSelect.disabled = true;
+                    if (invSelect) {
+                        invSelect.value = '我不用喜帖～';
+                        invSelect.disabled = false;
+                    }
+                    handleInvitationChange();
                 }
-                handleInvitationChange();
+            } catch (e) {
+                console.log('Handle attendance change error:', e);
             }
         }
 
-        // 4. Transportation Accordion Toggle
-        const accordionToggle = document.getElementById('accordionToggle');
-        const accordionContent = document.getElementById('accordionContent');
-        const accordionIcon = document.getElementById('accordionIcon');
+        // 5. DOM Ready & Event Setup
+        document.addEventListener('DOMContentLoaded', function() {
+            // High-Performance IntersectionObserver for Reveal Animations
+            const revealElements = document.querySelectorAll('.reveal');
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.08 });
 
-        accordionToggle.addEventListener('click', () => {
-            accordionContent.classList.toggle('active');
-            accordionIcon.style.transform = accordionContent.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
-        });
+                revealElements.forEach(el => observer.observe(el));
+            } else {
+                revealElements.forEach(el => el.classList.add('visible'));
+            }
 
-        // 5. Mobile Menu Toggle
-        const menuBtn = document.getElementById('menuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
+            // Accordion Toggle
+            const accordionToggle = document.getElementById('accordionToggle');
+            const accordionContent = document.getElementById('accordionContent');
+            const accordionIcon = document.getElementById('accordionIcon');
 
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+            if (accordionToggle && accordionContent && accordionIcon) {
+                accordionToggle.addEventListener('click', () => {
+                    accordionContent.classList.toggle('active');
+                    accordionIcon.style.transform = accordionContent.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+                });
+            }
 
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
+            // Mobile Menu Toggle
+            const menuBtn = document.getElementById('menuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            if (menuBtn && mobileMenu) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+            }
+
+            handleAttendanceChange();
+
+            // Prefetch card photo after page load
+            window.addEventListener('load', () => {
+                setTimeout(getCardPhoto, 1000);
             });
         });
 
-        // 6. Scroll Reveal Animation
-        const revealElements = document.querySelectorAll('.reveal');
-
-        const revealOnScroll = () => {
-            const windowHeight = window.innerHeight;
-            revealElements.forEach(el => {
-                const elementTop = el.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 80) {
-                    el.classList.add('visible');
-                }
-            });
-        };
-
-        window.addEventListener('scroll', revealOnScroll);
-        window.addEventListener('load', revealOnScroll);
-
-        // 7. Modal Functions
+        // 6. Modal Functions
         function onFormSubmitted() {
             const modal = document.getElementById('successModal');
             const modalCard = document.getElementById('modalCard');
 
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            modalCard.classList.remove('scale-90');
-            modalCard.classList.add('scale-100');
+            if (modal && modalCard) {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modalCard.classList.remove('scale-90');
+                modalCard.classList.add('scale-100');
+            }
             
-            document.getElementById('rsvpForm').reset();
+            const form = document.getElementById('rsvpForm');
+            if (form) form.reset();
             handleAttendanceChange();
             submitted = false;
         }
@@ -867,21 +961,18 @@
         function closeModal() {
             const modal = document.getElementById('successModal');
             const modalCard = document.getElementById('modalCard');
-            modalCard.classList.remove('scale-100');
-            modalCard.classList.add('scale-90');
-            modal.classList.add('opacity-0', 'pointer-events-none');
+            if (modal && modalCard) {
+                modalCard.classList.remove('scale-100');
+                modalCard.classList.add('scale-90');
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            }
         }
 
         function closePreviewModal() {
             const modal = document.getElementById('imagePreviewModal');
             const modalCard = document.getElementById('previewModalCard');
-            if (modalCard) {
-                modalCard.classList.remove('scale-100');
-                modalCard.classList.add('scale-90');
-            }
-            if (modal) {
-                modal.classList.add('opacity-0', 'pointer-events-none');
-            }
+            if (modalCard) modalCard.classList.remove('scale-100'), modalCard.classList.add('scale-90');
+            if (modal) modal.classList.add('opacity-0', 'pointer-events-none');
         }
 
         function showImagePreviewModal(jpgDataUrl, fileName) {
@@ -899,9 +990,11 @@
             }
         }
 
-        // 8. HIGH-DESIGN CANVAS JPG GENERATOR WITH PHOTO & CHINESE TITLE
+        // 7. High-Design Canvas JPG Card Generator
         function downloadJPG() {
             if (!lastSubmittedData) return;
+
+            const photoImg = getCardPhoto();
 
             const width = 800;
             const height = 1260;
@@ -924,7 +1017,7 @@
                 ctx.lineWidth = 1;
                 ctx.strokeRect(28, 28, width - 56, height - 56);
 
-                // High-Design Photo Header (JUN00138.jpg) with Aspect-Ratio Object Fit Cover
+                // High-Design Photo Header (JUN00138.jpg)
                 const photoX = 45;
                 const photoY = 45;
                 const photoW = width - 90;
@@ -940,19 +1033,19 @@
                 }
                 ctx.clip();
 
-                if (cardPhoto.complete && cardPhoto.naturalWidth !== 0) {
-                    const imgRatio = cardPhoto.width / cardPhoto.height;
+                if (photoImg.complete && photoImg.naturalWidth !== 0) {
+                    const imgRatio = photoImg.width / photoImg.height;
                     const containerRatio = photoW / photoH;
-                    let sX = 0, sY = 0, sW = cardPhoto.width, sH = cardPhoto.height;
+                    let sX = 0, sY = 0, sW = photoImg.width, sH = photoImg.height;
 
                     if (imgRatio > containerRatio) {
-                        sW = cardPhoto.height * containerRatio;
-                        sX = (cardPhoto.width - sW) / 2;
+                        sW = photoImg.height * containerRatio;
+                        sX = (photoImg.width - sW) / 2;
                     } else {
-                        sH = cardPhoto.width / containerRatio;
-                        sY = (cardPhoto.height - sH) / 2;
+                        sH = photoImg.width / containerRatio;
+                        sY = (photoImg.height - sH) / 2;
                     }
-                    ctx.drawImage(cardPhoto, sX, sY, sW, sH, photoX, photoY, photoW, photoH);
+                    ctx.drawImage(photoImg, sX, sY, sW, sH, photoX, photoY, photoW, photoH);
                 } else {
                     ctx.fillStyle = '#f5eee6';
                     ctx.fillRect(photoX, photoY, photoW, photoH);
@@ -970,7 +1063,7 @@
                 }
                 ctx.stroke();
 
-                // Header Card Box (Below Photo)
+                // Header Card Box
                 const headerY = 385;
                 ctx.fillStyle = '#ffffff';
                 ctx.beginPath();
@@ -983,7 +1076,7 @@
                 ctx.strokeStyle = '#e8ded5';
                 ctx.stroke();
 
-                // Title Section: Updated to Chinese "昇廷 & 瑋伶"
+                // Title Section: Chinese "昇廷 & 瑋伶"
                 ctx.textAlign = 'center';
                 ctx.fillStyle = '#d4a373';
                 ctx.font = '600 24px "Noto Serif TC", serif';
@@ -1091,15 +1184,13 @@
                 ctx.font = '14px "Cormorant Garamond", serif';
                 ctx.fillText('I WANNA BE YOUR LIGHT  •  2027 WEDDING INVITATION', width / 2, height - 38);
 
-                // Export and Trigger Download
+                // Export JPG Data URL
                 const jpgDataUrl = canvas.toDataURL('image/jpeg', 0.95);
                 const fileName = `昇廷與瑋伶婚禮出席回函_${lastSubmittedData.name || '確認卡'}.jpg`;
                 currentJpgDataUrl = jpgDataUrl;
 
-                // 1. Open in dedicated clean standalone new window/tab for instant long-press saving
                 openImageInNewTab(jpgDataUrl);
 
-                // 2. Programmatic Download Attempt
                 try {
                     const downloadLink = document.createElement('a');
                     downloadLink.download = fileName;
@@ -1108,23 +1199,22 @@
                     downloadLink.click();
                     document.body.removeChild(downloadLink);
                 } catch (e) {
-                    console.log('Direct download not supported on this browser');
+                    console.log('Direct download bypass:', e);
                 }
 
-                // 3. Open Mobile Preview Modal as fallback with "Open in New Window" option
                 closeModal();
                 showImagePreviewModal(jpgDataUrl, fileName);
             };
 
-            if (cardPhoto.complete && cardPhoto.naturalWidth !== 0) {
+            if (photoImg.complete && photoImg.naturalWidth !== 0) {
                 renderCanvasContent();
             } else {
-                cardPhoto.onload = renderCanvasContent;
-                cardPhoto.onerror = renderCanvasContent;
+                photoImg.onload = renderCanvasContent;
+                photoImg.onerror = renderCanvasContent;
             }
         }
 
-        // 9. Background Music Player (YouTube Iframe API)
+        // 8. Background Music Controller (YouTube Iframe API)
         var player;
         var isPlaying = false;
         var playerReady = false;
@@ -1154,25 +1244,25 @@
 
         function onPlayerReady(event) {
             playerReady = true;
-            
-            // 1. 嘗試直接自動播放音樂
             try { 
                 event.target.playVideo(); 
             } catch (e) {}
 
-            // 2. 多重感應器：若瀏覽器自動播放政策阻擋，於訪客首個任何操作（滑動/觸控/移動）時瞬間無感啟用播放
-            const startAudioOnInteraction = () => {
+            // Passive user interaction audio unlock
+            const audioEvents = ['click', 'touchstart', 'pointerdown'];
+            const unlockAudio = () => {
                 if (player && typeof player.playVideo === 'function') {
                     player.playVideo();
                 }
+                audioEvents.forEach(evt => document.removeEventListener(evt, unlockAudio));
             };
 
-            const events = ['click', 'touchstart', 'touchend', 'pointerdown', 'scroll', 'mousemove', 'keydown'];
-            events.forEach(evt => {
-                document.addEventListener(evt, startAudioOnInteraction, { once: true, capture: true });
+            audioEvents.forEach(evt => {
+                document.addEventListener(evt, unlockAudio, { once: true, passive: true });
             });
         }
 
+        // Asynchronously load YouTube Iframe API
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
