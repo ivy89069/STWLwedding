@@ -107,6 +107,14 @@
         .animate-spin-slow {
             animation: spinSlow 8s linear infinite;
         }
+
+        /* Prevent iOS drag & drop while enabling native long-press Save Image menu */
+        #previewImage {
+            -webkit-touch-callout: default !important;
+            -webkit-user-select: auto !important;
+            user-select: auto !important;
+            -webkit-user-drag: none !important;
+        }
     </style>
 </head>
 <body class="selection:bg-morandi-gold selection:text-white overflow-x-hidden">
@@ -572,7 +580,7 @@
             </div>
 
             <div class="overflow-y-auto flex-1 my-1 rounded-2xl border border-morandi-border/50 bg-morandi-sand/20 p-1">
-                <img id="previewImage" src="" alt="回函確認卡" class="w-full h-auto rounded-xl shadow-sm block mx-auto select-none">
+                <img id="previewImage" src="" alt="回函確認卡" class="w-full h-auto rounded-xl shadow-sm block mx-auto pointer-events-auto" draggable="false">
             </div>
 
             <div class="pt-2 flex gap-3">
