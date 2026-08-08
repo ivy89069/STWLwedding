@@ -463,6 +463,20 @@
                                 <option value="5">5</option>
                             </select>
                         </div>
+
+                        <div>
+                            <label for="entry_invitation" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                                喜帖索取 <span class="font-en font-normal text-morandi-muted">/ INVITATION</span>
+                            </label>
+                            <select id="entry_invitation"
+                                    name="entry.1164108255"
+                                    disabled
+                                    class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark">
+                                <option value="我要電子喜帖!" selected>我要電子喜帖!</option>
+                                <option value="我要紙本喜帖!">我要紙本喜帖!</option>
+                                <option value="不需要喜帖">不需要喜帖</option>
+                            </select>
+                        </div>
                     </div>
 
                     <!-- Field 6: Blessings -->
@@ -552,14 +566,17 @@
         function handleGuestCountChange() {
             const guestSelect = document.getElementById('entry_guests');
             const vegSelect = document.getElementById('entry_special');
+            const invSelect = document.getElementById('entry_invitation');
             const dynamicFields = document.getElementById('dynamicFields');
             const guestCount = parseInt(guestSelect.value, 10);
 
             if (guestCount > 0) {
                 dynamicFields.classList.remove('hidden');
+                if (invSelect) invSelect.disabled = false;
             } else {
                 dynamicFields.classList.add('hidden');
                 if (vegSelect) vegSelect.value = '0';
+                if (invSelect) invSelect.disabled = true;
             }
         }
 
@@ -568,6 +585,7 @@
             const guestCountGroup = document.getElementById('guestCountGroup');
             const guestSelect = document.getElementById('entry_guests');
             const vegSelect = document.getElementById('entry_special');
+            const invSelect = document.getElementById('entry_invitation');
             
             if (attendanceSelect.value.startsWith('出席!')) {
                 guestCountGroup.classList.remove('hidden');
@@ -581,6 +599,7 @@
                 guestSelect.required = false;
                 guestSelect.value = '0';
                 if (vegSelect) vegSelect.value = '0';
+                if (invSelect) invSelect.disabled = true;
                 handleGuestCountChange();
             }
         }
