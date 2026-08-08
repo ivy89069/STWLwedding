@@ -554,6 +554,38 @@
         </div>
     </div>
 
+    <!-- Mobile-Friendly Image Preview Modal -->
+    <div id="imagePreviewModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-3xl p-5 sm:p-6 max-w-md w-full text-center space-y-4 shadow-2xl transform scale-90 transition-transform duration-300 max-h-[90vh] flex flex-col" id="previewModalCard">
+            <div class="flex items-center justify-between pb-2 border-b border-morandi-border/60">
+                <h3 class="text-base font-serifTC font-bold text-morandi-dark flex items-center gap-2">
+                    <i class="fa-solid fa-file-image text-morandi-gold"></i> 回函卡片圖片預覽
+                </h3>
+                <button onclick="closePreviewModal()" class="text-morandi-muted hover:text-morandi-dark p-1 focus:outline-none">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div class="bg-morandi-cream border border-morandi-gold/30 rounded-2xl p-2.5 text-xs text-morandi-gold font-medium flex items-center justify-center gap-2 shadow-sm">
+                <i class="fa-solid fa-hand-pointer animate-bounce text-sm"></i>
+                <span>手機用戶請「長按圖片」選擇「儲存影像」即可存入相簿！</span>
+            </div>
+
+            <div class="overflow-y-auto flex-1 my-1 rounded-2xl border border-morandi-border/50 bg-morandi-sand/20 p-1">
+                <img id="previewImage" src="" alt="回函確認卡" class="w-full h-auto rounded-xl shadow-sm block mx-auto select-none">
+            </div>
+
+            <div class="pt-2 flex gap-3">
+                <a id="directDownloadBtn" href="#" download="" class="flex-1 py-3 rounded-full bg-morandi-gold text-white text-xs font-medium tracking-widest hover:bg-[#c29263] transition shadow-md flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-download"></i> 再次嘗試下載
+                </a>
+                <button onclick="closePreviewModal()" class="px-5 py-3 rounded-full border border-morandi-border text-morandi-muted text-xs font-medium tracking-widest hover:bg-morandi-sand/30 transition">
+                    關閉
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="py-12 bg-morandi-dark text-white/80 text-center text-xs tracking-widest space-y-3">
         <p class="font-en text-lg text-morandi-sand font-light">Sheng-Ting &amp; Wei-Ling</p>
@@ -765,6 +797,37 @@
             modal.classList.add('opacity-0', 'pointer-events-none');
         }
 
+        function closePreviewModal() {
+            const modal = document.getElementById('imagePreviewModal');
+            const modalCard = document.getElementById('previewModalCard');
+            if (modalCard) {
+                modalCard.classList.remove('scale-100');
+                modalCard.classList.add('scale-90');
+            }
+            if (modal) {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        function showImagePreviewModal(jpgDataUrl, fileName) {
+            const modal = document.getElementById('imagePreviewModal');
+            const modalCard = document.getElementById('previewModalCard');
+            const previewImage = document.getElementById('previewImage');
+            const directDownloadBtn = document.getElementById('directDownloadBtn');
+
+            if (previewImage) previewImage.src = jpgDataUrl;
+            if (directDownloadBtn) {
+                directDownloadBtn.href = jpgDataUrl;
+                directDownloadBtn.download = fileName;
+            }
+
+            if (modal && modalCard) {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modalCard.classList.remove('scale-90');
+                modalCard.classList.add('scale-100');
+            }
+        }
+
         // 8. HIGH-DESIGN CANVAS JPG GENERATOR WITH PHOTO & CHINESE TITLE
         function downloadJPG() {
             if (!lastSubmittedData) return;
@@ -959,10 +1022,23 @@
 
                 // Export and Trigger Download
                 const jpgDataUrl = canvas.toDataURL('image/jpeg', 0.95);
-                const downloadLink = document.createElement('a');
-                downloadLink.download = `昇廷與瑋伶婚禮出席回函_${lastSubmittedData.name || '確認卡'}.jpg`;
-                downloadLink.href = jpgDataUrl;
-                downloadLink.click();
+                const fileName = `昇廷與瑋伶婚禮出席回函_${lastSubmittedData.name || '確認卡'}.jpg`;
+
+                // 1. Programmatic Download Attempt
+                try {
+                    const downloadLink = document.createElement('a');
+                    downloadLink.download = fileName;
+                    downloadLink.href = jpgDataUrl;
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    document.body.removeChild(downloadLink);
+                } catch (e) {
+                    console.log('Direct download not supported on this browser');
+                }
+
+                // 2. Open Mobile Preview Modal for 100% compatibility (Safari/LINE/FB)
+                closeModal();
+                showImagePreviewModal(jpgDataUrl, fileName);
             };
 
             if (cardPhoto.complete && cardPhoto.naturalWidth !== 0) {
@@ -1003,16 +1079,23 @@
 
         function onPlayerReady(event) {
             playerReady = true;
-            try { event.target.playVideo(); } catch (e) {}
+            
+            // 1. 嘗試直接自動播放音樂
+            try { 
+                event.target.playVideo(); 
+            } catch (e) {}
 
-            const handleFirstInteraction = () => {
+            // 2. 多重感應器：若瀏覽器自動播放政策阻擋，於訪客首個任何操作（滑動/觸控/移動）時瞬間無感啟用播放
+            const startAudioOnInteraction = () => {
                 if (player && typeof player.playVideo === 'function') {
                     player.playVideo();
                 }
             };
-            document.addEventListener('click', handleFirstInteraction, { once: true });
-            document.addEventListener('touchstart', handleFirstInteraction, { once: true });
-            document.addEventListener('scroll', handleFirstInteraction, { once: true });
+
+            const events = ['click', 'touchstart', 'touchend', 'pointerdown', 'scroll', 'mousemove', 'keydown'];
+            events.forEach(evt => {
+                document.addEventListener(evt, startAudioOnInteraction, { once: true, capture: true });
+            });
         }
 
         var tag = document.createElement('script');
