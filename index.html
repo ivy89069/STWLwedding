@@ -18,6 +18,9 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- YouTube Iframe API for Background Music -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -103,9 +106,29 @@
         .no-wrap {
             white-space: nowrap !important;
         }
+
+        /* Slow Spinning Animation for Music Icon */
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spinSlow 8s linear infinite;
+        }
     </style>
 </head>
 <body class="selection:bg-morandi-gold selection:text-white overflow-x-hidden">
+
+    <!-- Hidden YouTube Player Container -->
+    <div id="youtube-player" class="hidden"></div>
+
+    <!-- Floating Background Music Control Button -->
+    <button id="musicToggleBtn" 
+            onclick="toggleMusic()" 
+            aria-label="Toggle Background Music"
+            class="fixed bottom-6 right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-morandi-gold text-white shadow-glow flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 focus:outline-none">
+        <i id="musicIcon" class="fa-solid fa-music text-base sm:text-lg"></i>
+    </button>
 
     <!-- 1. 導覽列 Navigation Bar -->
     <nav class="fixed top-0 left-0 w-full z-50 glass-nav border-b border-morandi-gold/20 transition-all duration-300" id="navbar">
@@ -183,35 +206,29 @@
 
             <!-- White Glow Cards Grid with Vertical Separators -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 max-w-3xl mx-auto">
-                
-                <!-- Days Card -->
                 <div class="glass-card rounded-2xl p-5 sm:p-6 border border-white/80 shadow-soft flex flex-col items-center justify-center relative group hover:shadow-glow transition duration-300">
                     <span id="days" class="font-en text-4xl sm:text-5xl md:text-6xl font-bold text-morandi-dark tracking-tight">00</span>
                     <div class="w-8 h-[1px] bg-morandi-gold/40 my-3"></div>
                     <span class="font-en text-xs sm:text-sm tracking-widest text-morandi-muted uppercase">Days</span>
                 </div>
 
-                <!-- Hours Card -->
                 <div class="glass-card rounded-2xl p-5 sm:p-6 border border-white/80 shadow-soft flex flex-col items-center justify-center relative group hover:shadow-glow transition duration-300">
                     <span id="hours" class="font-en text-4xl sm:text-5xl md:text-6xl font-bold text-morandi-dark tracking-tight">00</span>
                     <div class="w-8 h-[1px] bg-morandi-gold/40 my-3"></div>
                     <span class="font-en text-xs sm:text-sm tracking-widest text-morandi-muted uppercase">Hours</span>
                 </div>
 
-                <!-- Minutes Card -->
                 <div class="glass-card rounded-2xl p-5 sm:p-6 border border-white/80 shadow-soft flex flex-col items-center justify-center relative group hover:shadow-glow transition duration-300">
                     <span id="minutes" class="font-en text-4xl sm:text-5xl md:text-6xl font-bold text-morandi-dark tracking-tight">00</span>
                     <div class="w-8 h-[1px] bg-morandi-gold/40 my-3"></div>
                     <span class="font-en text-xs sm:text-sm tracking-widest text-morandi-muted uppercase">Minutes</span>
                 </div>
 
-                <!-- Seconds Card -->
                 <div class="glass-card rounded-2xl p-5 sm:p-6 border border-white/80 shadow-soft flex flex-col items-center justify-center relative group hover:shadow-glow transition duration-300">
                     <span id="seconds" class="font-en text-4xl sm:text-5xl md:text-6xl font-bold text-morandi-gold tracking-tight">00</span>
                     <div class="w-8 h-[1px] bg-morandi-gold/40 my-3"></div>
                     <span class="font-en text-xs sm:text-sm tracking-widest text-morandi-muted uppercase">Seconds</span>
                 </div>
-
             </div>
         </div>
     </section>
@@ -429,22 +446,22 @@
                                 onchange="handleAttendanceChange()"
                                 class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark">
                             <option value="" disabled selected>請選擇您的出席狀態</option>
-                            <option value="出席! 怎麼能少了我!">出席! 怎麼能少了我!</option>
-                            <option value="可惜無法出席, 送上滿滿祝福~">可惜無法出席, 送上滿滿祝福~</option>
+                            <!-- Exact option string values matching Google Forms backend -->
+                            <option value="出席！怎麼能少了我！">出席！怎麼能少了我！</option>
+                            <option value="可惜無法出席，送上滿滿祝福～">可惜無法出席，送上滿滿祝福～</option>
                         </select>
                     </div>
 
                     <!-- Field 5: Guests Count (Hidden by default, shown only when Attendance is Yes) -->
                     <div id="guestCountGroup" class="hidden transition-all duration-300">
                         <label for="entry_guests" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
-                            參加午宴人數(含本人) <span class="font-en font-normal text-morandi-muted">/ GUESTS</span> <span class="text-rose-400">*</span>
+                            參加午宴人數（含本人） <span class="font-en font-normal text-morandi-muted">/ GUESTS</span> <span class="text-rose-400">*</span>
                         </label>
                         <select id="entry_guests" 
                                 name="entry.159916419" 
                                 onchange="handleGuestCountChange()" 
                                 class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark">
-                            <option value="0" hidden>0</option>
-                            <option value="1">1</option>
+                            <option value="1" selected>1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
                             <option value="4">4</option>
@@ -452,16 +469,16 @@
                         </select>
                     </div>
 
-                    <!-- SMART DYNAMIC FIELDS: Shows only when Guest Count > 0 -->
+                    <!-- SMART DYNAMIC FIELDS: Shows when attending -->
                     <div id="dynamicFields" class="space-y-6 hidden border-t border-b border-morandi-border/60 py-6 my-2 transition-all duration-300">
                         <div>
                             <label for="entry_special" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
-                                若需準備素食需要幾份? <span class="font-en font-normal text-morandi-muted">/ VEGETARIAN MEALS</span>
+                                若需準備素食需要幾份？ <span class="font-en font-normal text-morandi-muted">/ VEGETARIAN MEALS</span>
                             </label>
                             <select id="entry_special"
                                     name="entry.756788500"
                                     class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark">
-                                <option value="0" selected>0 (不需要)</option>
+                                <option value="0" selected>0（不需要）</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -476,12 +493,36 @@
                             </label>
                             <select id="entry_invitation"
                                     name="entry.1164108255"
-                                    disabled
+                                    onchange="handleInvitationChange()"
                                     class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark">
-                                <option value="我要電子喜帖!" selected>我要電子喜帖!</option>
-                                <option value="我要紙本喜帖!">我要紙本喜帖!</option>
-                                <option value="不需要喜帖">不需要喜帖</option>
+                                <option value="我要紙本喜帖！" selected>我要紙本喜帖！</option>
+                                <option value="我要電子喜帖！">我要電子喜帖！</option>
+                                <option value="我不用喜帖～">我不用喜帖～</option>
                             </select>
+                        </div>
+
+                        <!-- Paper Invitation Address Field -->
+                        <div id="addressGroup" class="hidden transition-all duration-300">
+                            <label for="entry_address" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                                紙本喜帖寄件地址 <span class="font-en font-normal text-morandi-muted">/ MAILING ADDRESS</span> <span class="text-rose-400">*</span>
+                            </label>
+                            <input type="text"
+                                   id="entry_address"
+                                   name="entry.707135055"
+                                   placeholder="請輸入喜帖寄送地址"
+                                   class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30">
+                        </div>
+
+                        <!-- Electronic Invitation Email Field -->
+                        <div id="emailGroup" class="hidden transition-all duration-300">
+                            <label for="entry_email" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                                電子喜帖寄件信箱 <span class="font-en font-normal text-morandi-muted">/ EMAIL ADDRESS</span> <span class="text-rose-400">*</span>
+                            </label>
+                            <input type="text"
+                                   id="entry_email"
+                                   name="entry.1040384663"
+                                   placeholder="請輸入您的 Email 信箱"
+                                   class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30">
                         </div>
                     </div>
 
@@ -524,9 +565,11 @@
                     感謝您的回覆與祝福，<br />昇廷與瑋伶期待在婚宴當天與您相見！
                 </p>
             </div>
-            <button onclick="closeModal()" class="w-full py-3 rounded-full bg-morandi-gold text-white text-xs font-medium tracking-widest hover:bg-[#c29263] transition">
-                關閉視窗 CLOSE
-            </button>
+            <div class="pt-2">
+                <button onclick="closeModal()" class="w-full py-3 rounded-full bg-morandi-gold text-white text-xs font-medium tracking-widest hover:bg-[#c29263] transition">
+                    關閉視窗 CLOSE
+                </button>
+            </div>
         </div>
     </div>
 
@@ -568,22 +611,76 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // 2. Smart Form Visibility Logic
+        // 2. Smart Form Interactivity & POST Field Logic
+        function handleInvitationChange() {
+            const invSelect = document.getElementById('entry_invitation');
+            const addressGroup = document.getElementById('addressGroup');
+            const addressInput = document.getElementById('entry_address');
+            const emailGroup = document.getElementById('emailGroup');
+            const emailInput = document.getElementById('entry_email');
+            const attendanceSelect = document.getElementById('entry_attendance');
+
+            const isAttending = attendanceSelect && attendanceSelect.value === '出席！怎麼能少了我！';
+
+            if (!isAttending) {
+                addressGroup.classList.add('hidden');
+                addressInput.disabled = true;
+                addressInput.required = false;
+
+                emailGroup.classList.add('hidden');
+                emailInput.disabled = true;
+                emailInput.required = false;
+                return;
+            }
+
+            const val = invSelect ? invSelect.value : '';
+
+            if (val === '我要紙本喜帖！') {
+                addressGroup.classList.remove('hidden');
+                addressInput.disabled = false;
+                addressInput.required = true;
+
+                emailGroup.classList.add('hidden');
+                emailInput.disabled = true;
+                emailInput.required = false;
+            } else if (val === '我要電子喜帖！') {
+                emailGroup.classList.remove('hidden');
+                emailInput.disabled = false;
+                emailInput.required = true;
+
+                addressGroup.classList.add('hidden');
+                addressInput.disabled = true;
+                addressInput.required = false;
+            } else {
+                // 我不用喜帖～
+                addressGroup.classList.add('hidden');
+                addressInput.disabled = true;
+                addressInput.required = false;
+
+                emailGroup.classList.add('hidden');
+                emailInput.disabled = true;
+                emailInput.required = false;
+            }
+        }
+
         function handleGuestCountChange() {
             const guestSelect = document.getElementById('entry_guests');
             const vegSelect = document.getElementById('entry_special');
             const invSelect = document.getElementById('entry_invitation');
             const dynamicFields = document.getElementById('dynamicFields');
-            const guestCount = parseInt(guestSelect.value, 10);
+            const attendanceSelect = document.getElementById('entry_attendance');
+            
+            const isAttending = attendanceSelect && attendanceSelect.value === '出席！怎麼能少了我！';
 
-            if (guestCount > 0) {
+            if (isAttending) {
                 dynamicFields.classList.remove('hidden');
+                if (vegSelect) vegSelect.disabled = false;
                 if (invSelect) invSelect.disabled = false;
             } else {
                 dynamicFields.classList.add('hidden');
-                if (vegSelect) vegSelect.value = '0';
-                if (invSelect) invSelect.disabled = true;
             }
+
+            handleInvitationChange();
         }
 
         function handleAttendanceChange() {
@@ -593,20 +690,37 @@
             const vegSelect = document.getElementById('entry_special');
             const invSelect = document.getElementById('entry_invitation');
             
-            if (attendanceSelect.value.startsWith('出席!')) {
+            if (attendanceSelect.value === '出席！怎麼能少了我！') {
                 guestCountGroup.classList.remove('hidden');
+                guestSelect.disabled = false;
                 guestSelect.required = true;
-                if (guestSelect.value === '0') {
-                    guestSelect.value = '1';
+                
+                if (invSelect) {
+                    invSelect.disabled = false;
+                    if (invSelect.value === '我不用喜帖～' || !invSelect.value) {
+                        invSelect.value = '我要紙本喜帖！';
+                    }
                 }
+
                 handleGuestCountChange();
             } else {
+                // 無法出席時：
+                // 1. 停用人數與素食（不傳送 entry.159916419 與 entry.756788500）
                 guestCountGroup.classList.add('hidden');
+                guestSelect.disabled = true;
                 guestSelect.required = false;
-                guestSelect.value = '0';
-                if (vegSelect) vegSelect.value = '0';
-                if (invSelect) invSelect.disabled = true;
-                handleGuestCountChange();
+
+                if (vegSelect) vegSelect.disabled = true;
+
+                // 2. 喜帖索取設為「我不用喜帖～」並保持啟用傳送（對應 URL 1 中的 entry.1164108255）
+                if (invSelect) {
+                    invSelect.value = '我不用喜帖～';
+                    invSelect.disabled = false;
+                }
+
+                // 3. 隱藏視覺區塊並停用地址與信箱
+                document.getElementById('dynamicFields').classList.add('hidden');
+                handleInvitationChange();
             }
         }
 
@@ -659,6 +773,7 @@
         function onFormSubmitted() {
             const modal = document.getElementById('successModal');
             const modalCard = document.getElementById('modalCard');
+
             modal.classList.remove('opacity-0', 'pointer-events-none');
             modalCard.classList.remove('scale-90');
             modalCard.classList.add('scale-100');
@@ -675,6 +790,70 @@
             modalCard.classList.remove('scale-100');
             modalCard.classList.add('scale-90');
             modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        // 7. Background Music Controller (YouTube Iframe API)
+        var player;
+        var isPlaying = false;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                height: '0',
+                width: '0',
+                videoId: '1dUovynAYxs',
+                playerVars: {
+                    'autoplay': 1,
+                    'loop': 1,
+                    'playlist': '1dUovynAYxs',
+                    'controls': 0,
+                    'showinfo': 0,
+                    'autohide': 1,
+                    'modestbranding': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            event.target.playVideo();
+            const handleFirstInteraction = () => {
+                if (player && typeof player.playVideo === 'function') {
+                    player.playVideo();
+                }
+                document.removeEventListener('click', handleFirstInteraction);
+                document.removeEventListener('touchstart', handleFirstInteraction);
+            };
+            document.addEventListener('click', handleFirstInteraction, { once: true });
+            document.addEventListener('touchstart', handleFirstInteraction, { once: true });
+        }
+
+        // Initialize form visibility states
+        handleAttendanceChange();
+
+        function onPlayerStateChange(event) {
+            const musicBtn = document.getElementById('musicToggleBtn');
+            const musicIcon = document.getElementById('musicIcon');
+            if (event.data === YT.PlayerState.PLAYING) {
+                isPlaying = true;
+                if (musicIcon) musicIcon.classList.add('animate-spin-slow');
+                if (musicBtn) musicBtn.classList.add('ring-4', 'ring-morandi-gold/30');
+            } else {
+                isPlaying = false;
+                if (musicIcon) musicIcon.classList.remove('animate-spin-slow');
+                if (musicBtn) musicBtn.classList.remove('ring-4', 'ring-morandi-gold/30');
+            }
+        }
+
+        function toggleMusic() {
+            if (!player || typeof player.getPlayerState !== 'function') return;
+            if (isPlaying) {
+                player.pauseVideo();
+            } else {
+                player.playVideo();
+            }
         }
     </script>
 </body>
