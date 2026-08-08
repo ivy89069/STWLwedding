@@ -136,7 +136,7 @@
     <section class="relative h-screen w-full flex items-end justify-center text-center overflow-hidden pb-12 sm:pb-20">
         <!-- Background Image with Soft Gradient Overlay -->
         <div class="absolute inset-0 bg-cover bg-no-repeat transform scale-105 transition-transform duration-10000 ease-out"
-             style="background-image: url('https://i.postimg.cc/fLMt8cZG/JUN00138.jpg'); background-position: center 55%;">
+             style="background-image: url('https://i.postimg.cc/fLMt8cZG/JUN00138.jpg'); background-position: center 25%;">
             <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-morandi-dark/85"></div>
         </div>
 
@@ -442,7 +442,6 @@
                     <select id="entry_guests" 
                             name="entry.159916419" 
                             required 
-                            onchange="handleGuestCountChange()" 
                             class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark">
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -451,38 +450,6 @@
                         <option value="4">4</option>
                         <option value="5">5</option>
                     </select>
-                </div>
-
-                <!-- DYNAMIC FIELDS: Shows only if Guest Count > 0 -->
-                <div id="dynamicFields" class="space-y-6 hidden border-t border-b border-morandi-border/60 py-6 my-2 transition-all duration-300">
-                    
-                    <!-- Dietary Preferences -->
-                    <div>
-                        <label for="entry_diet" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
-                            飲食需求 <span class="font-en font-normal text-morandi-muted">/ DIET</span>
-                        </label>
-                        <select id="entry_diet" 
-                                class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark">
-                            <option value="葷食">葷食</option>
-                            <option value="全素">全素</option>
-                            <option value="蛋奶素">蛋奶素</option>
-                            <option value="含素食者">含素食者</option>
-                        </select>
-                    </div>
-
-                    <!-- Child Chair Needed -->
-                    <div>
-                        <label for="entry_childChair" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
-                            是否需要兒童椅 <span class="font-en font-normal text-morandi-muted">/ CHILD CHAIR</span>
-                        </label>
-                        <select id="entry_childChair" 
-                                class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark">
-                            <option value="不需要">不需要</option>
-                            <option value="1 張">1 張</option>
-                            <option value="2 張">2 張</option>
-                        </select>
-                    </div>
-
                 </div>
 
                 <!-- Field 6: Blessings -->
@@ -569,29 +536,15 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // 2. Smart Form Visibility Logic
-        function handleGuestCountChange() {
-            const guestSelect = document.getElementById('entry_guests');
-            const dynamicFields = document.getElementById('dynamicFields');
-            const guestCount = parseInt(guestSelect.value, 10);
-
-            if (guestCount > 0) {
-                dynamicFields.classList.remove('hidden');
-            } else {
-                dynamicFields.classList.add('hidden');
-            }
-        }
-
+        // 2. Attendance Selection Logic
         function handleAttendanceChange() {
             const attendanceSelect = document.getElementById('entry_attendance');
             const guestSelect = document.getElementById('entry_guests');
             
             if (attendanceSelect.value.includes('無法出席')) {
                 guestSelect.value = '0';
-                handleGuestCountChange();
             } else if (guestSelect.value === '0') {
                 guestSelect.value = '1';
-                handleGuestCountChange();
             }
         }
 
@@ -650,7 +603,6 @@
             
             // Reset form
             document.getElementById('rsvpForm').reset();
-            handleGuestCountChange();
             submitted = false;
         }
 
