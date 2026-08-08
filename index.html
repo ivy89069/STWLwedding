@@ -107,7 +107,7 @@
             animation: spinSlow 8s linear infinite;
         }
 
-        /* Prevent iOS drag & drop while enabling native long-press Save Image menu */
+        /* iOS drag & drop protection while keeping native touch callout */
         #previewImage {
             -webkit-touch-callout: default !important;
             -webkit-user-select: auto !important;
@@ -476,8 +476,8 @@
                                     name="entry.1164108255"
                                     onchange="handleInvitationChange()"
                                     class="w-full px-4 py-3 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark">
-                                <option value="我要紙本喜帖！" selected>我要紙本喜帖！</option>
-                                <option value="我要電子喜帖！">我要電子喜帖！</option>
+                                <option value="我要電子喜帖！" selected>我要電子喜帖！</option>
+                                <option value="我要紙本喜帖！">我要紙本喜帖！</option>
                                 <option value="我不用喜帖～">我不用喜帖～</option>
                             </select>
                         </div>
@@ -485,7 +485,7 @@
                         <!-- Paper Address -->
                         <div id="addressGroup" class="hidden transition-all duration-300">
                             <label for="entry_address" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
-                                紙本喜帖寄件地址 <span class="font-en font-normal text-morandi-muted">/ MAILING ADDRESS</span> <span class="text-rose-400">*</span>
+                                紙本喜帖寄件地址（記得加上郵遞區號喔） <span class="font-en font-normal text-morandi-muted">/ MAILING ADDRESS</span> <span class="text-rose-400">*</span>
                             </label>
                             <input type="text"
                                    id="entry_address"
@@ -608,7 +608,7 @@
         // Card Photo Pre-loader
         const cardPhoto = new Image();
         cardPhoto.crossOrigin = 'anonymous';
-        cardPhoto.src = 'https://i.postimg.cc/fLMt8cZG/JUN00138.jpg';
+        cardPhoto.src = 'https://i.postimg.cc/fLMt8cZG/JUN000138.jpg';
 
         // 1. Countdown Logic: Target 2027-01-31 12:00 PM
         const targetDate = new Date('2027-01-31T12:00:00').getTime();
@@ -634,6 +634,9 @@
                 document.getElementById('seconds').innerText = '00';
             }
         }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
 
         function openImageInNewTab(jpgDataUrl) {
             const dataToOpen = jpgDataUrl || currentJpgDataUrl;
@@ -702,164 +705,181 @@
             }
         }
 
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-
-        // 2. Form Data Capture
         function captureFormData() {
-            lastSubmittedData = {
-                name: document.getElementById('entry_name').value || '',
-                phone: document.getElementById('entry_phone').value || '',
-                relationship: document.getElementById('entry_relationship').value || '',
-                attendance: document.getElementById('entry_attendance').value || '',
-                guests: document.getElementById('entry_guests').value || '1',
-                special: document.getElementById('entry_special').value || '0',
-                invitation: document.getElementById('entry_invitation').value || '',
-                address: document.getElementById('entry_address').value || '',
-                email: document.getElementById('entry_email').value || '',
-                blessings: document.getElementById('entry_blessings').value || ''
-            };
+            try {
+                lastSubmittedData = {
+                    name: document.getElementById('entry_name').value || '',
+                    phone: document.getElementById('entry_phone').value || '',
+                    relationship: document.getElementById('entry_relationship').value || '',
+                    attendance: document.getElementById('entry_attendance').value || '',
+                    guests: document.getElementById('entry_guests').value || '1',
+                    special: document.getElementById('entry_special').value || '0',
+                    invitation: document.getElementById('entry_invitation').value || '',
+                    address: document.getElementById('entry_address').value || '',
+                    email: document.getElementById('entry_email').value || '',
+                    blessings: document.getElementById('entry_blessings').value || ''
+                };
+            } catch (e) {
+                console.log('Capture error', e);
+            }
         }
 
-        // 3. Form Interactivity & Field Disabling Logic
         function handleInvitationChange() {
-            const invSelect = document.getElementById('entry_invitation');
-            const addressGroup = document.getElementById('addressGroup');
-            const addressInput = document.getElementById('entry_address');
-            const emailGroup = document.getElementById('emailGroup');
-            const emailInput = document.getElementById('entry_email');
-            const attendanceSelect = document.getElementById('entry_attendance');
+            try {
+                const invSelect = document.getElementById('entry_invitation');
+                const addressGroup = document.getElementById('addressGroup');
+                const addressInput = document.getElementById('entry_address');
+                const emailGroup = document.getElementById('emailGroup');
+                const emailInput = document.getElementById('entry_email');
+                const attendanceSelect = document.getElementById('entry_attendance');
 
-            const isAttending = attendanceSelect && attendanceSelect.value.includes('出席！');
+                const isAttending = attendanceSelect && attendanceSelect.value.includes('出席！');
 
-            if (!isAttending) {
-                addressGroup.classList.add('hidden');
-                addressInput.disabled = true;
-                addressInput.required = false;
+                if (!isAttending) {
+                    addressGroup.classList.add('hidden');
+                    addressInput.disabled = true;
+                    addressInput.required = false;
 
-                emailGroup.classList.add('hidden');
-                emailInput.disabled = true;
-                emailInput.required = false;
-                return;
-            }
+                    emailGroup.classList.add('hidden');
+                    emailInput.disabled = true;
+                    emailInput.required = false;
+                    return;
+                }
 
-            const val = invSelect ? invSelect.value : '';
+                const val = invSelect ? invSelect.value : '';
 
-            if (val === '我要紙本喜帖！') {
-                addressGroup.classList.remove('hidden');
-                addressInput.disabled = false;
-                addressInput.required = true;
+                if (val === '我要紙本喜帖！') {
+                    addressGroup.classList.remove('hidden');
+                    addressInput.disabled = false;
+                    addressInput.required = true;
 
-                emailGroup.classList.add('hidden');
-                emailInput.disabled = true;
-                emailInput.required = false;
-            } else if (val === '我要電子喜帖！') {
-                emailGroup.classList.remove('hidden');
-                emailInput.disabled = false;
-                emailInput.required = true;
+                    emailGroup.classList.add('hidden');
+                    emailInput.disabled = true;
+                    emailInput.required = false;
+                } else if (val === '我要電子喜帖！') {
+                    emailGroup.classList.remove('hidden');
+                    emailInput.disabled = false;
+                    emailInput.required = true;
 
-                addressGroup.classList.add('hidden');
-                addressInput.disabled = true;
-                addressInput.required = false;
-            } else {
-                addressGroup.classList.add('hidden');
-                addressInput.disabled = true;
-                addressInput.required = false;
+                    addressGroup.classList.add('hidden');
+                    addressInput.disabled = true;
+                    addressInput.required = false;
+                } else {
+                    addressGroup.classList.add('hidden');
+                    addressInput.disabled = true;
+                    addressInput.required = false;
 
-                emailGroup.classList.add('hidden');
-                emailInput.disabled = true;
-                emailInput.required = false;
+                    emailGroup.classList.add('hidden');
+                    emailInput.disabled = true;
+                    emailInput.required = false;
+                }
+            } catch (e) {
+                console.log('Invitation change error', e);
             }
         }
 
         function handleAttendanceChange() {
-            const attendanceSelect = document.getElementById('entry_attendance');
-            const guestCountGroup = document.getElementById('guestCountGroup');
-            const guestSelect = document.getElementById('entry_guests');
-            const vegSelect = document.getElementById('entry_special');
-            const invSelect = document.getElementById('entry_invitation');
-            const dynamicFields = document.getElementById('dynamicFields');
-            
-            if (attendanceSelect.value.includes('出席！')) {
-                guestCountGroup.classList.remove('hidden');
-                guestSelect.disabled = false;
-                guestSelect.required = true;
-
-                dynamicFields.classList.remove('hidden');
-                if (vegSelect) vegSelect.disabled = false;
-                if (invSelect) {
-                    invSelect.disabled = false;
-                    if (!invSelect.value || invSelect.value === '我不用喜帖～') {
-                        invSelect.value = '我要紙本喜帖！';
+            try {
+                const attendanceSelect = document.getElementById('entry_attendance');
+                const guestCountGroup = document.getElementById('guestCountGroup');
+                const guestSelect = document.getElementById('entry_guests');
+                const vegSelect = document.getElementById('entry_special');
+                const invSelect = document.getElementById('entry_invitation');
+                const dynamicFields = document.getElementById('dynamicFields');
+                
+                if (attendanceSelect && attendanceSelect.value.includes('出席！')) {
+                    if (guestCountGroup) guestCountGroup.classList.remove('hidden');
+                    if (guestSelect) {
+                        guestSelect.disabled = false;
+                        guestSelect.required = true;
                     }
-                }
-                handleInvitationChange();
-            } else {
-                guestCountGroup.classList.add('hidden');
-                guestSelect.disabled = true;
-                guestSelect.required = false;
 
-                dynamicFields.classList.add('hidden');
-                if (vegSelect) vegSelect.disabled = true;
-                if (invSelect) {
-                    invSelect.value = '我不用喜帖～';
-                    invSelect.disabled = false;
+                    if (dynamicFields) dynamicFields.classList.remove('hidden');
+                    if (vegSelect) vegSelect.disabled = false;
+                    if (invSelect) {
+                        invSelect.disabled = false;
+                        if (!invSelect.value || invSelect.value === '我不用喜帖～') {
+                            invSelect.value = '我要電子喜帖！';
+                        }
+                    }
+                    handleInvitationChange();
+                } else {
+                    if (guestCountGroup) guestCountGroup.classList.add('hidden');
+                    if (guestSelect) {
+                        guestSelect.disabled = true;
+                        guestSelect.required = false;
+                    }
+
+                    if (dynamicFields) dynamicFields.classList.add('hidden');
+                    if (vegSelect) vegSelect.disabled = true;
+                    if (invSelect) {
+                        invSelect.value = '我不用喜帖～';
+                        invSelect.disabled = false;
+                    }
+                    handleInvitationChange();
                 }
-                handleInvitationChange();
+            } catch (e) {
+                console.log('Attendance change error', e);
             }
         }
 
-        // 4. Transportation Accordion Toggle
-        const accordionToggle = document.getElementById('accordionToggle');
-        const accordionContent = document.getElementById('accordionContent');
-        const accordionIcon = document.getElementById('accordionIcon');
+        document.addEventListener('DOMContentLoaded', function() {
+            const accordionToggle = document.getElementById('accordionToggle');
+            const accordionContent = document.getElementById('accordionContent');
+            const accordionIcon = document.getElementById('accordionIcon');
 
-        accordionToggle.addEventListener('click', () => {
-            accordionContent.classList.toggle('active');
-            accordionIcon.style.transform = accordionContent.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+            if (accordionToggle && accordionContent && accordionIcon) {
+                accordionToggle.addEventListener('click', () => {
+                    accordionContent.classList.toggle('active');
+                    accordionIcon.style.transform = accordionContent.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+                });
+            }
+
+            const menuBtn = document.getElementById('menuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            if (menuBtn && mobileMenu) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+            }
+
+            // Scroll Reveal Animation
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                revealElements.forEach(el => {
+                    const elementTop = el.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - 60) {
+                        el.classList.add('visible');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll();
+            handleAttendanceChange();
         });
 
-        // 5. Mobile Menu Toggle
-        const menuBtn = document.getElementById('menuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
-
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        // 6. Scroll Reveal Animation
-        const revealElements = document.querySelectorAll('.reveal');
-
-        const revealOnScroll = () => {
-            const windowHeight = window.innerHeight;
-            revealElements.forEach(el => {
-                const elementTop = el.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 80) {
-                    el.classList.add('visible');
-                }
-            });
-        };
-
-        window.addEventListener('scroll', revealOnScroll);
-        window.addEventListener('load', revealOnScroll);
-
-        // 7. Modal Functions
         function onFormSubmitted() {
             const modal = document.getElementById('successModal');
             const modalCard = document.getElementById('modalCard');
 
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            modalCard.classList.remove('scale-90');
-            modalCard.classList.add('scale-100');
+            if (modal && modalCard) {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modalCard.classList.remove('scale-90');
+                modalCard.classList.add('scale-100');
+            }
             
-            document.getElementById('rsvpForm').reset();
+            const form = document.getElementById('rsvpForm');
+            if (form) form.reset();
             handleAttendanceChange();
             submitted = false;
         }
@@ -867,64 +887,60 @@
         function closeModal() {
             const modal = document.getElementById('successModal');
             const modalCard = document.getElementById('modalCard');
-            modalCard.classList.remove('scale-100');
-            modalCard.classList.add('scale-90');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-        }
-
-        function closePreviewModal() {
-            const modal = document.getElementById('imagePreviewModal');
-            const modalCard = document.getElementById('previewModalCard');
-            if (modalCard) {
+            if (modal && modalCard) {
                 modalCard.classList.remove('scale-100');
                 modalCard.classList.add('scale-90');
-            }
-            if (modal) {
                 modal.classList.add('opacity-0', 'pointer-events-none');
             }
         }
 
         function showImagePreviewModal(jpgDataUrl, fileName) {
-            currentJpgDataUrl = jpgDataUrl;
-            const modal = document.getElementById('imagePreviewModal');
-            const modalCard = document.getElementById('previewModalCard');
+            const previewModal = document.getElementById('imagePreviewModal');
+            const previewModalCard = document.getElementById('previewModalCard');
             const previewImage = document.getElementById('previewImage');
 
-            if (previewImage) previewImage.src = jpgDataUrl;
-
-            if (modal && modalCard) {
-                modal.classList.remove('opacity-0', 'pointer-events-none');
-                modalCard.classList.remove('scale-90');
-                modalCard.classList.add('scale-100');
+            if (previewModal && previewModalCard && previewImage) {
+                previewImage.src = jpgDataUrl;
+                previewModal.classList.remove('opacity-0', 'pointer-events-none');
+                previewModalCard.classList.remove('scale-90');
+                previewModalCard.classList.add('scale-100');
             }
         }
 
-        // 8. HIGH-DESIGN CANVAS JPG GENERATOR WITH PHOTO & CHINESE TITLE
-        function downloadJPG() {
-            if (!lastSubmittedData) return;
+        function closePreviewModal() {
+            const previewModal = document.getElementById('imagePreviewModal');
+            const previewModalCard = document.getElementById('previewModalCard');
+            if (previewModal && previewModalCard) {
+                previewModalCard.classList.remove('scale-100');
+                previewModalCard.classList.add('scale-90');
+                previewModal.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
 
-            const width = 800;
-            const height = 1260;
+        function downloadJPG() {
+            if (!lastSubmittedData) {
+                captureFormData();
+            }
+
             const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            const width = 600;
+            const height = 980;
             canvas.width = width;
             canvas.height = height;
-            const ctx = canvas.getContext('2d');
 
             const renderCanvasContent = () => {
                 // Background Fill
                 ctx.fillStyle = '#fcfaf7';
                 ctx.fillRect(0, 0, width, height);
 
-                // Double Border Frame
+                // Border Outline
                 ctx.strokeStyle = '#d4a373';
                 ctx.lineWidth = 2;
                 ctx.strokeRect(20, 20, width - 40, height - 40);
 
-                ctx.strokeStyle = '#e8ded5';
-                ctx.lineWidth = 1;
-                ctx.strokeRect(28, 28, width - 56, height - 56);
-
-                // High-Design Photo Header (JUN00138.jpg) with Aspect-Ratio Object Fit Cover
+                // Header Photo (JUN00138.jpg)
                 const photoX = 45;
                 const photoY = 45;
                 const photoW = width - 90;
@@ -983,7 +999,7 @@
                 ctx.strokeStyle = '#e8ded5';
                 ctx.stroke();
 
-                // Title Section: Updated to Chinese "昇廷 & 瑋伶"
+                // Title Section: Chinese "昇廷 & 瑋伶"
                 ctx.textAlign = 'center';
                 ctx.fillStyle = '#d4a373';
                 ctx.font = '600 24px "Noto Serif TC", serif';
@@ -1096,10 +1112,8 @@
                 const fileName = `昇廷與瑋伶婚禮出席回函_${lastSubmittedData.name || '確認卡'}.jpg`;
                 currentJpgDataUrl = jpgDataUrl;
 
-                // 1. Open in dedicated clean standalone new window/tab for instant long-press saving
                 openImageInNewTab(jpgDataUrl);
 
-                // 2. Programmatic Download Attempt
                 try {
                     const downloadLink = document.createElement('a');
                     downloadLink.download = fileName;
@@ -1111,7 +1125,6 @@
                     console.log('Direct download not supported on this browser');
                 }
 
-                // 3. Open Mobile Preview Modal as fallback with "Open in New Window" option
                 closeModal();
                 showImagePreviewModal(jpgDataUrl, fileName);
             };
@@ -1124,7 +1137,6 @@
             }
         }
 
-        // 9. Background Music Player (YouTube Iframe API)
         var player;
         var isPlaying = false;
         var playerReady = false;
@@ -1154,13 +1166,10 @@
 
         function onPlayerReady(event) {
             playerReady = true;
-            
-            // 1. 嘗試直接自動播放音樂
             try { 
                 event.target.playVideo(); 
             } catch (e) {}
 
-            // 2. 多重感應器：若瀏覽器自動播放政策阻擋，於訪客首個任何操作（滑動/觸控/移動）時瞬間無感啟用播放
             const startAudioOnInteraction = () => {
                 if (player && typeof player.playVideo === 'function') {
                     player.playVideo();
@@ -1169,7 +1178,7 @@
 
             const events = ['click', 'touchstart', 'touchend', 'pointerdown', 'scroll', 'mousemove', 'keydown'];
             events.forEach(evt => {
-                document.addEventListener(evt, startAudioOnInteraction, { once: true, capture: true });
+                document.addEventListener(evt, startAudioOnInteraction, { once: true, capture: false });
             });
         }
 
