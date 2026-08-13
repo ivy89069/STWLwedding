@@ -2,7 +2,8 @@
 <html lang="zh-TW" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Forms Style Mobile Viewport Protection: Prevents iOS Auto-Zoom Glitch -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>昇廷 & 瑋伶 婚禮邀請函 | Wedding Invitation</title>
     
     <!-- Critical Network Preconnects & High-Priority Preloads -->
@@ -55,12 +56,21 @@
     </script>
 
     <style>
+        /* Google Forms Native iOS Mobile Parameters */
+        input, select, textarea {
+            font-size: 16px !important; /* Minimum 16px prevents iOS Safari Auto-Zoom Viewport shifting */
+            -webkit-text-size-adjust: 100%;
+            touch-action: manipulation; /* Disables double-tap zoom delay */
+            -webkit-tap-highlight-color: rgba(212, 163, 115, 0.2);
+        }
+
         body {
             font-family: 'Noto Serif TC', serif;
             color: #3d3835;
             background-color: #fcfaf7;
             text-rendering: optimizeLegibility;
             -webkit-font-smoothing: antialiased;
+            touch-action: manipulation;
         }
 
         .font-en {
@@ -114,7 +124,6 @@
             animation: spinSlow 8s linear infinite;
         }
 
-        /* Prevent iOS drag & drop while preserving native image save popup */
         #previewImage {
             -webkit-touch-callout: default !important;
             -webkit-user-select: auto !important;
@@ -384,8 +393,8 @@
                       onsubmit="captureFormData(); submitted=true;" 
                       class="space-y-6">
 
-                    <!-- Field 1: Name (Click Anywhere in Box to Focus) -->
-                    <div class="cursor-pointer group" onclick="focusField('entry_name', event)">
+                    <!-- Field 1: Name -->
+                    <div>
                         <label for="entry_name" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                             姓名 <span class="font-en font-normal text-morandi-muted">/ NAME</span> <span class="text-rose-400">*</span>
                         </label>
@@ -394,11 +403,11 @@
                                name="entry.1160678701" 
                                required 
                                placeholder="請輸入您的姓名" 
-                               class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark cursor-text">
+                               class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark">
                     </div>
 
                     <!-- Field 2: Phone -->
-                    <div class="cursor-pointer group" onclick="focusField('entry_phone', event)">
+                    <div>
                         <label for="entry_phone" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                             電話 <span class="font-en font-normal text-morandi-muted">/ PHONE</span> <span class="text-rose-400">*</span>
                         </label>
@@ -407,11 +416,11 @@
                                name="entry.1121277011" 
                                required 
                                placeholder="請輸入您的聯絡電話" 
-                               class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark cursor-text">
+                               class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark">
                     </div>
 
-                    <!-- Field 3: Relationship (Full Clickable Box Dropdown) -->
-                    <div class="cursor-pointer group" onclick="focusField('entry_relationship', event)">
+                    <!-- Field 3: Relationship (Google Forms Style Native Select binding) -->
+                    <div>
                         <label for="entry_relationship" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                             親友關係 <span class="font-en font-normal text-morandi-muted">/ RELATIONSHIP</span> <span class="text-rose-400">*</span>
                         </label>
@@ -419,7 +428,7 @@
                             <select id="entry_relationship" 
                                     name="entry.669993689" 
                                     required 
-                                    class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
+                                    class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
                                 <option value="" disabled selected>請選擇您與新人的關係</option>
                                 <option value="男方親友">男方親友</option>
                                 <option value="女方親友">女方親友</option>
@@ -431,7 +440,7 @@
                     </div>
 
                     <!-- Field 4: Attendance -->
-                    <div class="cursor-pointer group" onclick="focusField('entry_attendance', event)">
+                    <div>
                         <label for="entry_attendance" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                             出席意願 <span class="font-en font-normal text-morandi-muted">/ ATTENDANCE</span> <span class="text-rose-400">*</span>
                         </label>
@@ -440,7 +449,7 @@
                                     name="entry.1541676002" 
                                     required 
                                     onchange="handleAttendanceChange()"
-                                    class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
+                                    class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
                                 <option value="" disabled selected>請選擇您的出席狀態</option>
                                 <option value="出席！怎麼能少了我！">出席！怎麼能少了我！</option>
                                 <option value="可惜無法出席，送上滿滿祝福～">可惜無法出席，送上滿滿祝福～</option>
@@ -452,14 +461,14 @@
                     </div>
 
                     <!-- Field 5: Guests Count -->
-                    <div id="guestCountGroup" class="hidden transition-all duration-300 cursor-pointer group" onclick="focusField('entry_guests', event)">
+                    <div id="guestCountGroup" class="hidden transition-all duration-300">
                         <label for="entry_guests" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                             參加午宴人數（含本人） <span class="font-en font-normal text-morandi-muted">/ GUESTS</span> <span class="text-rose-400">*</span>
                         </label>
                         <div class="relative">
                             <select id="entry_guests" 
                                     name="entry.159916419" 
-                                    class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
+                                    class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
                                 <option value="1" selected>1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -475,14 +484,14 @@
                     <!-- Dynamic Fields Section -->
                     <div id="dynamicFields" class="space-y-6 hidden border-t border-b border-morandi-border/60 py-6 my-2 transition-all duration-300">
                         <!-- Field 6: Vegetarian Meals -->
-                        <div class="cursor-pointer group" onclick="focusField('entry_special', event)">
+                        <div>
                             <label for="entry_special" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                                 若需準備素食需要幾份？ <span class="font-en font-normal text-morandi-muted">/ VEGETARIAN MEALS</span>
                             </label>
                             <div class="relative">
                                 <select id="entry_special"
                                         name="entry.756788500"
-                                        class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
+                                        class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
                                     <option value="0" selected>0（不需要）</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -496,8 +505,8 @@
                             </div>
                         </div>
 
-                        <!-- Field 7: Invitation Preferences (Ordered: 1. Electronic, 2. Paper, 3. None) -->
-                        <div class="cursor-pointer group" onclick="focusField('entry_invitation', event)">
+                        <!-- Field 7: Invitation Preferences -->
+                        <div>
                             <label for="entry_invitation" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                                 喜帖索取 <span class="font-en font-normal text-morandi-muted">/ INVITATION</span>
                             </label>
@@ -505,7 +514,7 @@
                                 <select id="entry_invitation"
                                         name="entry.1164108255"
                                         onchange="handleInvitationChange()"
-                                        class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
+                                        class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
                                     <option value="我要電子喜帖！" selected>我要電子喜帖！</option>
                                     <option value="我要紙本喜帖！">我要紙本喜帖！</option>
                                     <option value="我不用喜帖～">我不用喜帖～</option>
@@ -517,7 +526,7 @@
                         </div>
 
                         <!-- Field 8: Paper Address -->
-                        <div id="addressGroup" class="hidden transition-all duration-300 cursor-pointer group" onclick="focusField('entry_address', event)">
+                        <div id="addressGroup" class="hidden transition-all duration-300">
                             <label for="entry_address" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                                 紙本喜帖寄件地址（記得加上郵遞區號喔） <span class="font-en font-normal text-morandi-muted">/ MAILING ADDRESS</span> <span class="text-rose-400">*</span>
                             </label>
@@ -525,11 +534,11 @@
                                    id="entry_address"
                                    name="entry.707135055"
                                    placeholder="請輸入喜帖寄送地址"
-                                   class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark cursor-text">
+                                   class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark">
                         </div>
 
                         <!-- Field 9: Electronic Email -->
-                        <div id="emailGroup" class="hidden transition-all duration-300 cursor-pointer group" onclick="focusField('entry_email', event)">
+                        <div id="emailGroup" class="hidden transition-all duration-300">
                             <label for="entry_email" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                                 電子喜帖寄件信箱 <span class="font-en font-normal text-morandi-muted">/ EMAIL ADDRESS</span> <span class="text-rose-400">*</span>
                             </label>
@@ -539,12 +548,12 @@
                                    placeholder="請輸入您的 Email 信箱（例：name@example.com）"
                                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                                    title="請填寫格式正確的 Email 信箱"
-                                   class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark cursor-text">
+                                   class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark">
                         </div>
                     </div>
 
                     <!-- Field 10: Blessings -->
-                    <div class="cursor-pointer group" onclick="focusField('entry_blessings', event)">
+                    <div>
                         <label for="entry_blessings" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                             對新人的祝福 <span class="font-en font-normal text-morandi-muted">/ BLESSINGS</span>
                         </label>
@@ -552,7 +561,7 @@
                                   name="entry.193833875" 
                                   rows="3" 
                                   placeholder="請留下給昇廷與瑋伶的祝福的話..." 
-                                  class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-sm transition bg-morandi-cream/30 text-morandi-dark resize-none cursor-text"></textarea>
+                                  class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark resize-none"></textarea>
                     </div>
 
                     <!-- Submit Button -->
@@ -648,27 +657,6 @@
                 cardPhoto.src = 'https://i.postimg.cc/fLMt8cZG/JUN00138.jpg';
             }
             return cardPhoto;
-        }
-
-        // Global Helper: Expands click target to focus/open field when clicking anywhere inside field box
-        function focusField(id, event) {
-            if (event && event.target && (event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT' || event.target.tagName === 'TEXTAREA')) {
-                return; // Let direct clicks behave natively
-            }
-            const el = document.getElementById(id);
-            if (!el || el.disabled) return;
-            el.focus();
-            if (el.tagName === 'SELECT') {
-                try {
-                    if (typeof el.showPicker === 'function') {
-                        el.showPicker();
-                    } else {
-                        el.click();
-                    }
-                } catch(e) {
-                    el.click();
-                }
-            }
         }
 
         // 1. Countdown Timer (Target: 2027-01-31 12:00 PM)
