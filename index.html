@@ -2,6 +2,7 @@
 <html lang="zh-TW" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
+    <!-- Strict Mobile Viewport Guard: Prevents auto-zoom coordinate shift on mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>昇廷 & 瑋伶 婚禮邀請函 | Wedding Invitation</title>
     
@@ -15,7 +16,7 @@
     <!-- High-Priority Preload for Hero Banner -->
     <link rel="preload" as="image" href="https://i.postimg.cc/hhFqrq7Y/JUN00091.jpg" fetchpriority="high">
 
-    <!-- Optimized Google Fonts -->
+    <!-- Optimized Google Fonts with font-display: swap -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
     
     <!-- FontAwesome Icons -->
@@ -55,12 +56,12 @@
     </script>
 
     <style>
-        /* Mobile Input Auto-Zoom Guard */
-        input, textarea {
+        /* Mobile Input Auto-Zoom & Touch Area Optimization Guard */
+        input, textarea, select, label, button {
             font-size: 16px !important;
             -webkit-text-size-adjust: 100%;
             touch-action: manipulation;
-            -webkit-tap-highlight-color: rgba(212, 163, 115, 0.2);
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -123,6 +124,7 @@
             animation: spinSlow 8s linear infinite;
         }
 
+        /* Prevent iOS drag & drop while preserving native image save popup */
         #previewImage {
             -webkit-touch-callout: default !important;
             -webkit-user-select: auto !important;
@@ -140,12 +142,12 @@
     <button id="musicToggleBtn" 
             onclick="toggleMusic()" 
             aria-label="Toggle Background Music"
-            class="fixed bottom-6 right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-morandi-gold text-white shadow-glow flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none">
+            class="fixed bottom-6 right-6 z-40 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-morandi-gold text-white shadow-glow flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none">
         <i id="musicIcon" class="fa-solid fa-music text-base sm:text-lg"></i>
     </button>
 
     <!-- Navigation Bar -->
-    <nav class="fixed top-0 left-0 w-full z-50 glass-nav border-b border-morandi-gold/20 transition-all duration-300" id="navbar">
+    <nav class="fixed top-0 left-0 w-full z-40 glass-nav border-b border-morandi-gold/20 transition-all duration-300" id="navbar">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 sm:h-20">
                 <a href="#" class="font-en text-2xl sm:text-3xl font-semibold tracking-wider text-morandi-dark hover:text-morandi-gold transition">
@@ -327,7 +329,7 @@
                 </div>
 
                 <div class="pt-4">
-                    <button id="accordionToggle" class="w-full py-3.5 px-5 rounded-2xl bg-morandi-cream border border-morandi-border text-morandi-dark flex items-center justify-between hover:bg-morandi-sand/50 transition duration-300 focus:outline-none">
+                    <button id="accordionToggle" class="w-full py-3.5 px-5 rounded-2xl bg-morandi-cream border border-morandi-border text-morandi-dark flex items-center justify-between hover:bg-morandi-sand/50 transition duration-300 focus:outline-none cursor-pointer">
                         <span class="text-sm font-medium flex items-center gap-2">
                             <i class="fa-solid fa-bus text-morandi-sage"></i> 交通指引與停車資訊
                         </span>
@@ -374,14 +376,14 @@
     </section>
 
     <!-- RSVP Section -->
-    <section id="rsvp" class="py-24 px-4 bg-morandi-cream relative">
+    <section id="rsvp" class="py-24 px-4 bg-morandi-cream relative z-10">
         <div class="max-w-2xl mx-auto reveal">
             <div class="text-center mb-12">
                 <h2 class="text-3xl sm:text-4xl font-serifTC text-morandi-gold font-medium tracking-wider">出席回函與祝福</h2>
                 <div class="w-12 h-[1px] bg-morandi-gold/50 mx-auto mt-4"></div>
             </div>
 
-            <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-card border border-morandi-border/80">
+            <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-card border border-morandi-border/80 relative">
                 
                 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){onFormSubmitted();}"></iframe>
 
@@ -394,7 +396,7 @@
 
                     <!-- Field 1: Name -->
                     <div>
-                        <label for="entry_name" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                        <label for="entry_name" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                             姓名 <span class="font-en font-normal text-morandi-muted">/ NAME</span> <span class="text-rose-400">*</span>
                         </label>
                         <input type="text" 
@@ -402,12 +404,12 @@
                                name="entry.1160678701" 
                                required 
                                placeholder="請輸入您的姓名" 
-                               class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark">
+                               class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark min-h-[48px]">
                     </div>
 
                     <!-- Field 2: Phone -->
                     <div>
-                        <label for="entry_phone" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                        <label for="entry_phone" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                             電話 <span class="font-en font-normal text-morandi-muted">/ PHONE</span> <span class="text-rose-400">*</span>
                         </label>
                         <input type="tel" 
@@ -415,85 +417,113 @@
                                name="entry.1121277011" 
                                required 
                                placeholder="請輸入您的聯絡電話" 
-                               class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark">
+                               class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark min-h-[48px]">
                     </div>
 
-                    <!-- Field 3: Relationship (Visual Option Cards) -->
+                    <!-- Field 3: Relationship (Direct Touch Overlay Radio Buttons) -->
                     <div>
                         <span class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
                             親友關係 <span class="font-en font-normal text-morandi-muted">/ RELATIONSHIP</span> <span class="text-rose-400">*</span>
                         </span>
                         <div class="grid grid-cols-2 gap-3">
-                            <label class="cursor-pointer">
-                                <input type="radio" name="entry.669993689" value="男方親友" required class="peer sr-only">
-                                <div class="p-3.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-sm sm:text-base font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-2 active:scale-98">
-                                    <i class="fa-regular fa-circle peer-checked:hidden text-morandi-muted text-xs"></i>
-                                    <i class="fa-solid fa-circle-check hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
+                            <div class="relative min-h-[50px]">
+                                <input type="radio" 
+                                       id="rel_male" 
+                                       name="entry.669993689" 
+                                       value="男方親友" 
+                                       required 
+                                       class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                <label for="rel_male" 
+                                       class="w-full h-full p-3.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-sm sm:text-base font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-2 select-none pointer-events-none">
+                                    <i class="fa-regular fa-heart peer-checked:hidden text-morandi-muted text-xs"></i>
+                                    <i class="fa-solid fa-heart hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
                                     <span>男方親友</span>
-                                </div>
-                            </label>
-                            <label class="cursor-pointer">
-                                <input type="radio" name="entry.669993689" value="女方親友" required class="peer sr-only">
-                                <div class="p-3.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-sm sm:text-base font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-2 active:scale-98">
-                                    <i class="fa-regular fa-circle peer-checked:hidden text-morandi-muted text-xs"></i>
-                                    <i class="fa-solid fa-circle-check hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
+                                </label>
+                            </div>
+
+                            <div class="relative min-h-[50px]">
+                                <input type="radio" 
+                                       id="rel_female" 
+                                       name="entry.669993689" 
+                                       value="女方親友" 
+                                       required 
+                                       class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                <label for="rel_female" 
+                                       class="w-full h-full p-3.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-sm sm:text-base font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-2 select-none pointer-events-none">
+                                    <i class="fa-regular fa-heart peer-checked:hidden text-morandi-muted text-xs"></i>
+                                    <i class="fa-solid fa-heart hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
                                     <span>女方親友</span>
-                                </div>
-                            </label>
+                                </label>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Field 4: Attendance (Visual Option Cards) -->
+                    <!-- Field 4: Attendance (Direct Touch Overlay Radio Buttons) -->
                     <div>
                         <span class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
                             出席意願 <span class="font-en font-normal text-morandi-muted">/ ATTENDANCE</span> <span class="text-rose-400">*</span>
                         </span>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <label class="cursor-pointer">
-                                <input type="radio" name="entry.1541676002" value="出席！怎麼能少了我！" required onchange="handleAttendanceChange()" class="peer sr-only">
-                                <div class="p-3.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-sm sm:text-base font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-2 active:scale-98">
-                                    <i class="fa-regular fa-circle peer-checked:hidden text-morandi-muted text-xs"></i>
-                                    <i class="fa-solid fa-circle-check hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
+                            <div class="relative min-h-[50px]">
+                                <input type="radio" 
+                                       id="att_yes" 
+                                       name="entry.1541676002" 
+                                       value="出席！怎麼能少了我！" 
+                                       required 
+                                       onchange="handleAttendanceChange()" 
+                                       class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                <label for="att_yes" 
+                                       class="w-full h-full p-3.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-sm sm:text-base font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-2 select-none pointer-events-none">
+                                    <i class="fa-regular fa-heart peer-checked:hidden text-morandi-muted text-xs"></i>
+                                    <i class="fa-solid fa-heart hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
                                     <span>出席！怎麼能少了我！</span>
-                                </div>
-                            </label>
-                            <label class="cursor-pointer">
-                                <input type="radio" name="entry.1541676002" value="可惜無法出席，送上滿滿祝福～" required onchange="handleAttendanceChange()" class="peer sr-only">
-                                <div class="p-3.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-sm sm:text-base font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-2 active:scale-98">
-                                    <i class="fa-regular fa-circle peer-checked:hidden text-morandi-muted text-xs"></i>
-                                    <i class="fa-solid fa-circle-check hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
+                                </label>
+                            </div>
+
+                            <div class="relative min-h-[50px]">
+                                <input type="radio" 
+                                       id="att_no" 
+                                       name="entry.1541676002" 
+                                       value="可惜無法出席，送上滿滿祝福～" 
+                                       required 
+                                       onchange="handleAttendanceChange()" 
+                                       class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                <label for="att_no" 
+                                       class="w-full h-full p-3.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-sm sm:text-base font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-2 select-none pointer-events-none">
+                                    <i class="fa-regular fa-heart peer-checked:hidden text-morandi-muted text-xs"></i>
+                                    <i class="fa-solid fa-heart hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
                                     <span>可惜無法出席，送上滿滿祝福～</span>
-                                </div>
-                            </label>
+                                </label>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Field 5: Guests Count (Visual Number Pills) -->
+                    <!-- Field 5: Guests Count Pills -->
                     <div id="guestCountGroup" class="hidden transition-all duration-300">
                         <span class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
                             參加午宴人數（含本人） <span class="font-en font-normal text-morandi-muted">/ GUESTS</span> <span class="text-rose-400">*</span>
                         </span>
                         <div class="grid grid-cols-5 gap-2">
-                            <label class="cursor-pointer">
-                                <input type="radio" name="entry.159916419" value="1" checked class="peer sr-only">
-                                <div class="py-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">1</div>
-                            </label>
-                            <label class="cursor-pointer">
-                                <input type="radio" name="entry.159916419" value="2" class="peer sr-only">
-                                <div class="py-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">2</div>
-                            </label>
-                            <label class="cursor-pointer">
-                                <input type="radio" name="entry.159916419" value="3" class="peer sr-only">
-                                <div class="py-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">3</div>
-                            </label>
-                            <label class="cursor-pointer">
-                                <input type="radio" name="entry.159916419" value="4" class="peer sr-only">
-                                <div class="py-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">4</div>
-                            </label>
-                            <label class="cursor-pointer">
-                                <input type="radio" name="entry.159916419" value="5" class="peer sr-only">
-                                <div class="py-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">5</div>
-                            </label>
+                            <div class="relative min-h-[48px]">
+                                <input type="radio" id="gst_1" name="entry.159916419" value="1" checked class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                <label for="gst_1" class="w-full h-full py-3 flex items-center justify-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold select-none pointer-events-none">1</label>
+                            </div>
+                            <div class="relative min-h-[48px]">
+                                <input type="radio" id="gst_2" name="entry.159916419" value="2" class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                <label for="gst_2" class="w-full h-full py-3 flex items-center justify-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold select-none pointer-events-none">2</label>
+                            </div>
+                            <div class="relative min-h-[48px]">
+                                <input type="radio" id="gst_3" name="entry.159916419" value="3" class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                <label for="gst_3" class="w-full h-full py-3 flex items-center justify-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold select-none pointer-events-none">3</label>
+                            </div>
+                            <div class="relative min-h-[48px]">
+                                <input type="radio" id="gst_4" name="entry.159916419" value="4" class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                <label for="gst_4" class="w-full h-full py-3 flex items-center justify-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold select-none pointer-events-none">4</label>
+                            </div>
+                            <div class="relative min-h-[48px]">
+                                <input type="radio" id="gst_5" name="entry.159916419" value="5" class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                <label for="gst_5" class="w-full h-full py-3 flex items-center justify-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold select-none pointer-events-none">5</label>
+                            </div>
                         </div>
                     </div>
 
@@ -505,81 +535,102 @@
                                 若需準備素食需要幾份？ <span class="font-en font-normal text-morandi-muted">/ VEGETARIAN MEALS</span>
                             </span>
                             <div class="grid grid-cols-6 gap-2">
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="entry.756788500" value="0" checked class="peer sr-only">
-                                    <div class="py-2.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">0</div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="entry.756788500" value="1" class="peer sr-only">
-                                    <div class="py-2.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">1</div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="entry.756788500" value="2" class="peer sr-only">
-                                    <div class="py-2.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">2</div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="entry.756788500" value="3" class="peer sr-only">
-                                    <div class="py-2.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">3</div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="entry.756788500" value="4" class="peer sr-only">
-                                    <div class="py-2.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">4</div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="entry.756788500" value="5" class="peer sr-only">
-                                    <div class="py-2.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">5</div>
-                                </label>
+                                <div class="relative min-h-[44px]">
+                                    <input type="radio" id="veg_0" name="entry.756788500" value="0" checked class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                    <label for="veg_0" class="w-full h-full py-2.5 flex items-center justify-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold select-none pointer-events-none">0</label>
+                                </div>
+                                <div class="relative min-h-[44px]">
+                                    <input type="radio" id="veg_1" name="entry.756788500" value="1" class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                    <label for="veg_1" class="w-full h-full py-2.5 flex items-center justify-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold select-none pointer-events-none">1</label>
+                                </div>
+                                <div class="relative min-h-[44px]">
+                                    <input type="radio" id="veg_2" name="entry.756788500" value="2" class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                    <label for="veg_2" class="w-full h-full py-2.5 flex items-center justify-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold select-none pointer-events-none">2</label>
+                                </div>
+                                <div class="relative min-h-[44px]">
+                                    <input type="radio" id="veg_3" name="entry.756788500" value="3" class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                    <label for="veg_3" class="w-full h-full py-2.5 flex items-center justify-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold select-none pointer-events-none">3</label>
+                                </div>
+                                <div class="relative min-h-[44px]">
+                                    <input type="radio" id="veg_4" name="entry.756788500" value="4" class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                    <label for="veg_4" class="w-full h-full py-2.5 flex items-center justify-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold select-none pointer-events-none">4</label>
+                                </div>
+                                <div class="relative min-h-[44px]">
+                                    <input type="radio" id="veg_5" name="entry.756788500" value="5" class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                    <label for="veg_5" class="w-full h-full py-2.5 flex items-center justify-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold select-none pointer-events-none">5</label>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Field 7: Invitation Preferences -->
+                        <!-- Field 7: Invitation Preferences (1. Electronic, 2. Paper, 3. None) -->
                         <div>
                             <span class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
                                 喜帖索取 <span class="font-en font-normal text-morandi-muted">/ INVITATION</span>
                             </span>
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="entry.1164108255" value="我要電子喜帖！" checked onchange="handleInvitationChange()" class="peer sr-only">
-                                    <div class="p-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-xs sm:text-sm font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-1.5 active:scale-98">
-                                        <i class="fa-regular fa-circle peer-checked:hidden text-morandi-muted text-xs"></i>
-                                        <i class="fa-solid fa-circle-check hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
+                                <div class="relative min-h-[48px]">
+                                    <input type="radio" 
+                                           id="inv_elec" 
+                                           name="entry.1164108255" 
+                                           value="我要電子喜帖！" 
+                                           checked 
+                                           onchange="handleInvitationChange()" 
+                                           class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                    <label for="inv_elec" 
+                                           class="w-full h-full p-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-xs sm:text-sm font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-1.5 select-none pointer-events-none">
+                                        <i class="fa-regular fa-heart peer-checked:hidden text-morandi-muted text-xs"></i>
+                                        <i class="fa-solid fa-heart hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
                                         <span>我要電子喜帖！</span>
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="entry.1164108255" value="我要紙本喜帖！" onchange="handleInvitationChange()" class="peer sr-only">
-                                    <div class="p-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-xs sm:text-sm font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-1.5 active:scale-98">
-                                        <i class="fa-regular fa-circle peer-checked:hidden text-morandi-muted text-xs"></i>
-                                        <i class="fa-solid fa-circle-check hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
+                                    </label>
+                                </div>
+
+                                <div class="relative min-h-[48px]">
+                                    <input type="radio" 
+                                           id="inv_paper" 
+                                           name="entry.1164108255" 
+                                           value="我要紙本喜帖！" 
+                                           onchange="handleInvitationChange()" 
+                                           class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                    <label for="inv_paper" 
+                                           class="w-full h-full p-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-xs sm:text-sm font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-1.5 select-none pointer-events-none">
+                                        <i class="fa-regular fa-heart peer-checked:hidden text-morandi-muted text-xs"></i>
+                                        <i class="fa-solid fa-heart hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
                                         <span>我要紙本喜帖！</span>
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="entry.1164108255" value="我不用喜帖～" onchange="handleInvitationChange()" class="peer sr-only">
-                                    <div class="p-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-xs sm:text-sm font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-1.5 active:scale-98">
-                                        <i class="fa-regular fa-circle peer-checked:hidden text-morandi-muted text-xs"></i>
-                                        <i class="fa-solid fa-circle-check hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
+                                    </label>
+                                </div>
+
+                                <div class="relative min-h-[48px]">
+                                    <input type="radio" 
+                                           id="inv_none" 
+                                           name="entry.1164108255" 
+                                           value="我不用喜帖～" 
+                                           onchange="handleInvitationChange()" 
+                                           class="peer absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer">
+                                    <label for="inv_none" 
+                                           class="w-full h-full p-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-xs sm:text-sm font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-1.5 select-none pointer-events-none">
+                                        <i class="fa-regular fa-heart peer-checked:hidden text-morandi-muted text-xs"></i>
+                                        <i class="fa-solid fa-heart hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
                                         <span>我不用喜帖～</span>
-                                    </div>
-                                </label>
+                                    </label>
+                                </div>
                             </div>
                         </div>
 
                         <!-- Field 8: Paper Address -->
                         <div id="addressGroup" class="hidden transition-all duration-300">
-                            <label for="entry_address" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                            <label for="entry_address" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                                 紙本喜帖寄件地址（記得加上郵遞區號喔） <span class="font-en font-normal text-morandi-muted">/ MAILING ADDRESS</span> <span class="text-rose-400">*</span>
                             </label>
                             <input type="text"
                                    id="entry_address"
                                    name="entry.707135055"
                                    placeholder="請輸入喜帖寄送地址"
-                                   class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark">
+                                   class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark min-h-[48px]">
                         </div>
 
                         <!-- Field 9: Electronic Email -->
                         <div id="emailGroup" class="hidden transition-all duration-300">
-                            <label for="entry_email" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                            <label for="entry_email" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                                 電子喜帖寄件信箱 <span class="font-en font-normal text-morandi-muted">/ EMAIL ADDRESS</span> <span class="text-rose-400">*</span>
                             </label>
                             <input type="email"
@@ -588,13 +639,13 @@
                                    placeholder="請輸入您的 Email 信箱（例：name@example.com）"
                                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                                    title="請填寫格式正確的 Email 信箱"
-                                   class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark">
+                                   class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark min-h-[48px]">
                         </div>
                     </div>
 
                     <!-- Field 10: Blessings -->
                     <div>
-                        <label for="entry_blessings" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                        <label for="entry_blessings" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
                             對新人的祝福 <span class="font-en font-normal text-morandi-muted">/ BLESSINGS</span>
                         </label>
                         <textarea id="entry_blessings" 
@@ -608,7 +659,7 @@
                     <div class="pt-4">
                         <button type="submit" 
                                 id="submitBtn" 
-                                class="w-full py-4 rounded-full bg-morandi-gold text-white font-medium text-sm tracking-widest hover:bg-[#c29263] transition duration-300 shadow-md focus:outline-none flex items-center justify-center space-x-2 cursor-pointer">
+                                class="w-full py-4 rounded-full bg-morandi-gold text-white font-medium text-sm tracking-widest hover:bg-[#c29263] transition duration-300 shadow-md focus:outline-none flex items-center justify-center space-x-2 cursor-pointer min-h-[50px]">
                             <span>送出回函 SUBMIT</span>
                             <i class="fa-solid fa-paper-plane text-xs"></i>
                         </button>
@@ -619,8 +670,8 @@
         </div>
     </section>
 
-    <!-- Custom Modal Feedback Box -->
-    <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+    <!-- Custom Modal Feedback Box (-z-50 hidden when inactive to avoid touch blockage) -->
+    <div id="successModal" class="hidden fixed inset-0 -z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="bg-white rounded-3xl p-8 max-w-sm w-full text-center space-y-6 shadow-2xl transform scale-90 transition-transform duration-300" id="modalCard">
             <div class="w-16 h-16 rounded-full bg-morandi-sage/20 text-morandi-sage flex items-center justify-center mx-auto text-2xl">
                 <i class="fa-solid fa-heart"></i>
@@ -644,8 +695,8 @@
         </div>
     </div>
 
-    <!-- Mobile-Friendly Image Preview Modal -->
-    <div id="imagePreviewModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+    <!-- Mobile-Friendly Image Preview Modal (-z-50 hidden when inactive) -->
+    <div id="imagePreviewModal" class="hidden fixed inset-0 -z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="bg-white rounded-3xl p-5 sm:p-6 max-w-md w-full text-center space-y-4 shadow-2xl transform scale-90 transition-transform duration-300 max-h-[90vh] flex flex-col" id="previewModalCard">
             <div class="flex items-center justify-between pb-2 border-b border-morandi-border/60">
                 <h3 class="text-base font-serifTC font-bold text-morandi-dark flex items-center gap-2">
@@ -889,7 +940,7 @@
 
                     const invChecked = document.querySelector('input[name="entry.1164108255"]:checked');
                     if (!invChecked || invChecked.value === '我不用喜帖～') {
-                        const elecOpt = document.querySelector('input[name="entry.1164108255"][value="我要電子喜帖！"]');
+                        const elecOpt = document.getElementById('inv_elec');
                         if (elecOpt) elecOpt.checked = true;
                     }
                     handleInvitationChange();
@@ -900,7 +951,7 @@
                     if (dynamicFields) dynamicFields.classList.add('hidden');
                     vegRadios.forEach(r => r.disabled = true);
 
-                    const noneOpt = document.querySelector('input[name="entry.1164108255"][value="我不用喜帖～"]');
+                    const noneOpt = document.getElementById('inv_none');
                     if (noneOpt) noneOpt.checked = true;
 
                     handleInvitationChange();
@@ -966,13 +1017,14 @@
             });
         });
 
-        // 6. Modal Functions
+        // 6. Modal Functions (With z-index and hidden class management)
         function onFormSubmitted() {
             const modal = document.getElementById('successModal');
             const modalCard = document.getElementById('modalCard');
 
             if (modal && modalCard) {
-                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modal.classList.remove('hidden', '-z-50', 'opacity-0', 'pointer-events-none');
+                modal.classList.add('z-50', 'opacity-100');
                 modalCard.classList.remove('scale-90');
                 modalCard.classList.add('scale-100');
             }
@@ -990,6 +1042,10 @@
                 modalCard.classList.remove('scale-100');
                 modalCard.classList.add('scale-90');
                 modal.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    modal.classList.remove('z-50', 'opacity-100');
+                    modal.classList.add('hidden', '-z-50');
+                }, 300);
             }
         }
 
@@ -997,7 +1053,13 @@
             const modal = document.getElementById('imagePreviewModal');
             const modalCard = document.getElementById('previewModalCard');
             if (modalCard) modalCard.classList.remove('scale-100'), modalCard.classList.add('scale-90');
-            if (modal) modal.classList.add('opacity-0', 'pointer-events-none');
+            if (modal) {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    modal.classList.remove('z-50', 'opacity-100');
+                    modal.classList.add('hidden', '-z-50');
+                }, 300);
+            }
         }
 
         function showImagePreviewModal(jpgDataUrl, fileName) {
@@ -1009,7 +1071,8 @@
             if (previewImage) previewImage.src = jpgDataUrl;
 
             if (modal && modalCard) {
-                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modal.classList.remove('hidden', '-z-50', 'opacity-0', 'pointer-events-none');
+                modal.classList.add('z-50', 'opacity-100');
                 modalCard.classList.remove('scale-90');
                 modalCard.classList.add('scale-100');
             }
