@@ -2,7 +2,6 @@
 <html lang="zh-TW" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <!-- Google Forms Style Mobile Viewport Protection: Prevents iOS Auto-Zoom Glitch -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>昇廷 & 瑋伶 婚禮邀請函 | Wedding Invitation</title>
     
@@ -16,7 +15,7 @@
     <!-- High-Priority Preload for Hero Banner -->
     <link rel="preload" as="image" href="https://i.postimg.cc/hhFqrq7Y/JUN00091.jpg" fetchpriority="high">
 
-    <!-- Optimized Google Fonts with font-display: swap -->
+    <!-- Optimized Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
     
     <!-- FontAwesome Icons -->
@@ -56,11 +55,11 @@
     </script>
 
     <style>
-        /* Google Forms Native iOS Mobile Parameters */
-        input, select, textarea {
-            font-size: 16px !important; /* Minimum 16px prevents iOS Safari Auto-Zoom Viewport shifting */
+        /* Mobile Input Auto-Zoom Guard */
+        input, textarea {
+            font-size: 16px !important;
             -webkit-text-size-adjust: 100%;
-            touch-action: manipulation; /* Disables double-tap zoom delay */
+            touch-action: manipulation;
             -webkit-tap-highlight-color: rgba(212, 163, 115, 0.2);
         }
 
@@ -395,7 +394,7 @@
 
                     <!-- Field 1: Name -->
                     <div>
-                        <label for="entry_name" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
+                        <label for="entry_name" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
                             姓名 <span class="font-en font-normal text-morandi-muted">/ NAME</span> <span class="text-rose-400">*</span>
                         </label>
                         <input type="text" 
@@ -408,7 +407,7 @@
 
                     <!-- Field 2: Phone -->
                     <div>
-                        <label for="entry_phone" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
+                        <label for="entry_phone" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
                             電話 <span class="font-en font-normal text-morandi-muted">/ PHONE</span> <span class="text-rose-400">*</span>
                         </label>
                         <input type="tel" 
@@ -419,65 +418,82 @@
                                class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark">
                     </div>
 
-                    <!-- Field 3: Relationship (Google Forms Style Native Select binding) -->
+                    <!-- Field 3: Relationship (Visual Option Cards) -->
                     <div>
-                        <label for="entry_relationship" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
+                        <span class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
                             親友關係 <span class="font-en font-normal text-morandi-muted">/ RELATIONSHIP</span> <span class="text-rose-400">*</span>
-                        </label>
-                        <div class="relative">
-                            <select id="entry_relationship" 
-                                    name="entry.669993689" 
-                                    required 
-                                    class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
-                                <option value="" disabled selected>請選擇您與新人的關係</option>
-                                <option value="男方親友">男方親友</option>
-                                <option value="女方親友">女方親友</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-morandi-muted">
-                                <i class="fa-solid fa-chevron-down text-xs"></i>
-                            </div>
+                        </span>
+                        <div class="grid grid-cols-2 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="entry.669993689" value="男方親友" required class="peer sr-only">
+                                <div class="p-3.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-sm sm:text-base font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-2 active:scale-98">
+                                    <i class="fa-regular fa-circle peer-checked:hidden text-morandi-muted text-xs"></i>
+                                    <i class="fa-solid fa-circle-check hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
+                                    <span>男方親友</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="entry.669993689" value="女方親友" required class="peer sr-only">
+                                <div class="p-3.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-sm sm:text-base font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-2 active:scale-98">
+                                    <i class="fa-regular fa-circle peer-checked:hidden text-morandi-muted text-xs"></i>
+                                    <i class="fa-solid fa-circle-check hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
+                                    <span>女方親友</span>
+                                </div>
+                            </label>
                         </div>
                     </div>
 
-                    <!-- Field 4: Attendance -->
+                    <!-- Field 4: Attendance (Visual Option Cards) -->
                     <div>
-                        <label for="entry_attendance" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
+                        <span class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
                             出席意願 <span class="font-en font-normal text-morandi-muted">/ ATTENDANCE</span> <span class="text-rose-400">*</span>
-                        </label>
-                        <div class="relative">
-                            <select id="entry_attendance" 
-                                    name="entry.1541676002" 
-                                    required 
-                                    onchange="handleAttendanceChange()"
-                                    class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
-                                <option value="" disabled selected>請選擇您的出席狀態</option>
-                                <option value="出席！怎麼能少了我！">出席！怎麼能少了我！</option>
-                                <option value="可惜無法出席，送上滿滿祝福～">可惜無法出席，送上滿滿祝福～</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-morandi-muted">
-                                <i class="fa-solid fa-chevron-down text-xs"></i>
-                            </div>
+                        </span>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="entry.1541676002" value="出席！怎麼能少了我！" required onchange="handleAttendanceChange()" class="peer sr-only">
+                                <div class="p-3.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-sm sm:text-base font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-2 active:scale-98">
+                                    <i class="fa-regular fa-circle peer-checked:hidden text-morandi-muted text-xs"></i>
+                                    <i class="fa-solid fa-circle-check hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
+                                    <span>出席！怎麼能少了我！</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="entry.1541676002" value="可惜無法出席，送上滿滿祝福～" required onchange="handleAttendanceChange()" class="peer sr-only">
+                                <div class="p-3.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-sm sm:text-base font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-2 active:scale-98">
+                                    <i class="fa-regular fa-circle peer-checked:hidden text-morandi-muted text-xs"></i>
+                                    <i class="fa-solid fa-circle-check hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
+                                    <span>可惜無法出席，送上滿滿祝福～</span>
+                                </div>
+                            </label>
                         </div>
                     </div>
 
-                    <!-- Field 5: Guests Count -->
+                    <!-- Field 5: Guests Count (Visual Number Pills) -->
                     <div id="guestCountGroup" class="hidden transition-all duration-300">
-                        <label for="entry_guests" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
+                        <span class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
                             參加午宴人數（含本人） <span class="font-en font-normal text-morandi-muted">/ GUESTS</span> <span class="text-rose-400">*</span>
-                        </label>
-                        <div class="relative">
-                            <select id="entry_guests" 
-                                    name="entry.159916419" 
-                                    class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
-                                <option value="1" selected>1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-morandi-muted">
-                                <i class="fa-solid fa-chevron-down text-xs"></i>
-                            </div>
+                        </span>
+                        <div class="grid grid-cols-5 gap-2">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="entry.159916419" value="1" checked class="peer sr-only">
+                                <div class="py-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">1</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="entry.159916419" value="2" class="peer sr-only">
+                                <div class="py-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">2</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="entry.159916419" value="3" class="peer sr-only">
+                                <div class="py-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">3</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="entry.159916419" value="4" class="peer sr-only">
+                                <div class="py-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">4</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="entry.159916419" value="5" class="peer sr-only">
+                                <div class="py-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">5</div>
+                            </label>
                         </div>
                     </div>
 
@@ -485,49 +501,73 @@
                     <div id="dynamicFields" class="space-y-6 hidden border-t border-b border-morandi-border/60 py-6 my-2 transition-all duration-300">
                         <!-- Field 6: Vegetarian Meals -->
                         <div>
-                            <label for="entry_special" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
+                            <span class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
                                 若需準備素食需要幾份？ <span class="font-en font-normal text-morandi-muted">/ VEGETARIAN MEALS</span>
-                            </label>
-                            <div class="relative">
-                                <select id="entry_special"
-                                        name="entry.756788500"
-                                        class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
-                                    <option value="0" selected>0（不需要）</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-morandi-muted">
-                                    <i class="fa-solid fa-chevron-down text-xs"></i>
-                                </div>
+                            </span>
+                            <div class="grid grid-cols-6 gap-2">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="entry.756788500" value="0" checked class="peer sr-only">
+                                    <div class="py-2.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">0</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="entry.756788500" value="1" class="peer sr-only">
+                                    <div class="py-2.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">1</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="entry.756788500" value="2" class="peer sr-only">
+                                    <div class="py-2.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">2</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="entry.756788500" value="3" class="peer sr-only">
+                                    <div class="py-2.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">3</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="entry.756788500" value="4" class="peer sr-only">
+                                    <div class="py-2.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">4</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="entry.756788500" value="5" class="peer sr-only">
+                                    <div class="py-2.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark font-medium text-sm transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold peer-checked:text-white peer-checked:font-bold active:scale-95">5</div>
+                                </label>
                             </div>
                         </div>
 
                         <!-- Field 7: Invitation Preferences -->
                         <div>
-                            <label for="entry_invitation" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
+                            <span class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
                                 喜帖索取 <span class="font-en font-normal text-morandi-muted">/ INVITATION</span>
-                            </label>
-                            <div class="relative">
-                                <select id="entry_invitation"
-                                        name="entry.1164108255"
-                                        onchange="handleInvitationChange()"
-                                        class="w-full block px-4 py-3.5 pr-10 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark appearance-none cursor-pointer">
-                                    <option value="我要電子喜帖！" selected>我要電子喜帖！</option>
-                                    <option value="我要紙本喜帖！">我要紙本喜帖！</option>
-                                    <option value="我不用喜帖～">我不用喜帖～</option>
-                                </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-morandi-muted">
-                                    <i class="fa-solid fa-chevron-down text-xs"></i>
-                                </div>
+                            </span>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="entry.1164108255" value="我要電子喜帖！" checked onchange="handleInvitationChange()" class="peer sr-only">
+                                    <div class="p-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-xs sm:text-sm font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-1.5 active:scale-98">
+                                        <i class="fa-regular fa-circle peer-checked:hidden text-morandi-muted text-xs"></i>
+                                        <i class="fa-solid fa-circle-check hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
+                                        <span>我要電子喜帖！</span>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="entry.1164108255" value="我要紙本喜帖！" onchange="handleInvitationChange()" class="peer sr-only">
+                                    <div class="p-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-xs sm:text-sm font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-1.5 active:scale-98">
+                                        <i class="fa-regular fa-circle peer-checked:hidden text-morandi-muted text-xs"></i>
+                                        <i class="fa-solid fa-circle-check hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
+                                        <span>我要紙本喜帖！</span>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="entry.1164108255" value="我不用喜帖～" onchange="handleInvitationChange()" class="peer sr-only">
+                                    <div class="p-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-xs sm:text-sm font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-1.5 active:scale-98">
+                                        <i class="fa-regular fa-circle peer-checked:hidden text-morandi-muted text-xs"></i>
+                                        <i class="fa-solid fa-circle-check hidden peer-checked:inline-block text-morandi-gold text-xs"></i>
+                                        <span>我不用喜帖～</span>
+                                    </div>
+                                </label>
                             </div>
                         </div>
 
                         <!-- Field 8: Paper Address -->
                         <div id="addressGroup" class="hidden transition-all duration-300">
-                            <label for="entry_address" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
+                            <label for="entry_address" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
                                 紙本喜帖寄件地址（記得加上郵遞區號喔） <span class="font-en font-normal text-morandi-muted">/ MAILING ADDRESS</span> <span class="text-rose-400">*</span>
                             </label>
                             <input type="text"
@@ -539,7 +579,7 @@
 
                         <!-- Field 9: Electronic Email -->
                         <div id="emailGroup" class="hidden transition-all duration-300">
-                            <label for="entry_email" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
+                            <label for="entry_email" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
                                 電子喜帖寄件信箱 <span class="font-en font-normal text-morandi-muted">/ EMAIL ADDRESS</span> <span class="text-rose-400">*</span>
                             </label>
                             <input type="email"
@@ -554,7 +594,7 @@
 
                     <!-- Field 10: Blessings -->
                     <div>
-                        <label for="entry_blessings" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
+                        <label for="entry_blessings" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
                             對新人的祝福 <span class="font-en font-normal text-morandi-muted">/ BLESSINGS</span>
                         </label>
                         <textarea id="entry_blessings" 
@@ -755,17 +795,23 @@
             }
         }
 
-        // 3. Form Data Capture
+        // 3. Form Data Capture (Adapted for Radio Inputs)
         function captureFormData() {
             try {
+                const relEl = document.querySelector('input[name="entry.669993689"]:checked');
+                const attEl = document.querySelector('input[name="entry.1541676002"]:checked');
+                const gstEl = document.querySelector('input[name="entry.159916419"]:checked');
+                const vegEl = document.querySelector('input[name="entry.756788500"]:checked');
+                const invEl = document.querySelector('input[name="entry.1164108255"]:checked');
+
                 lastSubmittedData = {
                     name: document.getElementById('entry_name').value || '',
                     phone: document.getElementById('entry_phone').value || '',
-                    relationship: document.getElementById('entry_relationship').value || '',
-                    attendance: document.getElementById('entry_attendance').value || '',
-                    guests: document.getElementById('entry_guests').value || '1',
-                    special: document.getElementById('entry_special').value || '0',
-                    invitation: document.getElementById('entry_invitation').value || '',
+                    relationship: relEl ? relEl.value : '',
+                    attendance: attEl ? attEl.value : '',
+                    guests: gstEl ? gstEl.value : '1',
+                    special: vegEl ? vegEl.value : '0',
+                    invitation: invEl ? invEl.value : '',
                     address: document.getElementById('entry_address').value || '',
                     email: document.getElementById('entry_email').value || '',
                     blessings: document.getElementById('entry_blessings').value || ''
@@ -775,55 +821,47 @@
             }
         }
 
-        // 4. Form Interactivity & Dynamic Field Logic
+        // 4. Form Interactivity & Dynamic Field Logic (Radio Inputs)
         function handleInvitationChange() {
             try {
-                const invSelect = document.getElementById('entry_invitation');
+                const invRadio = document.querySelector('input[name="entry.1164108255"]:checked');
                 const addressGroup = document.getElementById('addressGroup');
                 const addressInput = document.getElementById('entry_address');
                 const emailGroup = document.getElementById('emailGroup');
                 const emailInput = document.getElementById('entry_email');
-                const attendanceSelect = document.getElementById('entry_attendance');
+                const attendanceRadio = document.querySelector('input[name="entry.1541676002"]:checked');
 
-                const isAttending = attendanceSelect && attendanceSelect.value.includes('出席！');
+                const isAttending = attendanceRadio && attendanceRadio.value.includes('出席！');
 
                 if (!isAttending) {
-                    addressGroup.classList.add('hidden');
-                    addressInput.disabled = true;
-                    addressInput.required = false;
+                    if (addressGroup) addressGroup.classList.add('hidden');
+                    if (addressInput) { addressInput.disabled = true; addressInput.required = false; }
 
-                    emailGroup.classList.add('hidden');
-                    emailInput.disabled = true;
-                    emailInput.required = false;
+                    if (emailGroup) emailGroup.classList.add('hidden');
+                    if (emailInput) { emailInput.disabled = true; emailInput.required = false; }
                     return;
                 }
 
-                const val = invSelect ? invSelect.value : '';
+                const val = invRadio ? invRadio.value : '';
 
                 if (val === '我要紙本喜帖！') {
-                    addressGroup.classList.remove('hidden');
-                    addressInput.disabled = false;
-                    addressInput.required = true;
+                    if (addressGroup) addressGroup.classList.remove('hidden');
+                    if (addressInput) { addressInput.disabled = false; addressInput.required = true; }
 
-                    emailGroup.classList.add('hidden');
-                    emailInput.disabled = true;
-                    emailInput.required = false;
+                    if (emailGroup) emailGroup.classList.add('hidden');
+                    if (emailInput) { emailInput.disabled = true; emailInput.required = false; }
                 } else if (val === '我要電子喜帖！') {
-                    emailGroup.classList.remove('hidden');
-                    emailInput.disabled = false;
-                    emailInput.required = true;
+                    if (emailGroup) emailGroup.classList.remove('hidden');
+                    if (emailInput) { emailInput.disabled = false; emailInput.required = true; }
 
-                    addressGroup.classList.add('hidden');
-                    addressInput.disabled = true;
-                    addressInput.required = false;
+                    if (addressGroup) addressGroup.classList.add('hidden');
+                    if (addressInput) { addressInput.disabled = true; addressInput.required = false; }
                 } else {
-                    addressGroup.classList.add('hidden');
-                    addressInput.disabled = true;
-                    addressInput.required = false;
+                    if (addressGroup) addressGroup.classList.add('hidden');
+                    if (addressInput) { addressInput.disabled = true; addressInput.required = false; }
 
-                    emailGroup.classList.add('hidden');
-                    emailInput.disabled = true;
-                    emailInput.required = false;
+                    if (emailGroup) emailGroup.classList.add('hidden');
+                    if (emailInput) { emailInput.disabled = true; emailInput.required = false; }
                 }
             } catch (e) {
                 console.log('Handle invitation change error:', e);
@@ -832,40 +870,39 @@
 
         function handleAttendanceChange() {
             try {
-                const attendanceSelect = document.getElementById('entry_attendance');
+                const attendanceRadio = document.querySelector('input[name="entry.1541676002"]:checked');
                 const guestCountGroup = document.getElementById('guestCountGroup');
-                const guestSelect = document.getElementById('entry_guests');
-                const vegSelect = document.getElementById('entry_special');
-                const invSelect = document.getElementById('entry_invitation');
                 const dynamicFields = document.getElementById('dynamicFields');
-                
-                if (attendanceSelect && attendanceSelect.value.includes('出席！')) {
-                    guestCountGroup.classList.remove('hidden');
-                    guestSelect.disabled = false;
-                    guestSelect.required = true;
+                const isAttending = attendanceRadio && attendanceRadio.value.includes('出席！');
 
-                    dynamicFields.classList.remove('hidden');
-                    if (vegSelect) vegSelect.disabled = false;
-                    if (invSelect) {
-                        invSelect.disabled = false;
-                        if (!invSelect.value || invSelect.value === '我不用喜帖～') {
-                            invSelect.value = '我要電子喜帖！';
-                        }
+                const guestRadios = document.querySelectorAll('input[name="entry.159916419"]');
+                const vegRadios = document.querySelectorAll('input[name="entry.756788500"]');
+                const invRadios = document.querySelectorAll('input[name="entry.1164108255"]');
+
+                if (isAttending) {
+                    if (guestCountGroup) guestCountGroup.classList.remove('hidden');
+                    guestRadios.forEach(r => r.disabled = false);
+
+                    if (dynamicFields) dynamicFields.classList.remove('hidden');
+                    vegRadios.forEach(r => r.disabled = false);
+                    invRadios.forEach(r => r.disabled = false);
+
+                    const invChecked = document.querySelector('input[name="entry.1164108255"]:checked');
+                    if (!invChecked || invChecked.value === '我不用喜帖～') {
+                        const elecOpt = document.querySelector('input[name="entry.1164108255"][value="我要電子喜帖！"]');
+                        if (elecOpt) elecOpt.checked = true;
                     }
                     handleInvitationChange();
                 } else {
                     if (guestCountGroup) guestCountGroup.classList.add('hidden');
-                    if (guestSelect) {
-                        guestSelect.disabled = true;
-                        guestSelect.required = false;
-                    }
+                    guestRadios.forEach(r => r.disabled = true);
 
                     if (dynamicFields) dynamicFields.classList.add('hidden');
-                    if (vegSelect) vegSelect.disabled = true;
-                    if (invSelect) {
-                        invSelect.value = '我不用喜帖～';
-                        invSelect.disabled = false;
-                    }
+                    vegRadios.forEach(r => r.disabled = true);
+
+                    const noneOpt = document.querySelector('input[name="entry.1164108255"][value="我不用喜帖～"]');
+                    if (noneOpt) noneOpt.checked = true;
+
                     handleInvitationChange();
                 }
             } catch (e) {
