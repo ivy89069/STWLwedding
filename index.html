@@ -427,7 +427,7 @@
                                class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark min-h-[48px]">
                     </div>
 
-                    <!-- Field 3: Relationship -->
+                    <!-- Field 3: Relationship (Direct Touch Overlay Radio Buttons) -->
                     <div>
                         <span class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
                             親友關係 <span class="font-en font-normal text-morandi-muted">/ RELATIONSHIP</span> <span class="text-rose-400">*</span>
@@ -465,7 +465,7 @@
                         </div>
                     </div>
 
-                    <!-- Field 4: Attendance -->
+                    <!-- Field 4: Attendance (Direct Touch Overlay Radio Buttons) -->
                     <div>
                         <span class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
                             出席意願 <span class="font-en font-normal text-morandi-muted">/ ATTENDANCE</span> <span class="text-rose-400">*</span>
@@ -678,7 +678,7 @@
     </section>
 
     <!-- Custom Modal Feedback Box -->
-    <div id="successModal" class="hidden fixed inset-0 -z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 z-50">
+    <div id="successModal" class="hidden fixed inset-0 -z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="bg-white rounded-3xl p-8 max-w-sm w-full text-center space-y-6 shadow-2xl transform scale-90 transition-transform duration-300" id="modalCard">
             <div class="w-16 h-16 rounded-full bg-morandi-sage/20 text-morandi-sage flex items-center justify-center mx-auto text-2xl">
                 <i class="fa-solid fa-heart"></i>
@@ -702,33 +702,8 @@
         </div>
     </div>
 
-    <!-- External Browser Choice Prompt Modal -->
-    <div id="externalBrowserModal" class="hidden fixed inset-0 -z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 z-50">
-        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center space-y-5 shadow-2xl transform scale-90 transition-transform duration-300" id="externalModalCard">
-            <div class="w-14 h-14 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto text-2xl">
-                <i class="fa-solid fa-compass"></i>
-            </div>
-            <div>
-                <h3 class="text-xl font-serifTC font-bold text-morandi-dark">建議使用外部瀏覽器開啟</h3>
-                <p class="text-xs sm:text-sm text-morandi-muted mt-2 leading-relaxed">
-                    偵測到您正在使用 LINE 內建瀏覽器。<br />
-                    轉跳至外部瀏覽器（Safari / Chrome）後，將會自動為您開啟並下載完整的出席回函卡片！
-                </p>
-            </div>
-
-            <div class="pt-2 space-y-2 border-t border-morandi-border/60">
-                <button onclick="confirmExternalBrowser()" class="w-full py-3 rounded-full bg-morandi-gold text-white text-xs sm:text-sm font-medium tracking-widest hover:bg-[#c29263] transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
-                    <i class="fa-solid fa-globe"></i> 🌐 用外部瀏覽器開啟下載
-                </button>
-                <button onclick="proceedInAppDownload()" class="w-full py-2.5 rounded-full border border-morandi-border text-morandi-muted text-xs font-medium tracking-widest hover:bg-morandi-sand/30 transition cursor-pointer">
-                    📱 留在本頁繼續預覽
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Mobile-Friendly Image Preview Modal -->
-    <div id="imagePreviewModal" class="hidden fixed inset-0 -z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 z-50">
+    <div id="imagePreviewModal" class="hidden fixed inset-0 -z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="bg-white rounded-3xl p-5 sm:p-6 max-w-md w-full text-center space-y-4 shadow-2xl transform scale-90 transition-transform duration-300 max-h-[90vh] flex flex-col" id="previewModalCard">
             <div class="flex items-center justify-between pb-2 border-b border-morandi-border/60">
                 <h3 class="text-base font-serifTC font-bold text-morandi-dark flex items-center gap-2">
@@ -904,7 +879,7 @@
             }
         }
 
-        // 4. Form Interactivity & Dynamic Field Logic
+        // 4. Form Interactivity & Dynamic Field Logic (Radio Inputs)
         function handleInvitationChange() {
             try {
                 const invRadio = document.querySelector('input[name="entry.1164108255"]:checked');
@@ -993,100 +968,7 @@
             }
         }
 
-        // 5. In-App Browser (LINE / FB) Detection & Seamless External Switching
-        function isInAppBrowser() {
-            const ua = navigator.userAgent || navigator.vendor || window.opera;
-            return (ua.indexOf("LINE") > -1) || (ua.indexOf("Line") > -1) || (ua.indexOf("FBNav") > -1) || (ua.indexOf("Instagram") > -1) || (ua.indexOf("FB_IAB") > -1);
-        }
-
-        function downloadJPG() {
-            closeModal();
-            if (isInAppBrowser()) {
-                showExternalBrowserModal();
-            } else {
-                renderAndShowCard();
-            }
-        }
-
-        function confirmExternalBrowser() {
-            closeExternalBrowserModal();
-            if (!lastSubmittedData) return;
-            try {
-                const cardDataStr = encodeURIComponent(JSON.stringify(lastSubmittedData));
-                const url = new URL(window.location.href);
-                url.searchParams.set('openExternalBrowser', '1');
-                url.searchParams.set('cardData', cardDataStr);
-                window.location.href = url.toString();
-            } catch (e) {
-                console.error('External browser redirect error:', e);
-                proceedInAppDownload();
-            }
-        }
-
-        function proceedInAppDownload() {
-            closeExternalBrowserModal();
-            renderAndShowCard();
-        }
-
-        function showExternalBrowserModal() {
-            const modal = document.getElementById('externalBrowserModal');
-            const modalCard = document.getElementById('externalModalCard');
-            if (modal && modalCard) {
-                modal.classList.remove('hidden', '-z-50', 'opacity-0', 'pointer-events-none');
-                modal.classList.add('z-50', 'opacity-100');
-                modalCard.classList.remove('scale-90');
-                modalCard.classList.add('scale-100');
-            }
-        }
-
-        function closeExternalBrowserModal() {
-            const modal = document.getElementById('externalBrowserModal');
-            const modalCard = document.getElementById('externalModalCard');
-            if (modalCard) {
-                modalCard.classList.remove('scale-100');
-                modalCard.classList.add('scale-90');
-            }
-            if (modal) {
-                modal.classList.add('opacity-0', 'pointer-events-none');
-                setTimeout(() => {
-                    modal.classList.remove('z-50', 'opacity-100');
-                    modal.classList.add('hidden', '-z-50');
-                }, 300);
-            }
-        }
-
-        function checkUrlCardData() {
-            try {
-                const urlParams = new URLSearchParams(window.location.search);
-                let cardDataRaw = urlParams.get('cardData');
-                
-                if (!cardDataRaw) {
-                    const hash = window.location.hash;
-                    if (hash && hash.includes('card=')) {
-                        cardDataRaw = hash.substring(hash.indexOf('card=') + 5);
-                    }
-                }
-
-                if (cardDataRaw) {
-                    const jsonStr = decodeURIComponent(cardDataRaw);
-                    const data = JSON.parse(jsonStr);
-                    if (data && data.name) {
-                        lastSubmittedData = data;
-                        if (window.history && window.history.replaceState) {
-                            const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-                            window.history.replaceState({path: cleanUrl}, '', cleanUrl);
-                        }
-                        setTimeout(() => {
-                            renderAndShowCard();
-                        }, 500);
-                    }
-                }
-            } catch(e) {
-                console.warn('URL card data restore error:', e);
-            }
-        }
-
-        // 6. DOM Ready & Event Setup
+        // 5. DOM Ready & Event Setup
         document.addEventListener('DOMContentLoaded', function() {
             // High-Performance IntersectionObserver for Reveal Animations
             const revealElements = document.querySelectorAll('.reveal');
@@ -1135,7 +1017,6 @@
             }
 
             handleAttendanceChange();
-            checkUrlCardData();
 
             // Prefetch card photo after page load
             window.addEventListener('load', () => {
@@ -1143,7 +1024,7 @@
             });
         });
 
-        // 7. Modal Functions
+        // 6. Modal Functions (With z-index and hidden class management)
         function onFormSubmitted() {
             const modal = document.getElementById('successModal');
             const modalCard = document.getElementById('modalCard');
@@ -1204,8 +1085,8 @@
             }
         }
 
-        // 8. High-Resolution Sharp Canvas JPG Card Generator
-        function renderAndShowCard() {
+        // 7. High-Resolution Sharp Canvas JPG Card Generator
+        function downloadJPG() {
             if (!lastSubmittedData) return;
 
             const photoImg = getCardPhoto();
@@ -1410,6 +1291,8 @@
                 const fileName = `昇廷與瑋伶婚禮出席回函_${lastSubmittedData.name || '確認卡'}.jpg`;
                 currentJpgDataUrl = jpgDataUrl;
 
+                openImageInNewTab(jpgDataUrl);
+
                 try {
                     const downloadLink = document.createElement('a');
                     downloadLink.download = fileName;
@@ -1433,7 +1316,7 @@
             }
         }
 
-        // 9. Background Music Controller (YouTube Iframe API)
+        // 8. Background Music Controller (YouTube Iframe API)
         var player;
         var isPlaying = false;
         var playerReady = false;
