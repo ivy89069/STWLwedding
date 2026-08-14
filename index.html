@@ -746,6 +746,12 @@
         var lastSubmittedData = null;
         var currentJpgDataUrl = null;
 
+        // Detect iOS or LINE In-App Browser Environment
+        function isIOSorLINE() {
+            const ua = navigator.userAgent || '';
+            return /Line/i.test(ua) || /iPhone|iPad|iPod/i.test(ua);
+        }
+
         // Lazy-loaded Card Photo Preloader
         let cardPhoto = null;
         function getCardPhoto() {
@@ -785,10 +791,10 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // 2. Open generated card in standalone tab
+        // 2. Open generated card in standalone tab (Disabled on iOS/LINE to prevent blank screen)
         function openImageInNewTab(jpgDataUrl) {
             const dataToOpen = jpgDataUrl || currentJpgDataUrl;
-            if (!dataToOpen) return;
+            if (!dataToOpen || isIOSorLINE()) return;
 
             try {
                 const newWin = window.open('', '_blank');
@@ -1056,43 +1062,19 @@
             }
         }
 
-        function closePreviewModal() {
-            const modal = document.getElementById('imagePreviewModal');
-            const modalCard = document.getElementById('previewModalCard');
-            if (modalCard) modalCard.classList.remove('scale-100'), modalCard.classList.add('scale-90');
-            if (modal) {
-                modal.classList.add('opacity-0', 'pointer-events-none');
-                setTimeout(() => {
-                    modal.classList.remove('z-50', 'opacity-100');
-                    modal.classList.add('hidden', '-z-50');
-                }, 300);
-            }
-        }
-
-        function showImagePreviewModal(jpgDataUrl, fileName) {
-            currentJpgDataUrl = jpgDataUrl;
-            const modal = document.getElementById('imagePreviewModal');
-            const modalCard = document.getElementById('previewModalCard');
-            const previewImage = document.getElementById('previewImage');
-
-            if (previewImage) previewImage.src = jpgDataUrl;
-
-            if (modal && modalCard) {
-                modal.classList.remove('hidden', '-z-50', 'opacity-0', 'pointer-events-none');
-                modal.classList.add('z-50', 'opacity-100');
-                modalCard.classList.remove('scale-90');
-                modalCard.classList.add('scale-100');
-            }
-        }
-
-        // 7. High-Resolution Sharp Canvas JPG Card Generator
-        function downloadJPG() {
+        // 7. High-Resolution Sharp Canvas JPG Card Generator (iOS & LINE Safe)
+        async function downloadJPG() {
             if (!lastSubmittedData) return;
+
+            // Wait for custom fonts to load on WebKit/iOS
+            if (document.fonts && document.fonts.ready) {
+                try { await document.fonts.ready; } catch(e) {}
+            }
 
             const photoImg = getCardPhoto();
 
-            // High-DPI crisp rendering
-            const scale = Math.max(window.devicePixelRatio || 2, 2);
+            // Optimal resolution scale for iOS WebKit memory safety
+            const scale = 2;
             const baseWidth = 800;
             const baseHeight = 1260;
             
@@ -1106,206 +1088,230 @@
             const height = baseHeight;
 
             const renderCanvasContent = () => {
-                // Background Fill
-                ctx.fillStyle = '#fcfaf7';
-                ctx.fillRect(0, 0, width, height);
+                try {
+                    // Background Fill
+                    ctx.fillStyle = '#fcfaf7';
+                    ctx.fillRect(0, 0, width, height);
 
-                // Double Border Frame
-                ctx.strokeStyle = '#d4a373';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(20, 20, width - 40, height - 40);
+                    // Double Border Frame
+                    ctx.strokeStyle = '#d4a373';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(20, 20, width - 40, height - 40);
 
-                ctx.strokeStyle = '#e8ded5';
-                ctx.lineWidth = 1;
-                ctx.strokeRect(28, 28, width - 56, height - 56);
+                    ctx.strokeStyle = '#e8ded5';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(28, 28, width - 56, height - 56);
 
-                // High-Design Photo Header (JUN00138.jpg)
-                const photoX = 45;
-                const photoY = 45;
-                const photoW = width - 90;
-                const photoH = 320;
-                const radius = 16;
+                    // High-Design Photo Header
+                    const photoX = 45;
+                    const photoY = 45;
+                    const photoW = width - 90;
+                    const photoH = 320;
+                    const radius = 16;
 
-                ctx.save();
-                ctx.beginPath();
-                if (ctx.roundRect) {
-                    ctx.roundRect(photoX, photoY, photoW, photoH, radius);
-                } else {
-                    ctx.rect(photoX, photoY, photoW, photoH);
-                }
-                ctx.clip();
-
-                if (photoImg.complete && photoImg.naturalWidth !== 0) {
-                    const imgRatio = photoImg.width / photoImg.height;
-                    const containerRatio = photoW / photoH;
-                    let sX = 0, sY = 0, sW = photoImg.width, sH = photoImg.height;
-
-                    if (imgRatio > containerRatio) {
-                        sW = photoImg.height * containerRatio;
-                        sX = (photoImg.width - sW) / 2;
-                    } else {
-                        sH = photoImg.width / containerRatio;
-                        sY = (photoImg.height - sH) / 2;
-                    }
-                    ctx.drawImage(photoImg, sX, sY, sW, sH, photoX, photoY, photoW, photoH);
-                } else {
-                    ctx.fillStyle = '#f5eee6';
-                    ctx.fillRect(photoX, photoY, photoW, photoH);
-                }
-                ctx.restore();
-
-                // Subtle Border around Photo
-                ctx.strokeStyle = '#e8ded5';
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                if (ctx.roundRect) {
-                    ctx.roundRect(photoX, photoY, photoW, photoH, radius);
-                } else {
-                    ctx.rect(photoX, photoY, photoW, photoH);
-                }
-                ctx.stroke();
-
-                // Header Card Box
-                const headerY = 385;
-                ctx.fillStyle = '#ffffff';
-                ctx.beginPath();
-                if (ctx.roundRect) {
-                    ctx.roundRect(45, headerY, width - 90, 125, 16);
-                } else {
-                    ctx.rect(45, headerY, width - 90, 125);
-                }
-                ctx.fill();
-                ctx.strokeStyle = '#e8ded5';
-                ctx.stroke();
-
-                // Title Section: Chinese "昇廷 & 瑋伶"
-                ctx.textAlign = 'center';
-                ctx.fillStyle = '#d4a373';
-                ctx.font = '600 24px "Noto Serif TC", serif';
-                ctx.fillText('昇廷  &  瑋伶', width / 2, headerY + 38);
-
-                ctx.fillStyle = '#3d3835';
-                ctx.font = 'bold 26px "Noto Serif TC", serif';
-                ctx.fillText('婚禮出席回函確認', width / 2, headerY + 74);
-
-                ctx.fillStyle = '#7a726d';
-                ctx.font = '14px "Noto Serif TC", serif';
-                ctx.fillText('2027.01.31 午宴 | 萬華格萊天漾大飯店 15F 天嵐廳', width / 2, headerY + 104);
-
-                // Data Card Container
-                const dataY = 525;
-                const dataH = height - dataY - 65;
-                ctx.fillStyle = '#ffffff';
-                ctx.beginPath();
-                if (ctx.roundRect) {
-                    ctx.roundRect(45, dataY, width - 90, dataH, 16);
-                } else {
-                    ctx.rect(45, dataY, width - 90, dataH);
-                }
-                ctx.fill();
-                ctx.strokeStyle = '#e8ded5';
-                ctx.stroke();
-
-                // Data List Construction
-                const isAttending = lastSubmittedData.attendance.includes('出席！');
-                const dataRows = [
-                    { label: '姓名 / Name', value: lastSubmittedData.name },
-                    { label: '電話 / Phone', value: lastSubmittedData.phone },
-                    { label: '親友關係', value: lastSubmittedData.relationship },
-                    { label: '出席意願', value: lastSubmittedData.attendance }
-                ];
-
-                if (isAttending) {
-                    dataRows.push({ label: '參加人數', value: lastSubmittedData.guests + ' 人' });
-                    dataRows.push({ label: '素食需求', value: lastSubmittedData.special + ' 份' });
-                    dataRows.push({ label: '喜帖索取', value: lastSubmittedData.invitation });
-
-                    if (lastSubmittedData.invitation === '我要紙本喜帖！' && lastSubmittedData.address) {
-                        dataRows.push({ label: '寄件地址', value: lastSubmittedData.address });
-                    } else if (lastSubmittedData.invitation === '我要電子喜帖！' && lastSubmittedData.email) {
-                        dataRows.push({ label: '寄件信箱', value: lastSubmittedData.email });
-                    }
-                }
-
-                // Render Data Rows
-                ctx.textAlign = 'left';
-                let currentY = dataY + 45;
-                const labelX = 85;
-                const valueX = 260;
-                const rowGap = 44;
-
-                dataRows.forEach(row => {
-                    ctx.fillStyle = '#7a726d';
-                    ctx.font = '15px "Noto Serif TC", serif';
-                    ctx.fillText(row.label, labelX, currentY);
-
-                    ctx.fillStyle = '#3d3835';
-                    ctx.font = 'bold 16px "Noto Serif TC", serif';
-                    ctx.fillText(row.value, valueX, currentY);
-
-                    ctx.strokeStyle = '#f5eee6';
+                    ctx.save();
                     ctx.beginPath();
-                    ctx.moveTo(labelX, currentY + 12);
-                    ctx.lineTo(width - 85, currentY + 12);
-                    ctx.stroke();
+                    if (ctx.roundRect) {
+                        ctx.roundRect(photoX, photoY, photoW, photoH, radius);
+                    } else {
+                        ctx.rect(photoX, photoY, photoW, photoH);
+                    }
+                    ctx.clip();
 
-                    currentY += rowGap;
-                });
+                    let photoDrawn = false;
+                    if (photoImg.complete && photoImg.naturalWidth !== 0) {
+                        try {
+                            const imgRatio = photoImg.width / photoImg.height;
+                            const containerRatio = photoW / photoH;
+                            let sX = 0, sY = 0, sW = photoImg.width, sH = photoImg.height;
 
-                // Blessings Render
-                if (lastSubmittedData.blessings && lastSubmittedData.blessings.trim() !== '') {
-                    ctx.fillStyle = '#7a726d';
-                    ctx.font = '15px "Noto Serif TC", serif';
-                    ctx.fillText('對新人的祝福', labelX, currentY + 6);
-
-                    ctx.fillStyle = '#d4a373';
-                    ctx.font = 'italic 15px "Noto Serif TC", serif';
-
-                    const words = ('"' + lastSubmittedData.blessings + '"').split('');
-                    let line = '';
-                    let textY = currentY + 30;
-                    const maxWidth = width - labelX - 90;
-
-                    for (let n = 0; n < words.length; n++) {
-                        let testLine = line + words[n];
-                        let metrics = ctx.measureText(testLine);
-                        if (metrics.width > maxWidth && n > 0) {
-                            ctx.fillText(line, labelX, textY);
-                            line = words[n];
-                            textY += 24;
-                        } else {
-                            line = testLine;
+                            if (imgRatio > containerRatio) {
+                                sW = photoImg.height * containerRatio;
+                                sX = (photoImg.width - sW) / 2;
+                            } else {
+                                sH = photoImg.width / containerRatio;
+                                sY = (photoImg.height - sH) / 2;
+                            }
+                            ctx.drawImage(photoImg, sX, sY, sW, sH, photoX, photoY, photoW, photoH);
+                            photoDrawn = true;
+                        } catch (err) {
+                            console.warn('Canvas image draw fallback', err);
                         }
                     }
-                    ctx.fillText(line, labelX, textY);
+                    
+                    if (!photoDrawn) {
+                        // Elegant Morandi Gradient Fallback for Photo Container
+                        const grad = ctx.createLinearGradient(photoX, photoY, photoX + photoW, photoY + photoH);
+                        grad.addColorStop(0, '#f5eee6');
+                        grad.addColorStop(1, '#e8ded5');
+                        ctx.fillStyle = grad;
+                        ctx.fillRect(photoX, photoY, photoW, photoH);
+
+                        ctx.fillStyle = '#d4a373';
+                        ctx.font = '600 28px "Noto Serif TC", serif';
+                        ctx.textAlign = 'center';
+                        ctx.fillText('昇廷  &  瑋伶', photoX + photoW / 2, photoY + photoH / 2);
+                    }
+                    ctx.restore();
+
+                    // Subtle Border around Photo
+                    ctx.strokeStyle = '#e8ded5';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    if (ctx.roundRect) {
+                        ctx.roundRect(photoX, photoY, photoW, photoH, radius);
+                    } else {
+                        ctx.rect(photoX, photoY, photoW, photoH);
+                    }
+                    ctx.stroke();
+
+                    // Header Card Box
+                    const headerY = 385;
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    if (ctx.roundRect) {
+                        ctx.roundRect(45, headerY, width - 90, 125, 16);
+                    } else {
+                        ctx.rect(45, headerY, width - 90, 125);
+                    }
+                    ctx.fill();
+                    ctx.strokeStyle = '#e8ded5';
+                    ctx.stroke();
+
+                    // Title Section: Chinese "昇廷 & 瑋伶"
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#d4a373';
+                    ctx.font = '600 24px "Noto Serif TC", serif';
+                    ctx.fillText('昇廷  &  瑋伶', width / 2, headerY + 38);
+
+                    ctx.fillStyle = '#3d3835';
+                    ctx.font = 'bold 26px "Noto Serif TC", serif';
+                    ctx.fillText('婚禮出席回函確認', width / 2, headerY + 74);
+
+                    ctx.fillStyle = '#7a726d';
+                    ctx.font = '14px "Noto Serif TC", serif';
+                    ctx.fillText('2027.01.31 午宴 | 萬華格萊天漾大飯店 15F 天嵐廳', width / 2, headerY + 104);
+
+                    // Data Card Container
+                    const dataY = 525;
+                    const dataH = height - dataY - 65;
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    if (ctx.roundRect) {
+                        ctx.roundRect(45, dataY, width - 90, dataH, 16);
+                    } else {
+                        ctx.rect(45, dataY, width - 90, dataH);
+                    }
+                    ctx.fill();
+                    ctx.strokeStyle = '#e8ded5';
+                    ctx.stroke();
+
+                    // Data List Construction
+                    const isAttending = lastSubmittedData.attendance.includes('出席！');
+                    const dataRows = [
+                        { label: '姓名 / Name', value: lastSubmittedData.name },
+                        { label: '電話 / Phone', value: lastSubmittedData.phone },
+                        { label: '親友關係', value: lastSubmittedData.relationship },
+                        { label: '出席意願', value: lastSubmittedData.attendance }
+                    ];
+
+                    if (isAttending) {
+                        dataRows.push({ label: '參加人數', value: lastSubmittedData.guests + ' 人' });
+                        dataRows.push({ label: '素食需求', value: lastSubmittedData.special + ' 份' });
+                        dataRows.push({ label: '喜帖索取', value: lastSubmittedData.invitation });
+
+                        if (lastSubmittedData.invitation === '我要紙本喜帖！' && lastSubmittedData.address) {
+                            dataRows.push({ label: '寄件地址', value: lastSubmittedData.address });
+                        } else if (lastSubmittedData.invitation === '我要電子喜帖！' && lastSubmittedData.email) {
+                            dataRows.push({ label: '寄件信箱', value: lastSubmittedData.email });
+                        }
+                    }
+
+                    // Render Data Rows
+                    ctx.textAlign = 'left';
+                    let currentY = dataY + 45;
+                    const labelX = 85;
+                    const valueX = 260;
+                    const rowGap = 44;
+
+                    dataRows.forEach(row => {
+                        ctx.fillStyle = '#7a726d';
+                        ctx.font = '15px "Noto Serif TC", serif';
+                        ctx.fillText(row.label, labelX, currentY);
+
+                        ctx.fillStyle = '#3d3835';
+                        ctx.font = 'bold 16px "Noto Serif TC", serif';
+                        ctx.fillText(row.value, valueX, currentY);
+
+                        ctx.strokeStyle = '#f5eee6';
+                        ctx.beginPath();
+                        ctx.moveTo(labelX, currentY + 12);
+                        ctx.lineTo(width - 85, currentY + 12);
+                        ctx.stroke();
+
+                        currentY += rowGap;
+                    });
+
+                    // Blessings Render
+                    if (lastSubmittedData.blessings && lastSubmittedData.blessings.trim() !== '') {
+                        ctx.fillStyle = '#7a726d';
+                        ctx.font = '15px "Noto Serif TC", serif';
+                        ctx.fillText('對新人的祝福', labelX, currentY + 6);
+
+                        ctx.fillStyle = '#d4a373';
+                        ctx.font = 'italic 15px "Noto Serif TC", serif';
+
+                        const words = ('"' + lastSubmittedData.blessings + '"').split('');
+                        let line = '';
+                        let textY = currentY + 30;
+                        const maxWidth = width - labelX - 90;
+
+                        for (let n = 0; n < words.length; n++) {
+                            let testLine = line + words[n];
+                            let metrics = ctx.measureText(testLine);
+                            if (metrics.width > maxWidth && n > 0) {
+                                ctx.fillText(line, labelX, textY);
+                                line = words[n];
+                                textY += 24;
+                            } else {
+                                line = testLine;
+                            }
+                        }
+                        ctx.fillText(line, labelX, textY);
+                    }
+
+                    // Footer Watermark
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#8da399';
+                    ctx.font = '14px "Cormorant Garamond", serif';
+                    ctx.fillText('I WANNA BE YOUR LIGHT  •  2027 WEDDING INVITATION', width / 2, height - 38);
+
+                    // Export High Quality JPG Data URL
+                    const jpgDataUrl = canvas.toDataURL('image/jpeg', 0.92);
+                    const fileName = `昇廷與瑋伶婚禮出席回函_${lastSubmittedData.name || '確認卡'}.jpg`;
+                    currentJpgDataUrl = jpgDataUrl;
+
+                    // Safari Desktop only: trigger open/download
+                    if (!isIOSorLINE()) {
+                        openImageInNewTab(jpgDataUrl);
+                        try {
+                            const downloadLink = document.createElement('a');
+                            downloadLink.download = fileName;
+                            downloadLink.href = jpgDataUrl;
+                            document.body.appendChild(downloadLink);
+                            downloadLink.click();
+                            document.body.removeChild(downloadLink);
+                        } catch (e) {
+                            console.log('Direct download bypass:', e);
+                        }
+                    }
+
+                    closeModal();
+                    showImagePreviewModal(jpgDataUrl, fileName);
+
+                } catch(e) {
+                    console.error('Canvas rendering error', e);
                 }
-
-                // Footer Watermark
-                ctx.textAlign = 'center';
-                ctx.fillStyle = '#8da399';
-                ctx.font = '14px "Cormorant Garamond", serif';
-                ctx.fillText('I WANNA BE YOUR LIGHT  •  2027 WEDDING INVITATION', width / 2, height - 38);
-
-                // Export High Quality JPG Data URL
-                const jpgDataUrl = canvas.toDataURL('image/jpeg', 0.95);
-                const fileName = `昇廷與瑋伶婚禮出席回函_${lastSubmittedData.name || '確認卡'}.jpg`;
-                currentJpgDataUrl = jpgDataUrl;
-
-                openImageInNewTab(jpgDataUrl);
-
-                try {
-                    const downloadLink = document.createElement('a');
-                    downloadLink.download = fileName;
-                    downloadLink.href = jpgDataUrl;
-                    document.body.appendChild(downloadLink);
-                    downloadLink.click();
-                    document.body.removeChild(downloadLink);
-                } catch (e) {
-                    console.log('Direct download bypass:', e);
-                }
-
-                closeModal();
-                showImagePreviewModal(jpgDataUrl, fileName);
             };
 
             if (photoImg.complete && photoImg.naturalWidth !== 0) {
