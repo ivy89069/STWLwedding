@@ -702,6 +702,31 @@
         </div>
     </div>
 
+    <!-- External Browser Confirmation Modal for LINE -->
+    <div id="externalBrowserModal" class="hidden fixed inset-0 -z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center space-y-5 shadow-2xl transform scale-90 transition-transform duration-300" id="externalModalCard">
+            <div class="w-14 h-14 rounded-full bg-morandi-gold/20 text-morandi-gold flex items-center justify-center mx-auto text-2xl">
+                <i class="fa-solid fa-compass text-morandi-gold"></i>
+            </div>
+            <div>
+                <h3 class="text-xl font-serifTC font-bold text-morandi-dark">切換至外部瀏覽器開啟？</h3>
+                <p class="text-xs sm:text-sm text-morandi-muted mt-2 leading-relaxed">
+                    檢測到您正在使用 LINE 內建瀏覽器。<br />
+                    建議切換至手機預設瀏覽器（Safari / Chrome），即可直接下載與儲存高清回函卡片！
+                </p>
+            </div>
+
+            <div class="pt-2 space-y-2 border-t border-morandi-border/60">
+                <button onclick="confirmExternalBrowser()" class="w-full py-3.5 rounded-full bg-morandi-gold text-white text-xs font-semibold tracking-widest hover:bg-[#c29263] transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> 🌐 用外部瀏覽器開啟下載
+                </button>
+                <button onclick="proceedInAppDownload()" class="w-full py-2.5 rounded-full border border-morandi-border text-morandi-muted text-xs font-medium tracking-widest hover:bg-morandi-sand/30 transition cursor-pointer">
+                    📱 留在 LINE 內預覽（長按儲存）
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Mobile-Friendly Image Preview Modal -->
     <div id="imagePreviewModal" class="hidden fixed inset-0 -z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="bg-white rounded-3xl p-5 sm:p-6 max-w-md w-full text-center space-y-4 shadow-2xl transform scale-90 transition-transform duration-300 max-h-[90vh] flex flex-col" id="previewModalCard">
@@ -746,10 +771,61 @@
         var lastSubmittedData = null;
         var currentJpgDataUrl = null;
 
+        function isLINE() {
+            const ua = navigator.userAgent || '';
+            return /Line/i.test(ua);
+        }
+
         // Detect iOS or LINE In-App Browser Environment
         function isIOSorLINE() {
             const ua = navigator.userAgent || '';
             return /Line/i.test(ua) || /iPhone|iPad|iPod/i.test(ua);
+        }
+
+        function showExternalBrowserModal() {
+            closeModal();
+            const modal = document.getElementById('externalBrowserModal');
+            const modalCard = document.getElementById('externalModalCard');
+            if (modal && modalCard) {
+                modal.classList.remove('hidden', '-z-50', 'opacity-0', 'pointer-events-none');
+                modal.classList.add('z-50', 'opacity-100');
+                modalCard.classList.remove('scale-90');
+                modalCard.classList.add('scale-100');
+            }
+        }
+
+        function closeExternalBrowserModal() {
+            const modal = document.getElementById('externalBrowserModal');
+            const modalCard = document.getElementById('externalModalCard');
+            if (modal && modalCard) {
+                modalCard.classList.remove('scale-100');
+                modalCard.classList.add('scale-90');
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    modal.classList.remove('z-50', 'opacity-100');
+                    modal.classList.add('hidden', '-z-50');
+                }, 300);
+            }
+        }
+
+        function confirmExternalBrowser() {
+            closeExternalBrowserModal();
+            if (!lastSubmittedData) return;
+            try {
+                const cardHash = encodeURIComponent(JSON.stringify(lastSubmittedData));
+                const url = new URL(window.location.href);
+                url.searchParams.set('openExternalBrowser', '1');
+                url.hash = 'card=' + cardHash;
+                window.location.href = url.toString();
+            } catch (e) {
+                console.error('External browser redirect error:', e);
+                proceedInAppDownload();
+            }
+        }
+
+        function proceedInAppDownload() {
+            closeExternalBrowserModal();
+            renderAndShowCard();
         }
 
         // Lazy-loaded Card Photo Preloader
@@ -1024,11 +1100,32 @@
 
             handleAttendanceChange();
 
+            checkUrlCardData();
+
             // Prefetch card photo after page load
             window.addEventListener('load', () => {
                 setTimeout(getCardPhoto, 1000);
             });
         });
+
+        // Restore card if page was re-opened in external browser via LINE
+        function checkUrlCardData() {
+            try {
+                const hash = window.location.hash;
+                if (hash && hash.includes('card=')) {
+                    const jsonStr = decodeURIComponent(hash.substring(hash.indexOf('card=') + 5));
+                    const data = JSON.parse(jsonStr);
+                    if (data && data.name) {
+                        lastSubmittedData = data;
+                        setTimeout(() => {
+                            renderAndShowCard();
+                        }, 500);
+                    }
+                }
+            } catch(e) {
+                console.warn('URL card data restore error:', e);
+            }
+        }
 
         // 6. Modal Functions (With z-index and hidden class management)
         function onFormSubmitted() {
@@ -1062,8 +1159,20 @@
             }
         }
 
-        // 7. High-Resolution Sharp Canvas JPG Card Generator (iOS & LINE Safe)
-        async function downloadJPG() {
+        // 7. High-Resolution Sharp Canvas JPG Card Generator
+        function downloadJPG(bypassLineCheck = false) {
+            if (!lastSubmittedData) return;
+
+            // If user is in LINE browser, prompt to switch to external browser first
+            if (isLINE() && !bypassLineCheck) {
+                showExternalBrowserModal();
+                return;
+            }
+
+            renderAndShowCard();
+        }
+
+        async function renderAndShowCard() {
             if (!lastSubmittedData) return;
 
             // Wait for custom fonts to load on WebKit/iOS
@@ -1291,7 +1400,7 @@
                     const fileName = `昇廷與瑋伶婚禮出席回函_${lastSubmittedData.name || '確認卡'}.jpg`;
                     currentJpgDataUrl = jpgDataUrl;
 
-                    // Safari Desktop only: trigger open/download
+                    // Safari / Native Browser: trigger auto-download if supported
                     if (!isIOSorLINE()) {
                         openImageInNewTab(jpgDataUrl);
                         try {
