@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <!-- Strict Mobile Viewport Guard: Prevents auto-zoom coordinate shift on mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    
     <title>昇廷 & 瑋伶 婚禮邀請函 | Wedding Invitation</title>
     
+    <!-- Open Graph / Social Media Sharing Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="昇廷 & 瑋伶 婚禮邀請函 | Wedding Invitation">
+    <meta property="og:description" content="誠摯邀請您參與我們的婚禮宴會，分享這份專屬我們的喜悅與幸福。2027.01.31 午宴 萬華格萊天漾大飯店">
+    <meta property="og:image" content="https://i.postimg.cc/hhFqrq7Y/JUN00091.jpg">
+
     <!-- Critical Network Preconnects & High-Priority Preloads -->
     <link rel="preconnect" href="https://i.postimg.cc" crossorigin>
     <link rel="dns-prefetch" href="https://i.postimg.cc">
@@ -46,7 +53,7 @@
                         serifTC: ['"Noto Serif TC"', 'serif']
                     },
                     boxShadow: {
-                        'glow': '0 10px 30px -5px rgba(212, 163, 115, 0.18)',
+                        'glow': '0 10px 30px -5px rgba(212, 163, 115, 0.25)',
                         'card': '0 20px 40px -15px rgba(61, 56, 53, 0.08)',
                         'soft': '0 8px 25px rgba(0, 0, 0, 0.04)'
                     }
@@ -202,7 +209,7 @@
             </div>
         </div>
 
-        <a href="#countdown-section" class="absolute bottom-3 sm:bottom-5 left-1/2 transform -translate-x-1/2 z-10 text-white/70 hover:text-white transition animate-bounce">
+        <a href="#countdown-section" class="absolute bottom-3 sm:bottom-5 left-1/2 transform -translate-x-1/2 z-10 text-white/70 hover:text-white transition animate-bounce" aria-label="Scroll Down">
             <i class="fa-solid fa-chevron-down text-base"></i>
         </a>
     </section>
@@ -562,7 +569,7 @@
                             </div>
                         </div>
 
-                        <!-- Field 7: Invitation Preferences (1. Electronic, 2. Paper, 3. None) -->
+                        <!-- Field 7: Invitation Preferences -->
                         <div>
                             <span class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
                                 喜帖索取 <span class="font-en font-normal text-morandi-muted">/ INVITATION</span>
@@ -670,7 +677,7 @@
         </div>
     </section>
 
-    <!-- Custom Modal Feedback Box (-z-50 hidden when inactive to avoid touch blockage) -->
+    <!-- Custom Modal Feedback Box -->
     <div id="successModal" class="hidden fixed inset-0 -z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="bg-white rounded-3xl p-8 max-w-sm w-full text-center space-y-6 shadow-2xl transform scale-90 transition-transform duration-300" id="modalCard">
             <div class="w-16 h-16 rounded-full bg-morandi-sage/20 text-morandi-sage flex items-center justify-center mx-auto text-2xl">
@@ -695,14 +702,14 @@
         </div>
     </div>
 
-    <!-- Mobile-Friendly Image Preview Modal (-z-50 hidden when inactive) -->
+    <!-- Mobile-Friendly Image Preview Modal -->
     <div id="imagePreviewModal" class="hidden fixed inset-0 -z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="bg-white rounded-3xl p-5 sm:p-6 max-w-md w-full text-center space-y-4 shadow-2xl transform scale-90 transition-transform duration-300 max-h-[90vh] flex flex-col" id="previewModalCard">
             <div class="flex items-center justify-between pb-2 border-b border-morandi-border/60">
                 <h3 class="text-base font-serifTC font-bold text-morandi-dark flex items-center gap-2">
                     <i class="fa-solid fa-file-image text-morandi-gold"></i> 回函卡片圖片預覽
                 </h3>
-                <button onclick="closePreviewModal()" class="text-morandi-muted hover:text-morandi-dark p-1 focus:outline-none">
+                <button onclick="closePreviewModal()" class="text-morandi-muted hover:text-morandi-dark p-1 focus:outline-none" aria-label="Close Preview">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
@@ -1078,18 +1085,25 @@
             }
         }
 
-        // 7. High-Design Canvas JPG Card Generator
+        // 7. High-Resolution Sharp Canvas JPG Card Generator
         function downloadJPG() {
             if (!lastSubmittedData) return;
 
             const photoImg = getCardPhoto();
 
-            const width = 800;
-            const height = 1260;
+            // High-DPI crisp rendering
+            const scale = Math.max(window.devicePixelRatio || 2, 2);
+            const baseWidth = 800;
+            const baseHeight = 1260;
+            
             const canvas = document.createElement('canvas');
-            canvas.width = width;
-            canvas.height = height;
+            canvas.width = baseWidth * scale;
+            canvas.height = baseHeight * scale;
             const ctx = canvas.getContext('2d');
+            ctx.scale(scale, scale);
+
+            const width = baseWidth;
+            const height = baseHeight;
 
             const renderCanvasContent = () => {
                 // Background Fill
@@ -1272,7 +1286,7 @@
                 ctx.font = '14px "Cormorant Garamond", serif';
                 ctx.fillText('I WANNA BE YOUR LIGHT  •  2027 WEDDING INVITATION', width / 2, height - 38);
 
-                // Export JPG Data URL
+                // Export High Quality JPG Data URL
                 const jpgDataUrl = canvas.toDataURL('image/jpeg', 0.95);
                 const fileName = `昇廷與瑋伶婚禮出席回函_${lastSubmittedData.name || '確認卡'}.jpg`;
                 currentJpgDataUrl = jpgDataUrl;
