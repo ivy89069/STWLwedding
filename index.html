@@ -20,8 +20,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
     
     <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -132,21 +131,31 @@
             -webkit-user-drag: none !important;
         }
 
-        /* Radio Button Heart State Switch */
-        .peer:checked + label .heart-empty,
-        input[type="radio"]:checked + label .heart-empty {
+        /* Radio Button Heart State Switch (100% Reliable across all live environments) */
+        input[type="radio"] + label .heart-solid,
+        .peer + label .heart-solid {
             display: none !important;
         }
 
-        .peer:checked + label .heart-solid,
-        input[type="radio"]:checked + label .heart-solid {
+        input[type="radio"] + label .heart-empty,
+        .peer + label .heart-empty {
+            display: inline-block !important;
+        }
+
+        input[type="radio"]:checked + label .heart-empty,
+        .peer:checked + label .heart-empty {
+            display: none !important;
+        }
+
+        input[type="radio"]:checked + label .heart-solid,
+        .peer:checked + label .heart-solid {
             display: inline-block !important;
             animation: heartPop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         @keyframes heartPop {
             0% { transform: scale(0.6); }
-            70% { transform: scale(1.2); }
+            70% { transform: scale(1.25); }
             100% { transform: scale(1); }
         }
     </style>
@@ -448,7 +457,7 @@
                                 <label for="rel_male" 
                                        class="w-full h-full p-3.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-sm sm:text-base font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-2 select-none pointer-events-none">
                                     <i class="fa-regular fa-heart heart-empty text-morandi-muted text-xs"></i>
-                                    <i class="fa-solid fa-heart heart-solid hidden text-morandi-gold text-xs"></i>
+                                    <i class="fa-solid fa-heart heart-solid text-morandi-gold text-xs"></i>
                                     <span>男方親友</span>
                                 </label>
                             </div>
@@ -463,7 +472,7 @@
                                 <label for="rel_female" 
                                        class="w-full h-full p-3.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-sm sm:text-base font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-2 select-none pointer-events-none">
                                     <i class="fa-regular fa-heart heart-empty text-morandi-muted text-xs"></i>
-                                    <i class="fa-solid fa-heart heart-solid hidden text-morandi-gold text-xs"></i>
+                                    <i class="fa-solid fa-heart heart-solid text-morandi-gold text-xs"></i>
                                     <span>女方親友</span>
                                 </label>
                             </div>
@@ -487,7 +496,7 @@
                                 <label for="att_yes" 
                                        class="w-full h-full p-3.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-sm sm:text-base font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-2 select-none pointer-events-none">
                                     <i class="fa-regular fa-heart heart-empty text-morandi-muted text-xs"></i>
-                                    <i class="fa-solid fa-heart heart-solid hidden text-morandi-gold text-xs"></i>
+                                    <i class="fa-solid fa-heart heart-solid text-morandi-gold text-xs"></i>
                                     <span>出席！怎麼能少了我！</span>
                                 </label>
                             </div>
@@ -503,7 +512,7 @@
                                 <label for="att_no" 
                                        class="w-full h-full p-3.5 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-sm sm:text-base font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-2 select-none pointer-events-none">
                                     <i class="fa-regular fa-heart heart-empty text-morandi-muted text-xs"></i>
-                                    <i class="fa-solid fa-heart heart-solid hidden text-morandi-gold text-xs"></i>
+                                    <i class="fa-solid fa-heart heart-solid text-morandi-gold text-xs"></i>
                                     <span>可惜無法出席，送上滿滿祝福～</span>
                                 </label>
                             </div>
@@ -591,7 +600,7 @@
                                     <label for="inv_elec" 
                                            class="w-full h-full p-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-xs sm:text-sm font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-1.5 select-none pointer-events-none">
                                         <i class="fa-regular fa-heart heart-empty text-morandi-muted text-xs"></i>
-                                        <i class="fa-solid fa-heart heart-solid hidden text-morandi-gold text-xs"></i>
+                                        <i class="fa-solid fa-heart heart-solid text-morandi-gold text-xs"></i>
                                         <span>我要電子喜帖！</span>
                                     </label>
                                 </div>
@@ -606,7 +615,7 @@
                                     <label for="inv_paper" 
                                            class="w-full h-full p-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-xs sm:text-sm font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-1.5 select-none pointer-events-none">
                                         <i class="fa-regular fa-heart heart-empty text-morandi-muted text-xs"></i>
-                                        <i class="fa-solid fa-heart heart-solid hidden text-morandi-gold text-xs"></i>
+                                        <i class="fa-solid fa-heart heart-solid text-morandi-gold text-xs"></i>
                                         <span>我要紙本喜帖！</span>
                                     </label>
                                 </div>
@@ -621,7 +630,7 @@
                                     <label for="inv_none" 
                                            class="w-full h-full p-3 text-center rounded-xl border border-morandi-border bg-morandi-cream/30 text-morandi-dark text-xs sm:text-sm font-medium transition-all peer-checked:border-morandi-gold peer-checked:bg-morandi-gold/15 peer-checked:text-morandi-dark peer-checked:font-semibold flex items-center justify-center gap-1.5 select-none pointer-events-none">
                                         <i class="fa-regular fa-heart heart-empty text-morandi-muted text-xs"></i>
-                                        <i class="fa-solid fa-heart heart-solid hidden text-morandi-gold text-xs"></i>
+                                        <i class="fa-solid fa-heart heart-solid text-morandi-gold text-xs"></i>
                                         <span>我不用喜帖～</span>
                                     </label>
                                 </div>
