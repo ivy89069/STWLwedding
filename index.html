@@ -124,7 +124,7 @@
             animation: spinSlow 8s linear infinite;
         }
 
-        /* Prevent iOS drag & drop while preserving native image save popup */
+        /* Prevent iOS drag & drop while preserving native image touch behavior */
         #previewImage {
             -webkit-touch-callout: default !important;
             -webkit-user-select: auto !important;
@@ -146,7 +146,6 @@
         <i id="musicIcon" class="fa-solid fa-music text-base sm:text-lg"></i>
     </button>
 
-    <!-- Navigation Bar -->
     <nav class="fixed top-0 left-0 w-full z-40 glass-nav border-b border-morandi-gold/20 transition-all duration-300" id="navbar">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 sm:h-20">
@@ -173,7 +172,6 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="relative h-screen w-full flex items-end justify-center text-center overflow-hidden pb-12 sm:pb-20">
         <div class="absolute inset-0 bg-cover bg-no-repeat bg-morandi-sand transform scale-105 transition-transform duration-7000 ease-out"
              style="background-image: url('https://i.postimg.cc/hhFqrq7Y/JUN00091.jpg'); background-position: center 30%;">
@@ -207,7 +205,6 @@
         </a>
     </section>
 
-    <!-- Countdown Section -->
     <section id="countdown-section" class="py-20 px-4 bg-morandi-cream border-b border-morandi-border/50 relative">
         <div class="max-w-4xl mx-auto text-center reveal">
             <h2 class="font-en text-3xl sm:text-4xl text-morandi-gold font-light tracking-widest mb-2">COUNTDOWN</h2>
@@ -241,7 +238,6 @@
         </div>
     </section>
 
-    <!-- About Section -->
     <section id="about" class="py-24 px-4 sm:px-6 bg-white relative overflow-hidden">
         <div class="max-w-3xl mx-auto text-center space-y-8 reveal">
             <span class="font-en text-sm tracking-[0.3em] text-morandi-sage uppercase">Our Story</span>
@@ -271,7 +267,6 @@
         </div>
     </section>
 
-    <!-- Details Section -->
     <section id="details" class="py-24 px-4 bg-morandi-sand/40 relative">
         <div class="max-w-3xl mx-auto reveal">
             <div class="text-center mb-12">
@@ -375,7 +370,6 @@
         </div>
     </section>
 
-    <!-- RSVP Section -->
     <section id="rsvp" class="py-24 px-4 bg-morandi-cream relative z-10">
         <div class="max-w-2xl mx-auto reveal">
             <div class="text-center mb-12">
@@ -670,58 +664,28 @@
         </div>
     </section>
 
-    <!-- Custom Modal Feedback Box (-z-50 hidden when inactive to avoid touch blockage) -->
-    <div id="successModal" class="hidden fixed inset-0 -z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
-        <div class="bg-white rounded-3xl p-8 max-w-sm w-full text-center space-y-6 shadow-2xl transform scale-90 transition-transform duration-300" id="modalCard">
-            <div class="w-16 h-16 rounded-full bg-morandi-sage/20 text-morandi-sage flex items-center justify-center mx-auto text-2xl">
-                <i class="fa-solid fa-heart"></i>
-            </div>
-            <div>
-                <h3 class="text-2xl font-serifTC font-bold text-morandi-dark">回函已成功送出！</h3>
-                <p class="text-sm text-morandi-muted mt-2 leading-relaxed">
-                    感謝您的回覆與祝福，<br />昇廷與瑋伶期待在婚宴當天與您相見！
-                </p>
-            </div>
-
-            <div class="pt-2 space-y-2 border-t border-morandi-border/60">
-                <p class="text-xs text-morandi-muted pb-1">是否將您的回函內容儲存為圖片留存？</p>
-                <button onclick="downloadJPG()" class="w-full py-3 rounded-full bg-morandi-gold text-white text-xs font-medium tracking-widest hover:bg-[#c29263] transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
-                    <i class="fa-solid fa-file-image"></i> 📸 儲存為 JPG 圖片
-                </button>
-                <button onclick="closeModal()" class="w-full py-2.5 rounded-full border border-morandi-border text-morandi-muted text-xs font-medium tracking-widest hover:bg-morandi-sand/30 transition cursor-pointer">
-                    關閉視窗 CLOSE
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Mobile-Friendly Image Preview Modal (-z-50 hidden when inactive) -->
+    <!-- Direct Image Preview Modal (Only image preview shown upon submission, no download prompt) -->
     <div id="imagePreviewModal" class="hidden fixed inset-0 -z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="bg-white rounded-3xl p-5 sm:p-6 max-w-md w-full text-center space-y-4 shadow-2xl transform scale-90 transition-transform duration-300 max-h-[90vh] flex flex-col" id="previewModalCard">
-            <div class="flex items-center justify-between pb-2 border-b border-morandi-border/60">
-                <h3 class="text-base font-serifTC font-bold text-morandi-dark flex items-center gap-2">
-                    <i class="fa-solid fa-file-image text-morandi-gold"></i> 回函卡片圖片預覽
-                </h3>
-                <button onclick="closePreviewModal()" class="text-morandi-muted hover:text-morandi-dark p-1 focus:outline-none">
+            <div class="flex items-center justify-between pb-3 border-b border-morandi-border/60">
+                <div class="text-left">
+                    <h3 class="text-base sm:text-lg font-serifTC font-bold text-morandi-dark flex items-center gap-2">
+                        <i class="fa-solid fa-circle-check text-morandi-sage"></i> 回函已成功送出！
+                    </h3>
+                    <p class="text-xs text-morandi-muted mt-0.5">感謝您的祝福，以下為您的回函確認卡片</p>
+                </div>
+                <button onclick="closePreviewModal()" class="text-morandi-muted hover:text-morandi-dark p-1.5 focus:outline-none rounded-full hover:bg-morandi-sand/50 transition cursor-pointer">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
-            </div>
-
-            <div class="bg-morandi-cream border border-morandi-gold/30 rounded-2xl p-2.5 text-xs text-morandi-gold font-medium flex items-center justify-center gap-2 shadow-sm">
-                <i class="fa-solid fa-hand-pointer animate-bounce text-sm"></i>
-                <span>手機用戶可點擊下方「在新分頁開啟」後長按圖片儲存！</span>
             </div>
 
             <div class="overflow-y-auto flex-1 my-1 rounded-2xl border border-morandi-border/50 bg-morandi-sand/20 p-1">
                 <img id="previewImage" src="" alt="回函確認卡" class="w-full h-auto rounded-xl shadow-sm block mx-auto pointer-events-auto">
             </div>
 
-            <div class="pt-2 flex flex-col sm:flex-row gap-2">
-                <button onclick="openImageInNewTabCurrent()" class="flex-1 py-3 rounded-full bg-morandi-gold text-white text-xs font-medium tracking-widest hover:bg-[#c29263] transition shadow-md flex items-center justify-center gap-1.5 cursor-pointer">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i> 在新分頁開啟圖片
-                </button>
-                <button onclick="closePreviewModal()" class="px-5 py-3 rounded-full border border-morandi-border text-morandi-muted text-xs font-medium tracking-widest hover:bg-morandi-sand/30 transition cursor-pointer">
-                    關閉
+            <div class="pt-2 flex justify-center">
+                <button onclick="closePreviewModal()" class="w-full py-3 rounded-full bg-morandi-gold text-white text-xs font-medium tracking-widest hover:bg-[#c29263] transition shadow-md cursor-pointer">
+                    關閉視窗 CLOSE
                 </button>
             </div>
         </div>
@@ -737,7 +701,6 @@
     <script>
         var submitted = false;
         var lastSubmittedData = null;
-        var currentJpgDataUrl = null;
 
         // Lazy-loaded Card Photo Preloader
         let cardPhoto = null;
@@ -778,75 +741,7 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // 2. Open generated card in standalone tab
-        function openImageInNewTab(jpgDataUrl) {
-            const dataToOpen = jpgDataUrl || currentJpgDataUrl;
-            if (!dataToOpen) return;
-
-            try {
-                const newWin = window.open('', '_blank');
-                if (newWin) {
-                    newWin.document.write(`
-                        <!DOCTYPE html>
-                        <html lang="zh-TW">
-                        <head>
-                            <meta charset="UTF-8">
-                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                            <title>昇廷與瑋伶婚禮出席回函卡片</title>
-                            <style>
-                                body {
-                                    margin: 0;
-                                    padding: 20px;
-                                    background-color: #2b2623;
-                                    color: #fcfaf7;
-                                    display: flex;
-                                    flex-direction: column;
-                                    align-items: center;
-                                    justify-content: center;
-                                    min-height: 100vh;
-                                    box-sizing: border-box;
-                                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-                                }
-                                .tip {
-                                    background: rgba(212, 163, 115, 0.2);
-                                    border: 1px solid rgba(212, 163, 115, 0.5);
-                                    color: #d4a373;
-                                    padding: 10px 18px;
-                                    border-radius: 20px;
-                                    font-size: 14px;
-                                    margin-bottom: 20px;
-                                    text-align: center;
-                                }
-                                img {
-                                    max-width: 100%;
-                                    height: auto;
-                                    border-radius: 12px;
-                                    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-                                    -webkit-touch-callout: default !important;
-                                    user-select: auto !important;
-                                }
-                            </style>
-                        </head>
-                        <body>
-                            <div class="tip">💡 請長按下方圖片即可選擇「儲存影像」或「加入照片」</div>
-                            <img src="${dataToOpen}" alt="回函確認卡">
-                        </body>
-                        </html>
-                    `);
-                    newWin.document.close();
-                }
-            } catch (e) {
-                console.log('Unable to open new tab directly', e);
-            }
-        }
-
-        function openImageInNewTabCurrent() {
-            if (currentJpgDataUrl) {
-                openImageInNewTab(currentJpgDataUrl);
-            }
-        }
-
-        // 3. Form Data Capture (Adapted for Radio Inputs)
+        // 2. Form Data Capture (Adapted for Radio Inputs)
         function captureFormData() {
             try {
                 const relEl = document.querySelector('input[name="entry.669993689"]:checked');
@@ -872,7 +767,7 @@
             }
         }
 
-        // 4. Form Interactivity & Dynamic Field Logic (Radio Inputs)
+        // 3. Form Interactivity & Dynamic Field Logic (Radio Inputs)
         function handleInvitationChange() {
             try {
                 const invRadio = document.querySelector('input[name="entry.1164108255"]:checked');
@@ -961,7 +856,7 @@
             }
         }
 
-        // 5. DOM Ready & Event Setup
+        // 4. DOM Ready & Event Setup
         document.addEventListener('DOMContentLoaded', function() {
             // High-Performance IntersectionObserver for Reveal Animations
             const revealElements = document.querySelectorAll('.reveal');
@@ -1017,36 +912,14 @@
             });
         });
 
-        // 6. Modal Functions (With z-index and hidden class management)
+        // 5. Form submission directly triggers preview without download prompt
         function onFormSubmitted() {
-            const modal = document.getElementById('successModal');
-            const modalCard = document.getElementById('modalCard');
-
-            if (modal && modalCard) {
-                modal.classList.remove('hidden', '-z-50', 'opacity-0', 'pointer-events-none');
-                modal.classList.add('z-50', 'opacity-100');
-                modalCard.classList.remove('scale-90');
-                modalCard.classList.add('scale-100');
-            }
+            renderAndPreviewCard();
             
             const form = document.getElementById('rsvpForm');
             if (form) form.reset();
             handleAttendanceChange();
             submitted = false;
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('successModal');
-            const modalCard = document.getElementById('modalCard');
-            if (modal && modalCard) {
-                modalCard.classList.remove('scale-100');
-                modalCard.classList.add('scale-90');
-                modal.classList.add('opacity-0', 'pointer-events-none');
-                setTimeout(() => {
-                    modal.classList.remove('z-50', 'opacity-100');
-                    modal.classList.add('hidden', '-z-50');
-                }, 300);
-            }
         }
 
         function closePreviewModal() {
@@ -1062,8 +935,7 @@
             }
         }
 
-        function showImagePreviewModal(jpgDataUrl, fileName) {
-            currentJpgDataUrl = jpgDataUrl;
+        function showImagePreviewModal(jpgDataUrl) {
             const modal = document.getElementById('imagePreviewModal');
             const modalCard = document.getElementById('previewModalCard');
             const previewImage = document.getElementById('previewImage');
@@ -1078,8 +950,8 @@
             }
         }
 
-        // 7. High-Design Canvas JPG Card Generator
-        function downloadJPG() {
+        // 6. High-Design Canvas Card Generator (Preview Only, No Auto-Download or New Tab popup)
+        function renderAndPreviewCard() {
             if (!lastSubmittedData) return;
 
             const photoImg = getCardPhoto();
@@ -1105,7 +977,7 @@
                 ctx.lineWidth = 1;
                 ctx.strokeRect(28, 28, width - 56, height - 56);
 
-                // High-Design Photo Header (JUN00138.jpg)
+                // Photo Header
                 const photoX = 45;
                 const photoY = 45;
                 const photoW = width - 90;
@@ -1272,26 +1144,9 @@
                 ctx.font = '14px "Cormorant Garamond", serif';
                 ctx.fillText('I WANNA BE YOUR LIGHT  •  2027 WEDDING INVITATION', width / 2, height - 38);
 
-                // Export JPG Data URL
+                // Export JPG Data URL for Preview Modal
                 const jpgDataUrl = canvas.toDataURL('image/jpeg', 0.95);
-                const fileName = `昇廷與瑋伶婚禮出席回函_${lastSubmittedData.name || '確認卡'}.jpg`;
-                currentJpgDataUrl = jpgDataUrl;
-
-                openImageInNewTab(jpgDataUrl);
-
-                try {
-                    const downloadLink = document.createElement('a');
-                    downloadLink.download = fileName;
-                    downloadLink.href = jpgDataUrl;
-                    document.body.appendChild(downloadLink);
-                    downloadLink.click();
-                    document.body.removeChild(downloadLink);
-                } catch (e) {
-                    console.log('Direct download bypass:', e);
-                }
-
-                closeModal();
-                showImagePreviewModal(jpgDataUrl, fileName);
+                showImagePreviewModal(jpgDataUrl);
             };
 
             if (photoImg.complete && photoImg.naturalWidth !== 0) {
@@ -1302,7 +1157,7 @@
             }
         }
 
-        // 8. Background Music Controller (YouTube Iframe API)
+        // 7. Background Music Controller (YouTube Iframe API)
         var player;
         var isPlaying = false;
         var playerReady = false;
