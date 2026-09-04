@@ -13,8 +13,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
-    <!-- High-Priority Preload for Hero Banner -->
+    <!-- High-Priority Preload for Hero Banner & Confirmation Card Photo -->
     <link rel="preload" as="image" href="https://i.postimg.cc/hhFqrq7Y/JUN00091.jpg" fetchpriority="high">
+    <link rel="preload" as="image" href="https://i.postimg.cc/QdWk7XJK/JUN00139.jpg">
 
     <!-- Optimized Google Fonts with font-display: swap -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
@@ -417,8 +418,8 @@
 
                     <!-- Field 1: Name -->
                     <div>
-                        <label for="entry_name" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
-                            姓名 <span class="font-en font-normal text-morandi-muted">/ NAME</span> <span class="text-rose-400">*</span>
+                        <label for="entry_name" class="block text-sm font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
+                            姓名 <span class="font-en font-normal text-morandi-muted text-xs">/ NAME</span> <span class="text-rose-400">*</span>
                         </label>
                         <input type="text" 
                                id="entry_name" 
@@ -430,8 +431,8 @@
 
                     <!-- Field 2: Phone -->
                     <div>
-                        <label for="entry_phone" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
-                            電話 <span class="font-en font-normal text-morandi-muted">/ PHONE</span> <span class="text-rose-400">*</span>
+                        <label for="entry_phone" class="block text-sm font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
+                            電話 <span class="font-en font-normal text-morandi-muted text-xs">/ PHONE</span> <span class="text-rose-400">*</span>
                         </label>
                         <input type="tel" 
                                id="entry_phone" 
@@ -443,8 +444,8 @@
 
                     <!-- Field 3: Relationship (Direct Touch Overlay Radio Buttons) -->
                     <div>
-                        <span class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
-                            親友關係 <span class="font-en font-normal text-morandi-muted">/ RELATIONSHIP</span> <span class="text-rose-400">*</span>
+                        <span class="block text-sm font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                            親友關係 <span class="font-en font-normal text-morandi-muted text-xs">/ RELATIONSHIP</span> <span class="text-rose-400">*</span>
                         </span>
                         <div class="grid grid-cols-2 gap-3">
                             <div class="relative min-h-[50px]">
@@ -481,8 +482,8 @@
 
                     <!-- Field 4: Attendance (Direct Touch Overlay Radio Buttons) -->
                     <div>
-                        <span class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
-                            出席意願 <span class="font-en font-normal text-morandi-muted">/ ATTENDANCE</span> <span class="text-rose-400">*</span>
+                        <span class="block text-sm font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                            出席意願 <span class="font-en font-normal text-morandi-muted text-xs">/ ATTENDANCE</span> <span class="text-rose-400">*</span>
                         </span>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div class="relative min-h-[50px]">
@@ -521,8 +522,8 @@
 
                     <!-- Field 5: Guests Count Pills -->
                     <div id="guestCountGroup" class="hidden transition-all duration-300">
-                        <span class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
-                            參加午宴人數（含本人） <span class="font-en font-normal text-morandi-muted">/ GUESTS</span> <span class="text-rose-400">*</span>
+                        <span class="block text-sm font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                            參加午宴人數（含本人） <span class="font-en font-normal text-morandi-muted text-xs">/ GUESTS</span> <span class="text-rose-400">*</span>
                         </span>
                         <div class="grid grid-cols-5 gap-2">
                             <div class="relative min-h-[48px]">
@@ -552,8 +553,8 @@
                     <div id="dynamicFields" class="space-y-6 hidden border-t border-b border-morandi-border/60 py-6 my-2 transition-all duration-300">
                         <!-- Field 6: Vegetarian Meals -->
                         <div>
-                            <span class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
-                                若需準備素食需要幾份？ <span class="font-en font-normal text-morandi-muted">/ VEGETARIAN MEALS</span>
+                            <span class="block text-sm font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                                若需準備素食需要幾份？ <span class="font-en font-normal text-morandi-muted text-xs">/ VEGETARIAN MEALS</span>
                             </span>
                             <div class="grid grid-cols-6 gap-2">
                                 <div class="relative min-h-[44px]">
@@ -585,8 +586,8 @@
 
                         <!-- Field 7: Invitation Preferences (1. Electronic, 2. Paper, 3. None) -->
                         <div>
-                            <span class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2">
-                                喜帖索取 <span class="font-en font-normal text-morandi-muted">/ INVITATION</span>
+                            <span class="block text-sm font-semibold tracking-wider text-morandi-dark uppercase mb-2">
+                                喜帖索取 <span class="font-en font-normal text-morandi-muted text-xs">/ INVITATION</span>
                             </span>
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                 <div class="relative min-h-[48px]">
@@ -639,8 +640,8 @@
 
                         <!-- Field 8: Paper Address -->
                         <div id="addressGroup" class="hidden transition-all duration-300">
-                            <label for="entry_address" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
-                                紙本喜帖寄件地址（記得加上郵遞區號喔） <span class="font-en font-normal text-morandi-muted">/ MAILING ADDRESS</span> <span class="text-rose-400">*</span>
+                            <label for="entry_address" class="block text-sm font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
+                                紙本喜帖寄件地址（記得加上郵遞區號喔） <span class="font-en font-normal text-morandi-muted text-xs">/ MAILING ADDRESS</span> <span class="text-rose-400">*</span>
                             </label>
                             <input type="text"
                                    id="entry_address"
@@ -651,8 +652,8 @@
 
                         <!-- Field 9: Electronic Email -->
                         <div id="emailGroup" class="hidden transition-all duration-300">
-                            <label for="entry_email" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
-                                電子喜帖寄件信箱 <span class="font-en font-normal text-morandi-muted">/ EMAIL ADDRESS</span> <span class="text-rose-400">*</span>
+                            <label for="entry_email" class="block text-sm font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
+                                電子喜帖寄件信箱 <span class="font-en font-normal text-morandi-muted text-xs">/ EMAIL ADDRESS</span> <span class="text-rose-400">*</span>
                             </label>
                             <input type="email"
                                    id="entry_email"
@@ -666,8 +667,8 @@
 
                     <!-- Field 10: Blessings -->
                     <div>
-                        <label for="entry_blessings" class="block text-xs font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
-                            對新人的祝福 <span class="font-en font-normal text-morandi-muted">/ BLESSINGS</span>
+                        <label for="entry_blessings" class="block text-sm font-semibold tracking-wider text-morandi-dark uppercase mb-2 cursor-pointer">
+                            對新人的祝福 <span class="font-en font-normal text-morandi-muted text-xs">/ BLESSINGS</span>
                         </label>
                         <textarea id="entry_blessings" 
                                   name="entry.193833875" 
@@ -735,7 +736,7 @@
             if (!cardPhoto) {
                 cardPhoto = new Image();
                 cardPhoto.crossOrigin = 'anonymous';
-                cardPhoto.src = 'https://i.postimg.cc/fLMt8cZG/JUN00138.jpg';
+                cardPhoto.src = 'https://i.postimg.cc/QdWk7XJK/JUN00139.jpg';
             }
             return cardPhoto;
         }
@@ -984,11 +985,13 @@
             const photoImg = getCardPhoto();
 
             const width = 800;
-            const height = 1260;
+            const height = 1380;
             const canvas = document.createElement('canvas');
             canvas.width = width;
             canvas.height = height;
             const ctx = canvas.getContext('2d');
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
 
             const renderCanvasContent = () => {
                 // Background Fill
@@ -1004,11 +1007,11 @@
                 ctx.lineWidth = 1;
                 ctx.strokeRect(28, 28, width - 56, height - 56);
 
-                // Photo Header
+                // Photo Header (最佳化顯示高度，保留原圖像素密度)
                 const photoX = 45;
                 const photoY = 45;
                 const photoW = width - 90;
-                const photoH = 320;
+                const photoH = 400;
                 const radius = 16;
 
                 ctx.save();
@@ -1020,17 +1023,21 @@
                 }
                 ctx.clip();
 
-                if (photoImg.complete && photoImg.naturalWidth !== 0) {
-                    const imgRatio = photoImg.width / photoImg.height;
+                const nW = photoImg.naturalWidth || photoImg.width;
+                const nH = photoImg.naturalHeight || photoImg.height;
+
+                if (photoImg.complete && nW > 0 && nH > 0) {
+                    const imgRatio = nW / nH;
                     const containerRatio = photoW / photoH;
-                    let sX = 0, sY = 0, sW = photoImg.width, sH = photoImg.height;
+                    let sX = 0, sY = 0, sW = nW, sH = nH;
 
                     if (imgRatio > containerRatio) {
-                        sW = photoImg.height * containerRatio;
-                        sX = (photoImg.width - sW) / 2;
+                        sW = nH * containerRatio;
+                        sX = (nW - sW) / 2;
                     } else {
-                        sH = photoImg.width / containerRatio;
-                        sY = (photoImg.height - sH) / 2;
+                        sH = nW / containerRatio;
+                        // 聚焦於人像上半身焦點，減少裁切拉扯
+                        sY = Math.max(0, (nH - sH) * 0.45);
                     }
                     ctx.drawImage(photoImg, sX, sY, sW, sH, photoX, photoY, photoW, photoH);
                 } else {
@@ -1051,7 +1058,7 @@
                 ctx.stroke();
 
                 // Header Card Box
-                const headerY = 385;
+                const headerY = photoY + photoH + 20;
                 ctx.fillStyle = '#ffffff';
                 ctx.beginPath();
                 if (ctx.roundRect) {
@@ -1074,11 +1081,11 @@
                 ctx.fillText('婚禮出席回函確認', width / 2, headerY + 74);
 
                 ctx.fillStyle = '#7a726d';
-                ctx.font = '14px "Noto Serif TC", serif';
+                ctx.font = '15px "Noto Serif TC", serif';
                 ctx.fillText('2027.01.31 午宴 | 萬華格萊天漾大飯店 15F 天嵐廳', width / 2, headerY + 104);
 
                 // Data Card Container
-                const dataY = 525;
+                const dataY = headerY + 145;
                 const dataH = height - dataY - 65;
                 ctx.fillStyle = '#ffffff';
                 ctx.beginPath();
@@ -1112,44 +1119,44 @@
                     }
                 }
 
-                // Render Data Rows
+                // Render Data Rows (統一採用黑色與優雅圓潤字型)
                 ctx.textAlign = 'left';
-                let currentY = dataY + 45;
-                const labelX = 85;
-                const valueX = 260;
-                const rowGap = 44;
+                let currentY = dataY + 48;
+                const labelX = 80;
+                const valueX = 270;
+                const rowGap = 48;
 
                 dataRows.forEach(row => {
                     ctx.fillStyle = '#7a726d';
-                    ctx.font = '15px "Noto Serif TC", serif';
+                    ctx.font = '500 17px system-ui, -apple-system, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif';
                     ctx.fillText(row.label, labelX, currentY);
 
-                    ctx.fillStyle = '#3d3835';
-                    ctx.font = 'bold 16px "Noto Serif TC", serif';
+                    ctx.fillStyle = '#221f1e';
+                    ctx.font = '600 19px system-ui, -apple-system, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif';
                     ctx.fillText(row.value, valueX, currentY);
 
                     ctx.strokeStyle = '#f5eee6';
                     ctx.beginPath();
-                    ctx.moveTo(labelX, currentY + 12);
-                    ctx.lineTo(width - 85, currentY + 12);
+                    ctx.moveTo(labelX, currentY + 14);
+                    ctx.lineTo(width - 80, currentY + 14);
                     ctx.stroke();
 
                     currentY += rowGap;
                 });
 
-                // Blessings Render
+                // Blessings Render (統一採用相同黑色與優雅圓潤字型)
                 if (lastSubmittedData.blessings && lastSubmittedData.blessings.trim() !== '') {
                     ctx.fillStyle = '#7a726d';
-                    ctx.font = '15px "Noto Serif TC", serif';
-                    ctx.fillText('對新人的祝福', labelX, currentY + 6);
+                    ctx.font = '600 17px system-ui, -apple-system, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif';
+                    ctx.fillText('對新人的祝福', labelX, currentY + 8);
 
-                    ctx.fillStyle = '#d4a373';
-                    ctx.font = 'italic 15px "Noto Serif TC", serif';
+                    ctx.fillStyle = '#221f1e';
+                    ctx.font = 'normal 500 18px system-ui, -apple-system, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif';
 
                     const words = ('"' + lastSubmittedData.blessings + '"').split('');
                     let line = '';
-                    let textY = currentY + 30;
-                    const maxWidth = width - labelX - 90;
+                    let textY = currentY + 36;
+                    const maxWidth = width - labelX - 85;
 
                     for (let n = 0; n < words.length; n++) {
                         let testLine = line + words[n];
@@ -1157,7 +1164,7 @@
                         if (metrics.width > maxWidth && n > 0) {
                             ctx.fillText(line, labelX, textY);
                             line = words[n];
-                            textY += 24;
+                            textY += 28;
                         } else {
                             line = testLine;
                         }
@@ -1168,18 +1175,26 @@
                 // Footer Watermark
                 ctx.textAlign = 'center';
                 ctx.fillStyle = '#8da399';
-                ctx.font = '14px "Cormorant Garamond", serif';
+                ctx.font = '15px "Cormorant Garamond", serif';
                 ctx.fillText('I WANNA BE YOUR LIGHT  •  2027 WEDDING INVITATION', width / 2, height - 38);
 
-                // Export JPG Data URL for Preview Modal
+                // Export JPG Data URL for Preview Modal (以高畫質輸出)
                 const jpgDataUrl = canvas.toDataURL('image/jpeg', 0.95);
                 showImagePreviewModal(jpgDataUrl);
             };
 
-            if (photoImg.complete && photoImg.naturalWidth !== 0) {
-                renderCanvasContent();
+            const triggerRender = () => {
+                if ('decode' in photoImg) {
+                    photoImg.decode().then(renderCanvasContent).catch(renderCanvasContent);
+                } else {
+                    renderCanvasContent();
+                }
+            };
+
+            if (photoImg.complete && photoImg.naturalWidth > 0) {
+                triggerRender();
             } else {
-                photoImg.onload = renderCanvasContent;
+                photoImg.onload = triggerRender;
                 photoImg.onerror = renderCanvasContent;
             }
         }
