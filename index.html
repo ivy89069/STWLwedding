@@ -407,7 +407,7 @@
                                            target="_blank" 
                                            rel="noopener noreferrer" 
                                            class="inline-flex items-center gap-1.5 text-xs text-morandi-gold font-medium hover:underline">
-                                           <i class="fa-solid fa-arrow-up-right-from-square"></i> 開啟飯店完整交通指引網頁
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i> 開啟飯店完整交通指引網頁
                                         </a>
                                     </div>
                                 </div>
@@ -695,6 +695,15 @@
                                           rows="3" 
                                           placeholder="請留下給昇廷與瑋伶的祝福的話..." 
                                           class="w-full block px-4 py-3.5 rounded-xl border border-morandi-border focus:border-morandi-gold focus:ring-1 focus:ring-morandi-gold outline-none text-base transition bg-morandi-cream/30 text-morandi-dark resize-none"></textarea>
+                            </div>
+
+                            <!-- Submission Error Notice Box -->
+                            <div id="submitErrorBox" class="hidden rounded-2xl bg-rose-50 border border-rose-200 p-4 text-rose-700 text-sm flex items-start gap-3 transition-all duration-300">
+                                <i class="fa-solid fa-circle-exclamation text-rose-500 mt-0.5 text-base flex-shrink-0"></i>
+                                <div class="space-y-1">
+                                    <p class="font-semibold text-rose-800" id="submitErrorTitle">回函送出失敗</p>
+                                    <p class="text-xs text-rose-600 leading-relaxed" id="submitErrorMessage">未能成功將回覆傳送至伺服器，請檢查網路連線或稍後再試一次。</p>
+                                </div>
                             </div>
 
                             <!-- Submit Button -->
@@ -1003,12 +1012,39 @@
             });
         });
 
-        /* 5. Fixed Form Submission: Native single POST via hidden_iframe without duplicate fetch */
-        function handleFormSubmit(event) {
-            captureFormData();
-            submitted = true;
-            submissionHandled = false;
+        function showSubmitError(title, message) {
+            const errorBox = document.getElementById('submitErrorBox');
+            const titleEl = document.getElementById('submitErrorTitle');
+            const msgEl = document.getElementById('submitErrorMessage');
+            if (errorBox) {
+                if (titleEl && title) titleEl.innerText = title;
+                if (msgEl && message) msgEl.innerText = message;
+                errorBox.classList.remove('hidden');
+                errorBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
 
+        function hideSubmitError() {
+            const errorBox = document.getElementById('submitErrorBox');
+            if (errorBox) {
+                errorBox.classList.add('hidden');
+            }
+        }
+
+        /* 5. Verified Form Submission with Active Error Handling */
+        async function handleFormSubmit(event) {
+            if (event) event.preventDefault();
+            hideSubmitError();
+
+            // 1. 檢測網路連線狀態，斷線時立即攔截並提示
+            if (!navigator.onLine) {
+                showSubmitError('網路連線已中斷', '目前設備似乎沒有網路連線，無法將回覆送至表單，請確認網路後重新送出。');
+                return;
+            }
+
+            captureFormData();
+
+            const form = document.getElementById('rsvpForm');
             const submitBtn = document.getElementById('submitBtn');
             const submitBtnText = document.getElementById('submitBtnText');
             const submitBtnIcon = document.getElementById('submitBtnIcon');
@@ -1017,19 +1053,48 @@
             if (submitBtnText) submitBtnText.innerText = '處理中，請稍候...';
             if (submitBtnIcon) submitBtnIcon.className = 'fa-solid fa-spinner fa-spin text-xs';
 
-            // 【已修復重複發送問題】：原生表單會直接 POST 至 target="hidden_iframe"，故此處不再執行 fetch()。
-            // 保留平滑備用計時器：萬一隱藏 iframe 的 onload 延遲或未觸發，650ms 後平滑切換至確認頁。
-            setTimeout(() => {
-                if (submitted && !submissionHandled) {
-                    onFormSubmitted();
+            try {
+                const formData = new FormData(form);
+                const searchParams = new URLSearchParams();
+                for (const [key, value] of formData.entries()) {
+                    searchParams.append(key, value);
                 }
-            }, 650);
+
+                // 設定 9 秒超時監控
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 9000);
+
+                await fetch(form.action, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: searchParams.toString(),
+                    signal: controller.signal
+                });
+
+                clearTimeout(timeoutId);
+                // 成功將回覆傳送至 Google 表單後台，始切換至確認卡片頁
+                onFormSubmitted();
+            } catch (error) {
+                console.error('RSVP submission error:', error);
+
+                // 傳送失敗：不跳出確認卡片，並恢復按鈕與提示賓客重試
+                if (submitBtn) submitBtn.disabled = false;
+                if (submitBtnText) submitBtnText.innerText = '重新送出回函 RETRY';
+                if (submitBtnIcon) submitBtnIcon.className = 'fa-solid fa-rotate-right text-xs';
+
+                const errorMsg = (error.name === 'AbortError')
+                    ? '伺服器連線超時未回應，請檢查行動網路或 Wi-Fi 收訊後再次點擊送出。'
+                    : '傳送失敗，未能成功將回覆送達後台表單。請確認連線正常或稍後再試。';
+
+                showSubmitError('回函送出失敗', errorMsg);
+            }
         }
 
         function onFormSubmitted() {
-            if (submissionHandled) return;
-            submissionHandled = true;
-
+            hideSubmitError();
             const submitBtn = document.getElementById('submitBtn');
             const submitBtnText = document.getElementById('submitBtnText');
             const submitBtnIcon = document.getElementById('submitBtnIcon');
@@ -1052,6 +1117,7 @@
         }
 
         function backToInvitation() {
+            hideSubmitError();
             const invitationView = document.getElementById('invitationPageView');
             const confirmationView = document.getElementById('confirmationPageView');
 
@@ -1063,6 +1129,12 @@
 
             const form = document.getElementById('rsvpForm');
             if (form) form.reset();
+
+            const submitBtnText = document.getElementById('submitBtnText');
+            const submitBtnIcon = document.getElementById('submitBtnIcon');
+            if (submitBtnText) submitBtnText.innerText = '送出回函 SUBMIT';
+            if (submitBtnIcon) submitBtnIcon.className = 'fa-solid fa-paper-plane text-xs';
+
             handleAttendanceChange();
             submitted = false;
             submissionHandled = false;
